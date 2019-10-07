@@ -1,0 +1,1 @@
+/Users/annyeong/.config/nvim/init.vim
