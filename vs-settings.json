@@ -1,0 +1,21 @@
+{
+    "editor.fontFamily": "'Fira Code', Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontLigatures": true,
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+        80,
+        120
+    ],
+    // Vim
+    "vim.autoSwitchInputMethod.enable": true,
+    "vim.autoSwitchInputMethod.defaultIM": "com.apple.keylayout.ABC",
+    "vim.autoSwitchInputMethod.obtainIMCmd": "/usr/local/bin/im-select",
+    "vim.autoSwitchInputMethod.switchIMCmd": "/usr/local/bin/im-select {im}",
+    "workbench.colorTheme": "One Dark Pro Vivid",
+    "editor.renderFinalNewline": false,
+    "files.insertFinalNewline": true,
+    "go.formatTool": "goimports",
+    "go.useLanguageServer": true,
+    // JavaScript
+    "javascript.format.enable": false,
+}
