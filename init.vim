@@ -60,6 +60,12 @@ map <leader><S-Tab> :bp<CR>
 map <leader><Tab> :bn<CR>
 
 "
+" On Save
+"
+" remove whitespaces
+autocmd BufWritePre * %s/\s\+$//e
+
+"
 " Plugins
 "
 try
