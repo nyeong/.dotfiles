@@ -2,6 +2,7 @@
 
 ## Dependencies
 
+- git
 - zsh
   - [zplugin](https://github.com/zdharma/zplugin)
 - neovim
