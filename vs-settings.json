@@ -18,4 +18,15 @@
     "go.useLanguageServer": true,
     // JavaScript
     "javascript.format.enable": false,
+    "[json]": {
+        "editor.tabSize": 2
+    },
+    // CSS
+    "[css]": {
+        "editor.tabSize": 2
+    },
+    "[scss]": {
+        "editor.tabSize": 2
+    },
+    "C_Cpp.updateChannel": "Insiders"
 }
