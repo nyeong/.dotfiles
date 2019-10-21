@@ -31,8 +31,8 @@ set autoindent
 set smartindent
 
 " Tab
-set softtabstop=4
-set shiftwidth=4
+set softtabstop=2
+set shiftwidth=2
 set expandtab
 
 " Line number column
@@ -91,6 +91,7 @@ try
     Plug 'sheerun/vim-polyglot'
     Plug 'rust-lang/rust.vim'
     Plug 'plasticboy/vim-markdown'
+    Plug 'elixir-editors/vim-elixir'
 
     " Plugins
     Plug '/usr/local/opt/fzf'
