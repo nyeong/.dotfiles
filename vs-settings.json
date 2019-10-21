@@ -28,5 +28,11 @@
     "[scss]": {
         "editor.tabSize": 2
     },
+    "[markdown]": {
+        "editor.tabSize": 2
+    },
+    "[elixir]": {
+        "editor.tabSize": 2
+    },
     "C_Cpp.updateChannel": "Insiders"
 }
