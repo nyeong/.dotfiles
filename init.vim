@@ -95,10 +95,7 @@ try
 
     " Plugins
     Plug '/usr/local/opt/fzf'
-    Plug 'simnalamburt/vim-tiny-ime', { 'do': './build' } " IME switcher
-
-    " Wiki
-    Plug 'vimwiki/vimwiki'
+    Plug 'ybian/smartim' " IME
 
     let s:has_vimplug = 1
   call plug#end()
@@ -107,6 +104,9 @@ endtry
 if exists('s:has_vimplug') && s:has_vimplug
   " color scheme: seoul256, onedark
   colo onedark
+
+  " smartim
+  let g:smartim_default = 'com.apple.keylayout.ABC'
 
   " vim-better-whitespace
   let g:strip_whitespace_on_save = 1
