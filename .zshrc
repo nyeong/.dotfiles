@@ -62,11 +62,6 @@ if (( $+commands[pyenv] )); then
   eval "$(pyenv init -)"
 fi
 
-# node
-if (( $+commands[nodenv] )); then
-  eval "$(nodenv init -)"
-fi
-
 # go
 if (( $+commands[go] )); then
     export GOPATH=~/.go

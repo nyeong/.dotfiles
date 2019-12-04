@@ -70,6 +70,9 @@ autocmd BufWritePre * %s/\s\+$//e
 "
 try
   call plug#begin('~/.local/share/nvim/plugged')
+    " Text
+    Plug 'tpope/vim-surround'
+
     " Theme
     Plug 'joshdick/onedark.vim'
     Plug 'junegunn/seoul256.vim'
@@ -146,5 +149,34 @@ if exists('s:has_vimplug') && s:has_vimplug
 
   " FZF
   map <leader>p :FZF<CR>
+
+  " coc.nvim
+  " Use tab for trigger completion
+  inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  " Use K for show documentation
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if &filetype == 'vim'
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  " Highlight symbol under cursor on CursorHold
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+
+  " Remap for rename current word
+  nmap <leader>rn <Plug>(coc-rename)
 endif
 

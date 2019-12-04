@@ -1,6 +1,7 @@
 {
     "editor.fontFamily": "'Fira Code', Menlo, Monaco, 'Courier New', monospace",
     "editor.fontLigatures": true,
+    "editor.tabSize": 2,
     "editor.formatOnSave": true,
     "editor.rulers": [
         80,
@@ -11,28 +12,27 @@
     "vim.autoSwitchInputMethod.defaultIM": "com.apple.keylayout.ABC",
     "vim.autoSwitchInputMethod.obtainIMCmd": "/usr/local/bin/im-select",
     "vim.autoSwitchInputMethod.switchIMCmd": "/usr/local/bin/im-select {im}",
-    "workbench.colorTheme": "One Dark Pro Vivid",
+    "workbench.colorTheme": "One Dark Pro",
     "editor.renderFinalNewline": false,
+    "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
     "go.formatTool": "goimports",
     "go.useLanguageServer": true,
-    // JavaScript
     "javascript.format.enable": false,
-    "[json]": {
-        "editor.tabSize": 2
-    },
-    // CSS
-    "[css]": {
-        "editor.tabSize": 2
-    },
-    "[scss]": {
-        "editor.tabSize": 2
-    },
-    "[markdown]": {
-        "editor.tabSize": 2
-    },
+    "C_Cpp.updateChannel": "Insiders",
+    "window.zoomLevel": 0,
     "[elixir]": {
-        "editor.tabSize": 2
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.formatOnType": true,
+        "editor.wordBasedSuggestions": false,
+        "editor.trimAutoWhitespace": false,
+        "editor.acceptSuggestionOnEnter": "off"
     },
-    "C_Cpp.updateChannel": "Insiders"
+    "oneDarkPro.editorTheme": "Onedark Pro",
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
