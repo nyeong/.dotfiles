@@ -11,10 +11,15 @@ if [[ -d ~/.zplugin ]]; then
   zplugin light zsh-users/zsh-completions
   zplugin light zsh-users/zsh-autosuggestions
   zplugin light zsh-users/zsh-history-substring-search
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
+
   zplugin ice pick"async.zsh" src"pure.zsh"
   zplugin light sindresorhus/pure
+
   autoload -Uz compinit
   compinit
+
   zplugin cdreplay
 fi
 
@@ -64,10 +69,16 @@ fi
 
 # go
 if (( $+commands[go] )); then
-    export GOPATH=~/.go
+  export GOPATH=~/.go
 fi
 
 # fasd
 if (( $+commands[fasd] )); then
-    eval "$(fasd --init auto)"
+  eval "$(fasd --init auto)"
+fi
+
+# bat
+if (( $+commands[bat] )); then
+  export BAT_THEME="OneHalfDark"
+  alias cat='bat --paging never --plain'
 fi
