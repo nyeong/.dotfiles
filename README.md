@@ -16,7 +16,12 @@ git clone https://github.com/nyeong/.dotfiles ~/.dotfiles
 
 # zshrc
 ln -sf ~/.dotfiles/.zshrc ~
+
+# git
 ln -sf ~/.dotfiles/.gitconfig ~
+
+# tmux
+ln -sf ~/.dotfiles/.tmux.config ~
 
 # neovim
 mkdir -p ~/.config/nvim
