@@ -35,7 +35,7 @@ if (( $+commands[exa] )); then
   alias l='exa -alhF --group-directories-first'
   alias ls='exa -F --group-directories-first'
   alias ll='exa -lhF --group-directories-first'
-  alias la='exa -alhF --group-directories-first'
+  alias la='exa -alhgF --group-directories-first'
   alias lt='exa -lTF --group-directories-first --git-ignore'
   alias tree='exa -TF --group-directories-first --git-ignore'
 fi
