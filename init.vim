@@ -6,15 +6,12 @@ set encoding=utf-8
 set fileencoding=utf-8
 set noswapfile
 set nowrap
-" set mouse=a          " allow to use mouse
+set mouse=a
 set nocompatible " Neovim default
 filetype plugin on
 syntax on
 
 " Visual
-if (has("termguicolors"))
-  set termguicolors
-endif
 
 " coc.nvim
 set hidden
