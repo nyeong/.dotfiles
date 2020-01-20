@@ -1,26 +1,26 @@
-if [[ -d ~/.zplugin ]]; then
-  source ~/.zplugin/bin/zplugin.zsh
-  autoload -Uz _zplugin
-  (( ${+_comps} )) && _comps[zplugin]=_zplugin
+if [[ -d ~/.zinit ]]; then
+  source ~/.zinit/bin/zinit.zsh
+  autoload -Uz _zinit
+  (( ${+_comps} )) && _comps[zinit]=_zinit
 
   ZSH_EXPAND_ALL_DISABLE=word
 
   # 여기에 플러그인을 추가
-  zplugin light simnalamburt/zsh-expand-all
-  zplugin light zdharma/fast-syntax-highlighting
-  zplugin light zsh-users/zsh-completions
-  zplugin light zsh-users/zsh-autosuggestions
-  zplugin light zsh-users/zsh-history-substring-search
+  zinit light simnalamburt/zsh-expand-all
+  zinit light zdharma/fast-syntax-highlighting
+  zinit light zsh-users/zsh-completions
+  zinit light zsh-users/zsh-autosuggestions
+  zinit light zsh-users/zsh-history-substring-search
   bindkey '^[[A' history-substring-search-up
   bindkey '^[[B' history-substring-search-down
 
-  zplugin ice pick"async.zsh" src"pure.zsh"
-  zplugin light sindresorhus/pure
+  zinit ice pick"async.zsh" src"pure.zsh"
+  zinit light sindresorhus/pure
 
   autoload -Uz compinit
   compinit
 
-  zplugin cdreplay
+  zinit cdreplay
 fi
 
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
@@ -81,4 +81,8 @@ fi
 if (( $+commands[bat] )); then
   export BAT_THEME="OneHalfDark"
   alias cat='bat --paging never --plain'
+fi
+
+if [[ -f ~/.zshrc.local ]]; then
+  source ~/.zshrc.local
 fi
