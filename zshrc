@@ -30,6 +30,14 @@ export TIME_STYLE='long-iso'
 alias mv='mv -i'
 alias cp='cp -i'
 
+if (( $+commands[git] )); then
+  alias gs='git status'
+  alias gc='git commit'
+  alias gp='git push'
+  alias gd='git diff'
+  alias ga='git add'
+fi
+
 # exa
 if (( $+commands[exa] )); then
   alias l='exa -alhF --group-directories-first'
@@ -46,6 +54,11 @@ if (( $+commands[nvim] )); then
   alias v='nvim'
   alias vi='nvim'
   alias vim='nvim'
+elif (( $+commands[vim] )); then
+  export EDITOR=vim
+  alias v='vim'
+  alias vi='vim'
+  alias vim='vim'
 fi
 
 if [[ -f ~/.fzf.zsh ]]; then
@@ -79,7 +92,7 @@ fi
 
 # bat
 if (( $+commands[bat] )); then
-  export BAT_THEME="OneHalfDark"
+  export BAT_THEME="ansi-dark"
   alias cat='bat --paging never --plain'
 fi
 

@@ -4,50 +4,36 @@ My dotfiles for configuration.
 
 ## Dependencies
 
-- package manager:
-  - `brew` on macOS
-  - `pacman` on ArchLinux
-- git
-- tmux
-- zsh with [zplugin]
-- neovim with [vim-plug]
+- [zplugin](https://github.com/zdharma/zplugin) as a zsh plugin manager.
+- [vim-plug](https://github.com/junegunn/vim-plug) as a neovim plugin manager.
+- [tpm](https://github.com/tmux-plugins/tpm) as a tmux plugin manager.
 
-[zplugin]: https://github.com/zdharma/zplugin
-[vim-plug]: https://github.com/junegunn/vim-plug
+## Installation
 
-## How to Use
-
-Clone this repository on `$HOME/.dotfiles` and run `./.dotfiles/install.sh`.
-
-```
+```bash
+cd ~
 git clone https://github.com/nyeong/.dotfiles
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-ln -sf ~/.dotfiles/.zshrc ~
-ln -sf ~/.dotfiles/.gitconfig ~
-ln -sf ~/.dotfiles/.tmux.conf ~
+ln -sf ~/.dotfiles/zshrc     ~/.zshrc
+ln -sf ~/.dotfiles/gitconfig ~/.gitconfig
+ln -sf ~/.dotfiles/tmux.conf ~/.tmux.conf
 mkdir -p ~/.config/nvim
-ln -sf ~/.dotfiles/init.vim ~/.config/nvim
+ln -sf ~/init.vim            ~/.config/nvim/init.vim
+
+# seoul256-iterm
+git clone https://github.com/junegunn/seoul256.vim
+open seoul256.vim/iterm2/*
+rm -rf seoul256.vim
 ```
 
-### VS Code
+I use ...
 
-Extensions:
+- **tmux** as a terminal multiplexer.
+- **neovim** as a text editor.
+- **iTerm2** as a terminal simulator on macOS.
+- **seoul256** as a color scheme for everywhere.
 
-```
-# backup
-code --list-extensions > ~/.dotfiles/vs-extensions.txt
+## References
 
-# restore
-cat ~/.dotfiles/vs-extensions.txt | xargs -I % sh -c 'code --install-extension %'
-```
-
-Setting:
-
-```
-# linux
-ln -sf ~/.dotfiles/vs-settings.json ~/.config/Code/User/settings.json
-# macOS
-ln -sf ~/.dotfiles/vs-settings.json ~/Library/Application\ Support/Code/User/settings.json
-```
+- [simnalamburt/.dotfiles](https://github.com/simnalamburt/.dotfiles)
+- [junegunn/dotfiles](https://github.com/junegunn/dotfiles)
+- [mdo/config](https://github.com/mdo/config)
