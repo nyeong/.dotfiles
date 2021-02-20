@@ -1,39 +1,31 @@
 # .dotfiles
 
-My dotfiles for configuration.
+- **kakoune**을 텍스트 에디터로 사용합니다.
+- **tmux**를 터미널 멀티플렉서로 사용합니다.
+- **zsh**와 **p10k**로 쉘로 사용합니다.
+- **git**을 버전 관리자로 사용합니다.
 
-## Dependencies
+## 설치
 
-- [zplugin](https://github.com/zdharma/zplugin) as a zsh plugin manager.
-- [vim-plug](https://github.com/junegunn/vim-plug) as a neovim plugin manager.
-- [tpm](https://github.com/tmux-plugins/tpm) as a tmux plugin manager.
-
-## Installation
-
-```bash
-cd ~
-git clone https://github.com/nyeong/.dotfiles
-ln -sf ~/.dotfiles/zshrc     ~/.zshrc
-ln -sf ~/.dotfiles/gitconfig ~/.gitconfig
-ln -sf ~/.dotfiles/tmux.conf ~/.tmux.conf
-mkdir -p ~/.config/nvim
-ln -sf ~/init.vim            ~/.config/nvim/init.vim
-
-# seoul256-iterm
-git clone https://github.com/junegunn/seoul256.vim
-open seoul256.vim/iterm2/*
-rm -rf seoul256.vim
 ```
+git clone https://github.com/nyeong/.dotfiles ~
 
-I use ...
+# kakoune
+  mkdir -p ~/.config/kak
+  git clone https://github.com/robertmeta/plug.kak.git ~/.config/kak/plugins/plug.kak
+  ln -sf ~/.dotfiles/kak ~/.config/kak/kakrc
 
-- **tmux** as a terminal multiplexer.
-- **neovim** as a text editor.
-- **iTerm2** as a terminal simulator on macOS.
-- **seoul256** as a color scheme for everywhere.
+# tmux
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  ln -sf ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
 
-## References
+# zsh
+  ln -sf ~/.dotfiles/zsh/zshrc       ~/.zshrc
+  ln -sf ~/.dotfiles/zsh/aliases.zsh ~/.config/zsh/aliases.zsh
+  ln -sf ~/.dotfiles/zsh/p10k.zsh    ~/.config/zsh/p10k.zsh
+  cp     ~/.dotfiles/zsh/zshrc.local ~/.zshrc.local
+  . ~/.zshrc 
 
-- [simnalamburt/.dotfiles](https://github.com/simnalamburt/.dotfiles)
-- [junegunn/dotfiles](https://github.com/junegunn/dotfiles)
-- [mdo/config](https://github.com/mdo/config)
+# git
+  ln -sf ~/.dotfiles/gitconfig ~/.gitconfig
+```

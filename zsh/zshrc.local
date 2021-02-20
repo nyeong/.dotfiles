@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+# Run tmux with session
+[[ "$TMUX" = "" ]] && (tmux a || tmux new)

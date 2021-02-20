@@ -1,0 +1,46 @@
+# ToC
+# - Default Setups
+# - Plugins
+# - Per Languages
+# - Shortcuts
+
+# Default Setups
+    # indentation
+    set-option global tabstop     4
+    set-option global indentwidth 4
+
+    # spaces instead of tabs
+    hook global InsertChar \t %{ exec -draft h@ }
+
+    # relative line numbers
+    add-highlighter global/: number-lines -relative -hlcursor
+    # good bye clippy
+    set-option global ui_options ncurses_assistant=off
+
+
+# Plugins
+# -------
+    source "%val{config}/plugins/plug.kak/rc/plug.kak"
+    plug "robertmeta/plug.kak" noload
+
+    plug "kak-lsp/kak-lsp" do %{
+      cargo install --locked --force --path .
+    }
+
+
+# Per Languages
+# -------------
+
+    # enable lsp
+    eval %sh{kak-lsp --kakoune -s $kak_session}
+    hook global WinSetOption filetype=(rust|c|cpp|ruby|elixir) %{
+      lsp-enable-window
+    }
+
+# Shortcuts
+# ---------
+    map global normal \' , -docstring 'leader'
+
+    # clipboard paste
+    map global user p '<a-!>powershell.exe Get-Clipboard | sed "s/\r$//" | head -c -1<ret>'
+    map global user P '!powershell.exe Get-Clipboard | sed "s/\r$//" | head -c -1<ret>'
