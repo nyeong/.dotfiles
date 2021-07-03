@@ -23,7 +23,7 @@ fi
 
 # bat
 if (( $+commands[bat] )); then
-  export BAT_THEME='ansi-dark'
+  export BAT_THEME='ansi'
   alias cat='bat --paging never --plain'
 fi
 

@@ -36,6 +36,7 @@ for file in ~/.config/zsh/*.zsh; do . $file; done
 
 # asdf-vm
 [[ -d '/opt/asdf-vm' ]] && . /opt/asdf-vm/asdf.sh
+[[ -f $(brew --prefix asdf)/asdf.sh ]] && . $(brew --prefix asdf)/asdf.sh
 
 # zsh
 [[ -f ~/.zshrc.local ]] && . ~/.zshrc.local

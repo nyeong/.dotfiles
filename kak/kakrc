@@ -5,6 +5,7 @@
 # - Shortcuts
 
 # Default Setups
+# --------------
     # indentation
     set-option global tabstop     4
     set-option global indentwidth 4
@@ -14,9 +15,9 @@
 
     # relative line numbers
     add-highlighter global/: number-lines -relative -hlcursor
-    # good bye clippy
-    set-option global ui_options ncurses_assistant=off
 
+    # hello, kitty
+    set-option global ui_options ncurses_assistant=cat
 
 # Plugins
 # -------
@@ -30,7 +31,6 @@
 
 # Per Languages
 # -------------
-
     # enable lsp
     eval %sh{kak-lsp --kakoune -s $kak_session}
     hook global WinSetOption filetype=(rust|c|cpp|ruby|elixir) %{
