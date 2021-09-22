@@ -8,3 +8,9 @@
 	email = me@annyeong.me
 [core]
 	quotepath = false
+	editor = kak
+	pager = bat
+[color]
+	ui = auto
+[init]
+	defaultBranch = main

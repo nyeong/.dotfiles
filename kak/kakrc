@@ -24,17 +24,44 @@
     source "%val{config}/plugins/plug.kak/rc/plug.kak"
     plug "robertmeta/plug.kak" noload
 
-    plug "kak-lsp/kak-lsp" do %{
-      cargo install --locked --force --path .
+    plug "nyeong/im.kak" config %{
+        set-option global im_default_im 'com.apple.keylayout.UnicodeHexInput'
+        set-option global im_selector_path '/usr/local/bin/im-select'
+        echo -debug "Enabling im.kak"
     }
+
+    plug "kak-lsp/kak-lsp" do %{
+        cargo build --release --locked
+        cargo install --locked --force --path .
+    } config %{
+        set-option global lsp_diagnostic_line_error_sign '║'
+        set-option global lsp_diagnostic_line_warning_sign '┊'
+
+        hook global WinSetOption filetype=(rust|c|cpp|cc|ruby|elixir) %{
+            lsp-auto-hover-enable
+            lsp-enable-window
+            echo -debug "Enabling LSP for filetype %opt{filetype}"
+        }
+        hook global KakEnd .* lsp-exit
+    }
+
 
 
 # Per Languages
 # -------------
-    # enable lsp
-    eval %sh{kak-lsp --kakoune -s $kak_session}
-    hook global WinSetOption filetype=(rust|c|cpp|ruby|elixir) %{
-      lsp-enable-window
+    hook global WinSetOption filetype=(elixir) %{
+      set-option global tabstop     2
+      set-option global indentwidth 2
+    }
+
+    hook global WinSetOption filetype=(kak) %{
+      set-option global tabstop     2
+      set-option global indentwidth 2
+    }
+
+    hook global WinSetOption filetype=(sh) %{
+      set-option global tabstop     2
+      set-option global indentwidth 2
     }
 
 # Shortcuts

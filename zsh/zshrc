@@ -34,9 +34,14 @@ export TIME_STYLE='long-iso'
 # source zsh configs
 for file in ~/.config/zsh/*.zsh; do . $file; done
 
+# zoxide
+[[ $+command[zoxide] ]] && eval "$(zoxide init zsh)"
+
+# cargo
+[[ -d ~/.cargo ]] && export PATH=$PATH:~/.cargo/bin/
+
 # asdf-vm
-[[ -d '/opt/asdf-vm' ]] && . /opt/asdf-vm/asdf.sh
-[[ -f $(brew --prefix asdf)/asdf.sh ]] && . $(brew --prefix asdf)/asdf.sh
+[[ -d ~/.asdf ]] && . ~/.asdf/asdf.sh
 
 # zsh
 [[ -f ~/.zshrc.local ]] && . ~/.zshrc.local

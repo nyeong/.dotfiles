@@ -2,6 +2,10 @@
 alias mv='mv -i'
 alias cp='cp -i'
 
+if (( $+command[sk] )); then
+  alias ck='cd ${sk}'
+fi
+
 # git
 if (( $+command[git] )); then
   alias gs='git status'
