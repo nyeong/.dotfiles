@@ -16,9 +16,7 @@ ln -sf ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
 
 # zsh
 mkdir -p ~/.config/zsh
-ln -sf ~/.dotfiles/zsh/zshrc       ~/.zshrc
-ln -sf ~/.dotfiles/zsh/aliases.zsh ~/.config/zsh/aliases.zsh
-ln -sf ~/.dotfiles/zsh/p10k.zsh    ~/.config/zsh/p10k.zsh
+ln -sf ~/.dotfiles/zsh/zshrc ~/.zshrc
 . ~/.zshrc 
 
 # git

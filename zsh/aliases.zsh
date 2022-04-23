@@ -2,12 +2,19 @@
 alias mv='mv -i'
 alias cp='cp -i'
 
-if (( $+command[sk] )); then
+if [[ $+command[lf] ]]; then
+  LFCD="$HOME/.config/lf/lfcd.sh"
+  if [ -f "$LFCD" ]; then
+    source "$LFCD"
+  fi
+fi
+
+if [[ $+command[sk] ]]; then
   alias ck='cd ${sk}'
 fi
 
 # git
-if (( $+command[git] )); then
+if [[ $+command[git] ]]; then
   alias gs='git status'
   alias gc='git commit'
   alias gp='git push'
@@ -16,7 +23,7 @@ if (( $+command[git] )); then
 fi
 
 # exa
-if (( $+commands[exa] )); then
+if [[ $+commands[exa] ]]; then
   alias l='exa -alhF --group-directories-first'
   alias ls='exa -F --group-directories-first'
   alias ll='exa -lhF --group-directories-first'
@@ -26,14 +33,14 @@ if (( $+commands[exa] )); then
 fi
 
 # bat
-if (( $+commands[bat] )); then
+if [[ $+commands[bat] ]]; then
   export BAT_THEME='ansi'
   alias cat='bat --paging never --plain'
+  export PAGER=bat
 fi
 
-# kakoune
-if (( $+commands[kak] )); then
-  alias k='kak'
+if [[ $+command[hx] ]]; then
+  export EDITOR=hx
 fi
 
 # WSL

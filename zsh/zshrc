@@ -1,5 +1,5 @@
 #! /bin/zsh
-[[ -z "$TMUX" ]] && exec tmux new-session -A -s workspace
+[[ -z $TMUX ]] && exec tmux new-session -A -s workspace
 
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -28,23 +28,21 @@ if [[ -d ~/.zinit ]]; then
   compinit
 
   zinit cdreplay
+  
+  # zsh-users/zsh-completions
+  fpath=(/usr/local/share/zsh-completions $fpath)
+  fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+  
 fi
 
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
 export TIME_STYLE='long-iso'
 
+# enable c-x to edit command line
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey '^X' edit-command-line
+
 # source zsh configs
-for file in ~/.config/zsh/*.zsh; do . $file; done
-
-# zoxide
-[[ $+command[zoxide] ]] && eval "$(zoxide init zsh)"
-
-# cargo
-[[ -d ~/.cargo ]] && export PATH=$PATH:~/.cargo/bin/
-
-# asdf-vm
-[[ -d ~/.asdf ]] && . ~/.asdf/asdf.sh
-
-# zsh
-[[ -f ~/.zshrc.local ]] && . ~/.zshrc.local
+for file in ~/.dotfiles/zsh/*.zsh; do . $file; done
