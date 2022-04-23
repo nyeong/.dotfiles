@@ -8,7 +8,7 @@
 	email = me@annyeong.me
 [core]
 	quotepath = false
-	editor = kak
+	editor = hx
 	pager = bat
 [color]
 	ui = auto
