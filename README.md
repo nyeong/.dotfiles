@@ -1,31 +1,26 @@
 # .dotfiles
 
-- **kakoune**을 텍스트 에디터로 사용합니다.
-- **tmux**를 터미널 멀티플렉서로 사용합니다.
-- **zsh**와 **p10k**로 쉘로 사용합니다.
-- **git**을 버전 관리자로 사용합니다.
+- [helix](https://helix-editor.com/)를 텍스트 에디터로 사용합니다.
+- [tmux](https://github.com/tmux/tmux)를 터미널 멀티플렉서로 사용합니다.
+- [zsh](https://www.zsh.org/)와 [p10k](https://github.com/romkatv/powerlevel10k)로 쉘로 사용합니다.
+- [git](https://git-scm.com/)을 버전 관리자로 사용합니다.
 
 ## 설치
 
 ```
 git clone https://github.com/nyeong/.dotfiles ~
 
-# kakoune
-  mkdir -p ~/.config/kak
-  git clone https://github.com/robertmeta/plug.kak.git ~/.config/kak/plugins/plug.kak
-  ln -sf ~/.dotfiles/kak ~/.config/kak/kakrc
-
 # tmux
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  ln -sf ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+ln -sf ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
 
 # zsh
-  ln -sf ~/.dotfiles/zsh/zshrc       ~/.zshrc
-  ln -sf ~/.dotfiles/zsh/aliases.zsh ~/.config/zsh/aliases.zsh
-  ln -sf ~/.dotfiles/zsh/p10k.zsh    ~/.config/zsh/p10k.zsh
-  cp     ~/.dotfiles/zsh/zshrc.local ~/.zshrc.local
-  . ~/.zshrc 
+mkdir -p ~/.config/zsh
+ln -sf ~/.dotfiles/zsh/zshrc       ~/.zshrc
+ln -sf ~/.dotfiles/zsh/aliases.zsh ~/.config/zsh/aliases.zsh
+ln -sf ~/.dotfiles/zsh/p10k.zsh    ~/.config/zsh/p10k.zsh
+. ~/.zshrc 
 
 # git
-  ln -sf ~/.dotfiles/gitconfig ~/.gitconfig
+ln -sf ~/.dotfiles/git/gitconfig ~/.gitconfig
 ```
