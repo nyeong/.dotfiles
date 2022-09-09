@@ -39,6 +39,9 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
 export TIME_STYLE='long-iso'
 
+# GPG setup
+export GPG_TTY=$(tty)
+
 # enable c-x to edit command line
 autoload -z edit-command-line
 zle -N edit-command-line
@@ -46,3 +49,11 @@ bindkey '^X' edit-command-line
 
 # source zsh configs
 for file in ~/.dotfiles/zsh/*.zsh; do . $file; done
+
+[[ -d ~/.local/bin ]] && export PATH=$PATH:~/.local/bin/
+
+source /Users/nyeong/.config/broot/launcher/bash/br
+source ~/.asdf/plugins/java/set-java-home.zsh
+source ~/.zprofile
+
+[ -f "/Users/nyeong/.ghcup/env" ] && source "/Users/nyeong/.ghcup/env" # ghcup-env

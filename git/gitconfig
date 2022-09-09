@@ -6,6 +6,7 @@
 [user]
 	name = An Nyeong
 	email = me@annyeong.me
+	signingkey = 08449CDA3E96702E455ED97665DB925EBFCD29EA
 [core]
 	quotepath = false
 	editor = hx
@@ -16,3 +17,7 @@
 	defaultBranch = main
 [pull]
 	rebase = false
+[commit]
+	gpgsign = true
+[gpg]
+	program = gpg
