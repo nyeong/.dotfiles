@@ -1,59 +1,56 @@
-#! /bin/zsh
-[[ -z $TMUX ]] && exec tmux new-session -A -s workspace
-
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# Use zinit
-if [[ -d ~/.zinit ]]; then
-  source ~/.zinit/bin/zinit.zsh
-  autoload -Uz _zinit
-  (( ${+_comps} )) && _comps[zinit]=_zinit
-
-  zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-  ZSH_EXPAND_ALL_DISABLE=word
-
-  # 여기에 플러그인을 추가
-  zinit light simnalamburt/zsh-expand-all
-  zinit light zdharma/fast-syntax-highlighting
-  zinit light zsh-users/zsh-completions
-  zinit light zsh-users/zsh-autosuggestions
-  zinit light zsh-users/zsh-history-substring-search
-  bindkey '^[[A' history-substring-search-up
-  bindkey '^[[B' history-substring-search-down
-
-  autoload -Uz compinit
-  compinit
-
-  zinit cdreplay
-  
-  # zsh-users/zsh-completions
-  fpath=(/usr/local/share/zsh-completions $fpath)
-  fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
-  
-fi
-
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu select
-export TIME_STYLE='long-iso'
+#!/bin/zsh
 
 # GPG setup
 export GPG_TTY=$(tty)
 
-# enable c-x to edit command line
-autoload -z edit-command-line
-zle -N edit-command-line
-bindkey '^X' edit-command-line
+# p10k init
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-# source zsh configs
+
+# zinit fallback
+if [[ ! -d ~/.zinit ]]; then
+  echo "zinit can not be loaded"
+fi
+
+source ~/.zinit/bin/zinit.zsh
+
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# p10k
+zinit ice depth=1;
+zinit light romkatv/powerlevel10k
+
+# auto suggestion
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+zinit light zsh-users/zsh-autosuggestions
+
+# expand aliases
+ZSH_EXPAND_ALL_DISABLE=word
+zinit light simnalamburt/zsh-expand-all
+
+zinit light zdharma/fast-syntax-highlighting
+zinit light zsh-users/zsh-history-substring-search
+# bind up-arrow and down-arrow
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# tap completion
+zinit light zsh-users/zsh-completions
+autoload -Uz compinit bashcompinit
+compinit
+bashcompinit
+zinit cdreplay
+
+
+# make menu looks lincer
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+export TIME_STYLE='long-iso'
+
+# load extra configs
 for file in ~/.dotfiles/zsh/*.zsh; do . $file; done
-
 [[ -d ~/.local/bin ]] && export PATH=$PATH:~/.local/bin/
-
-source /Users/nyeong/.config/broot/launcher/bash/br
-source ~/.asdf/plugins/java/set-java-home.zsh
-source ~/.zprofile
-
-[ -f "/Users/nyeong/.ghcup/env" ] && source "/Users/nyeong/.ghcup/env" # ghcup-env

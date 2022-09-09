@@ -1,7 +1,5 @@
-#! /bin/zsh
-
-# zoxide
-[[ $+command[zoxide] ]] && eval "$(zoxide init zsh)"
+#!/bin/zsh
+# init config for some programs...
 
 # cargo
 [[ -d ~/.cargo ]] && export PATH=$PATH:~/.cargo/bin/
