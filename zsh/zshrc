@@ -1,5 +1,4 @@
 #!/bin/zsh
-
 # GPG setup
 export GPG_TTY=$(tty)
 
@@ -8,9 +7,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-
 # zinit fallback
-if [[ ! -d ~/.zinit ]]; then
+if [[ ! -d ~/.local/share/zinit ]]; then
   echo "zinit can not be loaded"
 fi
 
@@ -27,15 +25,23 @@ zinit light romkatv/powerlevel10k
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 zinit light zsh-users/zsh-autosuggestions
 
+zinit light agkozak/zsh-z
+
 # expand aliases
 ZSH_EXPAND_ALL_DISABLE=word
 zinit light simnalamburt/zsh-expand-all
-
+zinit light simnalamburt/ctrlf
 zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-history-substring-search
 # bind up-arrow and down-arrow
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
+# zsh substring completion
+setopt complete_in_word
+setopt always_to_end
+WORDCHARS=''
+zmodload -i zsh/complist
 
 # tap completion
 zinit light zsh-users/zsh-completions

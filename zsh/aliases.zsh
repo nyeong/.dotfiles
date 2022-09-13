@@ -10,7 +10,7 @@ alias mv='mv -i'
 alias cp='cp -i'
 
 # git
-if (( $+command[git] )); then
+if (( $+commands[git] )); then
   alias gs='git status'
   alias gc='git commit'
   alias gp='git push'
