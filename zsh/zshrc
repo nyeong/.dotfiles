@@ -9,7 +9,7 @@ fi
 
 # zinit fallback
 ZINIT_HOME=~/.local/share/zinit/zinit.git
-if [[ ! -d ZINIT_HOME ]]; then
+if [[ ! -d $ZINIT_HOME ]]; then
   echo "zinit can not be loaded"
 fi
 

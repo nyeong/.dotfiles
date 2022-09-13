@@ -9,3 +9,6 @@
 
 # fzf
 [[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
+
+# ghcup
+[[ -d ~/.ghcup ]] && export PATH=$PATH:~/.ghcup/bin/
