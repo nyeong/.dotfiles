@@ -8,12 +8,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # zinit fallback
-ZINIT_HOME=~/.local/share/zinit
+ZINIT_HOME=~/.local/share/zinit/zinit.git
 if [[ ! -d ZINIT_HOME ]]; then
   echo "zinit can not be loaded"
 fi
 
-source $ZINIT_HOME/bin/zinit.zsh
+source $ZINIT_HOME/zinit.zsh
 
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
