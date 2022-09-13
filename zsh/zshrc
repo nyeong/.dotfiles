@@ -8,11 +8,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # zinit fallback
-if [[ ! -d ~/.local/share/zinit ]]; then
+ZINIT_HOME=~/.local/share/zinit
+if [[ ! -d ZINIT_HOME ]]; then
   echo "zinit can not be loaded"
 fi
 
-source ~/.zinit/bin/zinit.zsh
+source $ZINIT_HOME/bin/zinit.zsh
 
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -60,3 +61,4 @@ export TIME_STYLE='long-iso'
 # load extra configs
 for file in ~/.dotfiles/zsh/*.zsh; do . $file; done
 [[ -d ~/.local/bin ]] && export PATH=$PATH:~/.local/bin/
+### End of Zinit's installer chunk
