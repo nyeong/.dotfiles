@@ -1,0 +1,16 @@
+theme = "onedark"
+
+[editor]
+line-number = "relative"
+true-color = true
+rulers = [80, 120]
+indent-guides.render = true
+cursorline = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.whitespace.render]
+tab = "all"
