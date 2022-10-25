@@ -5,7 +5,6 @@
 # - bat as a replacement of cat
 # - helix as a text editor
 
-
 alias mv='mv -i'
 alias cp='cp -i'
 
@@ -35,11 +34,11 @@ if (( $+commands[bat] )); then
   export PAGER=bat
 fi
 
-if (( $+command[hx] )); then
+if (( $+commands[hx] )); then
   export EDITOR=hx
 fi
 
-if (( $+command[helix] )); then
+if (( $+commands[helix] )); then
   export EDITOR=helix
   alias hx='helix'
 fi

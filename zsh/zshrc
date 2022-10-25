@@ -59,6 +59,8 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 export TIME_STYLE='long-iso'
 
 # load extra configs
-for file in ~/.dotfiles/zsh/*.zsh; do . $file; done
 [[ -d ~/.local/bin ]] && export PATH=$PATH:~/.local/bin/
-### End of Zinit's installer chunk
+for file in ~/.dotfiles/zsh/*.zsh; do . $file; done
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
