@@ -6,7 +6,7 @@
 [user]
 	name = An Nyeong
 	email = me@annyeong.me
-	signingkey = 08449CDA3E96702E455ED97665DB925EBFCD29EA
+	signingkey = 90F15F4EB14E7BD603C01EBA94BAB5F84C8D2032
 [core]
 	quotepath = false
 	editor = hx

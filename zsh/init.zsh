@@ -5,10 +5,15 @@
 [[ -d ~/.cargo ]] && export PATH=$PATH:~/.cargo/bin/
 
 # asdf-vm
-[[ -d ~/.asdf ]] && . ~/.asdf/asdf.sh
+if [[ -d ~/.local/share/asdf ]]; then
+  . ~/.local/share/asdf/asdf.sh
+  . ~/.asdf/plugins/java/set-java-home.zsh
+fi
 
 # fzf
 [[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
+
+[[ -d ~/.pack ]] && export PATH=$PATH:~/.pack/bin
 
 # ghcup
 [[ -d ~/.ghcup ]] && export PATH=$PATH:~/.ghcup/bin/

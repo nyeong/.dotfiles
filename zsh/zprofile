@@ -1,0 +1,6 @@
+eval $(/opt/homebrew/bin/brew shellenv)
+if [[ $TMUX = "" ]]; then
+  # try to reattach sessions
+  tmux ls | grep -vq attached && TMUXARG="attach-session -d"
+  exec eval "tmux -2 $TMUXARG"
+fi

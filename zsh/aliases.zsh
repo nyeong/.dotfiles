@@ -15,6 +15,7 @@ if (( $+commands[git] )); then
   alias gp='git push'
   alias gd='git diff'
   alias ga='git add'
+  alias gl='git log --oneline --graph'
 fi
 
 # exa
@@ -41,4 +42,8 @@ fi
 if (( $+commands[helix] )); then
   export EDITOR=helix
   alias hx='helix'
+fi
+
+if (( $+commands[kak] )); then
+  # export EDITOR=~/.dotfiles/kakoune/edit
 fi

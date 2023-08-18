@@ -1,0 +1,24 @@
+layout {
+	default_tab_template {
+		pane borderless=true size=1 {
+			plugin location="zellij:compact-bar"
+		}
+		children
+	}
+
+	tab_template name="side_nav" {
+		pane borderless=true size=1 {
+			plugin location="zellij:compact-bar"
+		}
+		pane split_direction="vertical" {
+			pane command="nnn" size="20%" {
+				args "."
+			}
+			children
+		}
+	}
+
+	side_nav name="hanassig" cwd="/Users/nyeong/Repo/hanassig/notes" {
+		pane edit="./index.md"
+	}
+}

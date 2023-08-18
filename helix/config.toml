@@ -6,6 +6,8 @@ true-color = true
 rulers = [80, 120]
 indent-guides.render = true
 cursorline = true
+bufferline = "multiple"
+auto-save = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -14,3 +16,5 @@ select = "underline"
 
 [editor.whitespace.render]
 tab = "all"
+nbsp = "all"
+space = "all"
