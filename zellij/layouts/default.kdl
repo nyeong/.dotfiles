@@ -11,14 +11,14 @@ layout {
 			plugin location="zellij:compact-bar"
 		}
 		pane split_direction="vertical" {
-			pane command="nnn" size="20%" {
+			pane command="lf" size="20%" {
 				args "."
 			}
 			children
 		}
 	}
 
-	side_nav name="hanassig" cwd="/Users/nyeong/Repo/hanassig/notes" {
-		pane edit="./index.md"
+	side_nav name="hanassig" cwd="/Users/nyeong/Repos/hanassig/notes" {
+		pane edit="./index.adoc"
 	}
 }

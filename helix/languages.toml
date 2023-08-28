@@ -1,3 +1,22 @@
+[language-server]
+elixir-ls = { command = "elixir-ls", config = { } }
+
 [[language]]
 name = "markdown"
 indent = { tab-width = 2, unit = " " }
+
+[[language]]
+name = "elixir"
+auto-format = true
+
+[[language]]
+name = "asciidoc"
+file-types = ["adoc"]
+scope = "source.adoc"
+roots = []
+injection-regex = "adoc"
+indent = { tab-width = 2, unit = "  "}
+
+[[grammer]]
+name = "asciidoc"
+source = { git = "/Users/nyeong/Repos/tree-sitter-asciidoc" }

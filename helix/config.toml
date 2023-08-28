@@ -3,18 +3,32 @@ theme = "nord"
 [editor]
 line-number = "relative"
 true-color = true
+color-modes = true
 rulers = [80, 120]
 indent-guides.render = true
 cursorline = true
 bufferline = "multiple"
 auto-save = true
+shell = ["zsh", "-c"]
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = true
 
 [editor.cursor-shape]
 insert = "bar"
 normal = "block"
 select = "underline"
 
+[editor.file-picker]
+hidden = false
+
 [editor.whitespace.render]
 tab = "all"
 nbsp = "all"
-space = "all"
+
+[editor.soft-wrap]
+enable = true
+max-wrap = 25 # increase value to reduce forced mid-word wrapping
+max-indent-retain = 0
+wrap-indicator = ""  # set wrap-indicator to "" to hide it
