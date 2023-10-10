@@ -18,14 +18,14 @@ if (( $+commands[git] )); then
   alias gl='git log --oneline --graph'
 fi
 
-# exa
-if (( $+commands[exa] )); then
-  alias l='exa -alhF --group-directories-first'
-  alias ls='exa -F --group-directories-first'
-  alias ll='exa -lhF --group-directories-first'
-  alias la='exa -alhgF --group-directories-first'
-  alias lt='exa -lTF --group-directories-first'
-  alias tree='exa -TF --group-directories-first'
+# lsd
+if (( $+commands[lsd] )); then
+  alias ls='lsd'
+  alias l='ls -l'
+  alias ll='ls -la'
+  alias la='ls -a'
+  alias lt='ls --tree'
+  alias tree='ls --tree'
 fi
 
 # bat
