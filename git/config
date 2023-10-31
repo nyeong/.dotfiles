@@ -9,7 +9,7 @@
 	signingkey = 90F15F4EB14E7BD603C01EBA94BAB5F84C8D2032
 [core]
 	quotepath = false
-	editor = hx
+	editor = nvim
 	pager = bat
 [color]
 	ui = auto

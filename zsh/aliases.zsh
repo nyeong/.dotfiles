@@ -1,10 +1,3 @@
-# Declares aliases
-# I use ...
-# - git as a version control system
-# - exa as a replacement of ls
-# - bat as a replacement of cat
-# - helix as a text editor
-
 alias mv='mv -i'
 alias cp='cp -i'
 
@@ -35,15 +28,11 @@ if (( $+commands[bat] )); then
   export PAGER=bat
 fi
 
-if (( $+commands[hx] )); then
-  export EDITOR=hx
-fi
+if (( $+commands[nvim] )); then
+  alias vi='nvim'
+  alias vim='nvim'
+  export EDITOR='nvim'
 
-if (( $+commands[helix] )); then
-  export EDITOR=helix
-  alias hx='helix'
-fi
-
-if (( $+commands[kak] )); then
-  # export EDITOR=~/.dotfiles/kakoune/edit
+  # EDITOR를 vim 계열로 설정하면 bindkey가 풀립니다...!
+  bindkey -e
 fi

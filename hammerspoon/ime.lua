@@ -10,7 +10,7 @@ end
 local esc_bind
 function back_to_eng()
 	print(hs.keycodes.currentSourceID())
-    local targetForEnglish = {'iTerm', '터미널', 'Code', 'Terminal', 'WezTerm'}
+    local targetForEnglish = {'iTerm', '터미널', 'Code', 'Terminal', 'WezTerm', 'Zed', 'Obsidian'}
 	-- esc의 원래 동작 보장. 참고 https://github.com/johngrib/johngrib.github.io/issues/130#issuecomment-699728202
 	esc_bind:disable()
 	hs.eventtap.keyStroke({}, 'escape')
@@ -23,8 +23,8 @@ function back_to_eng()
 		local inputSource = hs.keycodes.currentSourceID()
 		if not (inputSource == inputEnglish) then
 
-			hs.eventtap.keyStroke({}, 'left')
-			hs.eventtap.keyStroke({}, 'right')
+			-- hs.eventtap.keyStroke({}, 'left')
+			-- hs.eventtap.keyStroke({}, 'right')
 			hs.keycodes.currentSourceID(inputEnglish)
 		end
 	end

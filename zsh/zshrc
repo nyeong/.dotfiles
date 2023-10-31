@@ -35,6 +35,7 @@ zinit light simnalamburt/ctrlf
 zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-history-substring-search
 # bind up-arrow and down-arrow
+bindkey -e
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 

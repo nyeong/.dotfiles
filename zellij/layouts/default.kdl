@@ -6,19 +6,62 @@ layout {
 		children
 	}
 
-	tab_template name="side_nav" {
-		pane borderless=true size=1 {
-			plugin location="zellij:compact-bar"
-		}
-		pane split_direction="vertical" {
-			pane command="lf" size="20%" {
-				args "."
-			}
-			children
-		}
-	}
+	swap_tiled_layout name="h2v" {
+        tab max_panes=2 {
+            pane
+            pane
+        }
+        tab {
+            pane split_direction="vertical" {
+                pane
+                pane
+                pane
+            }
+        }
+    }
 
-	side_nav name="hanassig" cwd="/Users/nyeong/Repos/hanassig/notes" {
+	swap_tiled_layout name="v2h" {
+        tab max_panes=2 {
+            pane
+            pane
+        }
+        tab {
+            pane split_direction="horizontal" {
+                pane
+                pane
+                pane
+            }
+        }
+    }
+
+	swap_tiled_layout name="ㄴ" {
+        tab {
+            pane split_direction="vertical" {
+                pane
+                pane split_direction="horizontal" {
+	                pane
+	                pane
+				}
+            }
+        }
+    }
+
+	swap_floating_layout {
+        floating_panes max_panes=1 {
+            pane
+        }
+        floating_panes max_panes=2 {
+            pane x=0
+            pane x="50%"
+        }
+        floating_panes max_panes=3 {
+            pane x=0 width="25%"
+            pane x="25%" width="25%"
+            pane x="50%"
+        }
+    }
+
+	tab name="hanassig" cwd="/Users/subin/Repos/hanassig/notes" {
 		pane edit="./index.adoc"
 	}
 }

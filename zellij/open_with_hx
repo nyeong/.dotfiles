@@ -1,8 +1,0 @@
-#!/bin/bash
-
-if [ -z "$1" ]; then
-  echo "File name not provided"
-  exit 1
-fi
-
-filepath=$(readlink -f $1)
