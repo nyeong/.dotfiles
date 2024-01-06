@@ -7,8 +7,12 @@ if (( $+commands[git] )); then
   alias gc='git commit'
   alias gp='git push'
   alias gd='git diff'
+  alias gds='git diff --staged'
+  alias gsw='git switch'
   alias ga='git add'
   alias gl='git log --oneline --graph'
+  alias gf='git fetch --prune'
+  alias gcm='git commit -m'
 fi
 
 # lsd
