@@ -6,18 +6,14 @@
 [user]
 	name = An Nyeong
 	email = me@annyeong.me
-	signingkey = 90F15F4EB14E7BD603C01EBA94BAB5F84C8D2032
 [core]
 	quotepath = false
 	editor = nvim
 	pager = bat
+	excludesfile = /Users/subin/.dotfiles/git/gitignore
 [color]
 	ui = auto
 [init]
 	defaultBranch = main
 [pull]
 	rebase = false
-[commit]
-	gpgsign = true
-[gpg]
-	program = gpg
