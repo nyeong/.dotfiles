@@ -1,50 +1,57 @@
-local function map(mode, lhs, rhs, opts)
-	local options = { noremap = true }
-	if opts then
-		options = vim.tbl_extend("force", options, opts)
-	end
-	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
+local telescope = require('telescope.builtin')
+
+local config_path = '~/.dotfiles/neovim/lua/core/keymap.lua'
+
+-- shortcut
+vim.keymap.set('n', '%', ':%')
+vim.keymap.set('n', 'm', '%') -- 괄호 짝 찾기
+vim.keymap.set('v', 's', ':s/')
 
 -- space mode
-map('n', '<space>y', '"+y')
-map('n', '<space>Y', '"+Y')
-map('n', '<space>p', '"+p')
-map('n', '<space>P', '"+P')
-
--- local opts = { buffer = ev.buf }
-
-local telescope = require('telescope.builtin')
+vim.keymap.set('n', '<space>?', ':e ' .. config_path .. '<cr>')
+vim.keymap.set({ 'n', 'v' }, '<space>y', '"+y')
+vim.keymap.set({ 'n', 'v' }, '<space>Y', '"+Y')
+vim.keymap.set('n', '<space>p', '"+p')
+vim.keymap.set('n', '<space>P', '"+P')
+vim.keymap.set('n', '<space>E', 'ggVG')
 vim.keymap.set('n', '<space>f', telescope.find_files)
 vim.keymap.set('n', '<space>g', telescope.live_grep)
 vim.keymap.set('n', '<space>b', telescope.buffers)
 vim.keymap.set('n', '<space>h', telescope.help_tags)
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
-vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder)
+vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder)
 vim.keymap.set('n', '<space>wl', function()
-	print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-end, opts)
-vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-vim.keymap.set('n', '<space>k', vim.lsp.buf.hover, opts)
-vim.keymap.set('n', '<space>K', vim.lsp.buf.signature_help, opts)
-vim.keymap.set({ 'n', 'v' }, '<space>a', vim.lsp.buf.code_action, opts)
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+end)
+vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition)
+vim.keymap.set('n', '<space>k', vim.lsp.buf.hover)
+vim.keymap.set('n', '<space>K', vim.lsp.buf.signature_help)
+vim.keymap.set({ 'n', 'v' }, '<space>a', vim.lsp.buf.code_action)
+
+-- language mode
+vim.keymap.set('n', 'sr', vim.lsp.buf.rename)
 
 -- goto mode
-vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-map('n', 'gh', '0')
-map('n', 'gl', '$')
-map('n', 'gs', '^')
-map('n', 'gn', ':bnext<cr>')
-map('n', 'gp', ':bprev<cr>')
+vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+vim.keymap.set('n', 'gi', vim.lsp.buf.implementation)
+vim.keymap.set('n', 'gr', vim.lsp.buf.references)
+vim.keymap.set({'n', 'v'}, 'gh', '0')
+vim.keymap.set({'n', 'v'}, 'gl', '$')
+vim.keymap.set({'n', 'v'}, 'gs', '^')
+vim.keymap.set('n', 'gn', ':bnext<cr>')
+vim.keymap.set('n', 'gp', ':bprev<cr>')
 
 -- normal mode
-map('', '<Esc><Esc>', ':let @/=""<cr>')
+vim.keymap.set('n', '<esc>', function ()
+    if vim.api.nvim_get_vvar('hlsearch') == 1 then
+        vim.api.nvim_command('noh')
+        vim.api.nvim_command('helpclose')
+    end
+    return '<esc>'
+end, { noremap = true, silent = true })
 
 -- next / prev mode
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)

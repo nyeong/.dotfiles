@@ -1,6 +1,5 @@
 return function ()
-  require('nvim-treesitter.configs').setup({
-    auto_install = true,
+  require('nvim-treesitter.configs').setup {
     ensure_installed = {
       "c",
       "cpp",
@@ -16,10 +15,19 @@ return function ()
       "rust",
       "ruby",
       "elixir",
+      "heex",
       "haskell",
+      "tsx",
     },
-    hightlight = { enable = true },
+    sync_install = false,
+    auto_install = true,
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
     indent = { enable = true },
     autotag = { enable = true },
-  })
+    rainbow = { enable = true },
+    autopairs = { enable = true },
+  }
 end

@@ -1,0 +1,13 @@
+--langdef=asciidoctor
+--langmap=asciidoctor:.ad.adoc.asciidoctor
+--regex-asciidoctor=/^=[ \t]+(.*)/= \1/h/
+--regex-asciidoctor=/^==[ \t]+(.*)/. \1/h/
+--regex-asciidoctor=/^===[ \t]+(.*)/.. \1/h/
+--regex-asciidoctor=/^====[ \t]+(.*)/... \1/h/
+--regex-asciidoctor=/^=====[ \t]+(.*)/.... \1/h/
+--regex-asciidoctor=/^======[ \t]+(.*)/..... \1/h/
+--regex-asciidoctor=/\[\[([^]]+)\]\]/\1/a/
+--regex-asciidoctor=/^\.([^ \t].+)/\1/t/
+--regex-asciidoctor=/image::([^\[]+)/\1/i/
+--regex-asciidoctor=/image:([^:][^\[]+)/\1/I/
+--regex-asciidoctor=/include::([^\[]+)/\1/n/

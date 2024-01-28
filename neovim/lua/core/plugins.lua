@@ -11,12 +11,12 @@ vim.opt.rtp:prepend(lazypath)
 -- load plugins
 require('lazy').setup({
     -- Outlooks
+    'projekt0n/github-nvim-theme',
     'EdenEast/nightfox.nvim',
     'rcarriga/nvim-notify',
     {'nvim-lualine/lualine.nvim', config = require('plugin.lualine')},
     'nvim-tree/nvim-tree.lua',
     'nvim-tree/nvim-web-devicons',
-    'vim-airline/vim-airline-themes',
     'mhinz/vim-startify',
     {
         'akinsho/bufferline.nvim',
@@ -31,16 +31,20 @@ require('lazy').setup({
     -- LSP, tree-sitter
     {
         'nvim-treesitter/nvim-treesitter',
+        dependencies = { 'HiPhish/nvim-ts-rainbow2' },
+        config = require 'plugin.nvim-treesitter',
         build = ':TSUpdate',
-        config = require 'plugin.nvim-treesitter'
     },
-    { 'neovim/nvim-lspconfig', config = require 'plugin.lspconfig' },
+    {
+        'neovim/nvim-lspconfig',
+        opts = { inlay_hints = { enabled = true } },
+        config = require 'plugin.lspconfig'
+    },
     { 'hrsh7th/nvim-cmp', config = require('plugin.nvim-cmp') },
     'hrsh7th/cmp-nvim-lsp',
-    {
-        'soulis-1256/hoverhints.nvim', -- mouse
-        config = function () require('hoverhints').setup {} end
-    },
+    -- ctags
+    {'ludovicchabant/vim-gutentags', config = require 'plugin.vim-gutentags' },
+    {'majutsushi/tagbar', config = require 'plugin.tagbar'},
 
     'nvim-lua/plenary.nvim',
     {
@@ -58,6 +62,7 @@ require('lazy').setup({
     'airblade/vim-gitgutter',
 
     -- 언어
-    'habamax/vim-asciidoctor'
+    { 'habamax/vim-asciidoctor', config = require 'plugin.asciidoctor' },
+    { "folke/neodev.nvim", opts = {} }
 })
 
