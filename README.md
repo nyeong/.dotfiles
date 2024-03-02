@@ -4,7 +4,7 @@
 
 ## I Use
 
-- [helix] as a text editor
+- [neovim] as a text editor
 - [zellij] as a terminal multiplexer
 - [zsh] with p10k as a shell
 - git as a vcs
@@ -17,7 +17,7 @@ On mac:
 - [karabiner] as a key customizer
 - [hammerspoon] as a automation tool
 
-[helix]: ./helix
+[neovim]: ./neovim
 [zellij]: ./zellij
 [zsh]: ./zsh
 [git]: ./git
