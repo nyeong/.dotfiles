@@ -3,7 +3,10 @@ local lspconfig = require('lspconfig')
 
 -- neovim
 require("neodev").setup({})
-
+lspconfig.biome.setup{}
+lspconfig.tsserver.on_init = function (client)
+    client.server_capabilities.documentFormattingProvider = false
+end
 lspconfig.tsserver.setup{
     javascript = {
         inlayHints = {
