@@ -9,11 +9,23 @@
 [core]
 	quotepath = false
 	editor = nvim
-	pager = bat
+	pager = delta
 	excludesfile = /Users/subin/.dotfiles/git/gitignore
 [color]
 	ui = auto
 [init]
 	defaultBranch = main
 [pull]
-	rebase = false
+	ff = only
+[rebase]
+	autostash = true
+[merge]
+	conflictstyle = zdiff3
+[push]
+	default = current
+[commit]
+	verbose = true
+[rerere]
+	enabled = true
+[diff]
+	algorithm = histogram
