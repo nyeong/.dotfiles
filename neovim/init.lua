@@ -1,7 +1,7 @@
 require("core.lazy")
 require("core.config")
 require("core.autocmd")
--- require 'core.keymap'
+require("core.keymap")
 vim.cmd([[
     augroup cursor_move_selected_word
         " :so $VIMRUNTIME/syntax/hitest.vim
