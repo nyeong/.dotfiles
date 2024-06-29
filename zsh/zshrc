@@ -62,3 +62,12 @@ export TIME_STYLE='long-iso'
 # load extra configs
 [[ -d ~/.local/bin ]] && export PATH=$PATH:~/.local/bin/
 for file in ~/.dotfiles/zsh/*.zsh; do . $file; done
+### End of Zinit's installer chunk
+
+# pnpm
+export PNPM_HOME="/Users/nyeong/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

@@ -60,8 +60,4 @@ layout {
             pane x="50%"
         }
     }
-
-	tab name="hanassig" cwd="/Users/subin/Repos/hanassig/notes" {
-		pane edit="./index.adoc"
-	}
 }
