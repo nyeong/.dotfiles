@@ -7,6 +7,7 @@
    '("j" . meow-next)
    '("k" . meow-prev)
    '("<escape>" . ignore))
+
   (meow-leader-define-key
    ;; SPC j/k will run the original command in MOTION state.
    '("j" . "H-j")
@@ -23,7 +24,19 @@
    '("9" . meow-digit-argument)
    '("0" . meow-digit-argument)
    '("/" . meow-keypad-describe-key)
-   '("?" . meow-cheatsheet))
+   '("?" . meow-cheatsheet)
+   ;; window
+   '("w s" . split-window-below)
+   '("w v" . split-window-right)
+   '("w q" . delete-window)
+   '("w <up>" . windmove-up)
+   '("w <right>" . windmove-right)
+   '("w <down>" . windmove-down)
+   '("w <left>" . windmove-left)
+   '("w k" . windmove-up)
+   '("w l" . windmove-right)
+   '("w j" . windmove-down)
+   '("w h" . windmove-left))
   (meow-normal-define-key
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)

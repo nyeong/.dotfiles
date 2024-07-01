@@ -34,10 +34,12 @@
   :config
   (which-key-mode))
 
-;; Add any other packages you want to install here
-;; For example:
-;; (use-package magit)
-;; (use-package projectile)
+;; libs
+(use-package async)
+; (use-package dash)
+; (use-package f)
+; (use-package s)
+
 
 (provide 'init-packages)
 ;;; init-packages.el ends here

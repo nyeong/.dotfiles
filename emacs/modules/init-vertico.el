@@ -4,11 +4,11 @@
   (vertico-mode))
 
 (use-package orderless
-  :ensure t
   :custom
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  (completion-category-overrides '((file (styles basic orderless partial-completion))))
+    (orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp)))
 
 (use-package savehist
   :init

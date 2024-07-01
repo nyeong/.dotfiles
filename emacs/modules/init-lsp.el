@@ -1,27 +1,21 @@
-;;; init-lsp.el --- LSP configuration
-
-(use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :commands lsp)
-
-(use-package lsp-ui
-  :commands lsp-ui-mode)
-
-(use-package company
-  :after lsp-mode
-  :hook (lsp-mode . company-mode)
-  :bind (:map company-active-map
-         ("<tab>" . company-complete-selection))
+(use-package eglot
   :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0))
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-size 0)
+  (eglot-extend-to-xref nil)
+  (eglot-ignored-server-capabilities
+   '(:hoverProvider
+     :documentHighlightProvider
+     :documentFormattingProvider
+     :documentRangeFormattingProvider
+     :documentOnTypeFormattingProvider
+     :colorProvider
+     :foldingRangeProvider))
+  (eglot-stay-out-of '(yasnippet)))
 
-(use-package flycheck
-  :init (global-flycheck-mode))
+(use-package consult-eglot)
 
-(use-package yasnippet
-  :hook (prog-mode . yas-minor-mode))
+(use-package flycheck-eglot
+  :hook (eglot-managed-mode . flycheck-eglot-mode))
 
 (provide 'init-lsp)
-;;; init-lsp.el ends here
