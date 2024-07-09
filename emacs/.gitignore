@@ -1,5 +1,8 @@
 *
 !.gitignore
 !init.el
+!early-init.el
 !modules/
 !modules/**/*.el
+
+*~
