@@ -11,6 +11,8 @@
 - nord as a color scheme
 - [wezterm] as a terminal emulator
 
+- Emacs set up comes from [purcell/emacs.d](https://github.com/purcell/emacs.d?tab=BSD-2-Clause-1-ov-file)
+
 On mac:
 
 - homebrew as a package manager
@@ -20,7 +22,6 @@ On mac:
 [neovim]: ./neovim
 [zellij]: ./zellij
 [zsh]: ./zsh
-[git]: ./git
 [wezterm]: ./wezterm
 [karabiner]: ./karabiner
 [hammerspoon]: ./hammerspoon

@@ -6,16 +6,15 @@
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
-  ;; Use "SPC SPC" to start meow-keypad
   (define-key meow-normal-state-keymap (kbd "SPC") nil)
   (define-key meow-motion-state-keymap (kbd "SPC") nil)
-  (define-key meow-normal-state-keymap (kbd "SPC SPC") 'meow-keypad)
-  (define-key meow-motion-state-keymap (kbd "SPC SPC") 'meow-keypad)
-  
+ 
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
    '("k" . meow-prev)
+   `("SPC" . ,global-leader-map)
    '("<escape>" . ignore))
+
   (meow-leader-define-key
    ;; SPC j/k will run the original command in MOTION state.
    '("j" . "H-j")
@@ -33,7 +32,9 @@
    '("0" . meow-digit-argument)
    '("/" . meow-keypad-describe-key)
    '("?" . meow-cheatsheet))
+
   (meow-normal-define-key
+   `("SPC" . ,global-leader-map)
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)
    '("8" . meow-expand-8)
@@ -98,6 +99,7 @@
 
 (use-package meow
   :demand
+  :after general
   :config
   (setq meow-local-leader-prefix "/"
         meow-local-leader-insert-prefix "C-/")

@@ -8,10 +8,12 @@
 (use-package general
   :demand
   :config
-  (defconst nyeong/leader "SPC")
+  (setq global-leader-map
+        (let ((keymap (make-sparse-keymap)))
+          (define-key keymap (kbd "SPC") 'meow-keypad)
+          keymap))
   (general-create-definer nyeong/leader-keys
-    :keymaps 'override
-    :prefix nyeong/leader)
+    :keymaps 'global-leader-map)
   
   (nyeong/leader-keys
     "<escape>" '(keyboard-escape-quit :which-key t)
@@ -21,6 +23,7 @@
  
     "p" '(:ignore t :which-key "project")
     "p <escape>" '(keyboard-escape-quit :which-key t)
+    "p p" '(project-switch-project :which-key "switch project")
     "p f" '(project-find-file :which-key "find file")
     "p b" '(project-list-buffers :which-key "list buffers")))
 

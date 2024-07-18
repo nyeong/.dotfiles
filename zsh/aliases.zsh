@@ -1,6 +1,15 @@
 alias mv='mv -i'
 alias cp='cp -i'
 
+if (( $+commands[corepack] )); then
+  alias yarn='corepack yarn'
+  alias yarnpkg="corepack yarnpkg"
+  alias pnpm="corepack pnpm"
+  alias pnpx="corepack pnpx"
+  alias npm="corepack npm"
+  alias npx="corepack npx"
+fi
+
 # git
 if (( $+commands[git] )); then
   alias gs='git status'

@@ -29,3 +29,5 @@
 	enabled = true
 [diff]
 	algorithm = histogram
+[includeIf "gitdir:~/Gameduo/"]
+  path = "~/Gameduo/.config/gitconfig"
