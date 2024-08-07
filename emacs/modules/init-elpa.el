@@ -4,7 +4,7 @@
 ;; - use-package
 ;;; Code:
 
-;; bootstrap
+;; bootstrap straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name
@@ -23,8 +23,9 @@
 
 ;; use use-package
 (straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
-(setq use-package-always-defer t)
+
+(setq straight-use-package-by-default t ;; use use-package with straight
+      use-package-always-defer t) ;; lazy loading
 
 (provide 'init-elpa)
 ;;; init-elpa.el ends here

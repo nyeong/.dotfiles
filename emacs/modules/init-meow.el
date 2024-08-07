@@ -33,6 +33,7 @@
    '("/" . meow-keypad-describe-key)
    '("?" . meow-cheatsheet))
 
+  ;; normal mode
   (meow-normal-define-key
    `("SPC" . ,global-leader-map)
    '("0" . meow-expand-0)
@@ -84,6 +85,7 @@
    '("R" . meow-swap-grab)
    '("s" . meow-kill)
    '("t" . meow-till)
+   '("T" . #'(lambda () (interactive) (negative-argument) (meow-till)))
    '("u" . meow-undo)
    '("U" . meow-undo-in-selection)
    '("v" . meow-visit)
@@ -101,10 +103,10 @@
   :demand
   :after general
   :config
-  (setq meow-local-leader-prefix "/"
-        meow-local-leader-insert-prefix "C-/")
+  (setq meow-expand-exclude-mode-list '(markdown-mode))
     (meow-setup)
-    (meow-global-mode 1))
+    (meow-global-mode 1)
+    (add-to-list 'meow-mode-state-list '(corfu-mode . insert)))
 
 (provide 'init-meow)
 ;;; init-meow.el ends here

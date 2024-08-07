@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+;; disable package.el
+;; I use straight.el
 (setq package-enable-at-startup nil)
 
 ;; Remove GUI elements

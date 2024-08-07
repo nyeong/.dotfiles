@@ -2,13 +2,13 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package consult-eglot)
-(use-package consult-eglot-embark)
+(use-package eglot
+  :config
+  (setq eglot-autoshudown t
+        eglot-extend-to-xref t))
 
-(with-eval-after-load 'embark
-  (with-eval-after-load 'consult-eglot
-    (require 'consult-eglot-embark)
-    (consult-eglot-embark-mode)))
+(setq completion-category-defaults nil)
+(setq completion-category-overrides '((eglot (styles orderless)))) 
 
 (provide 'init-eglot)
 ;;; init-eglot.el ends here
