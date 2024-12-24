@@ -72,3 +72,8 @@ case ":$PATH:" in
 esac
 
 export PATH=$PATH:~/Gameduo/bin/
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+export PATH="$PATH:/Users/nyeong/.dotnet/tools"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

@@ -10,7 +10,7 @@
 	quotepath = false
 	editor = nvim
 	pager = delta
-	excludesfile = /Users/subin/.dotfiles/git/gitignore
+	excludesfile = /Users/nyeong/.dotfiles/git/gitignore
 [color]
 	ui = auto
 [init]

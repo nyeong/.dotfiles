@@ -1,0 +1,1 @@
+/Users/nyeong/.config/emacs
