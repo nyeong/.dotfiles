@@ -1,26 +1,32 @@
 {
-  description = "My Home Manager flake";
+  description = "Example nix-darwin system flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    darwin.url = "github:lnl7/nix-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    darwin.url = "github:LnL7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager }@inputs: {
-    darwinConfigurations.nyeong = darwin.lib.darwinSystem {
+  outputs = inputs@{ self, darwin, nixpkgs, home-manager }:
+  let
+    config = {
+      username = "nyeong";
+      hostname = "subin-dev";
+      home = "/Users/nyeong";
+      email = "me@annyeong.me";
+    };
+  in
+  {
+    darwinConfigurations.${config.hostname}= darwin.lib.darwinSystem {
       system = "aarch64-darwin";
-      configuration = {
-        home.homeDirectory = "/Users/nyeong";
-        home.stateVersion = "23.05";
-        home.username = "nyeong";
-      };
+      specialArgs = { inherit config; };
       modules = [
-          home-manager.darwinModules.home-manager
-         ./modules/darwin/home.nix
+        home-manager.darwinModules.home-manager
+        ./system/darwin.nix
+        ./home/default.nix
       ];
-      };
+    };
   };
 }
