@@ -1,13 +1,3 @@
-#!/bin/zsh
-# GPG setup
-export GPG_TTY=$(tty)
-
-# p10k init
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# zinit fallback
 ZINIT_HOME=~/.local/share/zinit/zinit.git
 if [[ ! -d $ZINIT_HOME ]]; then
   echo "zinit can not be loaded"
@@ -58,22 +48,4 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 export TIME_STYLE='long-iso'
-
-# load extra configs
-[[ -d ~/.local/bin ]] && export PATH=$PATH:~/.local/bin/
-for file in ~/.dotfiles/zsh/*.zsh; do . $file; done
-### End of Zinit's installer chunk
-
-# pnpm
-export PNPM_HOME="/Users/nyeong/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-export PATH=$PATH:~/Gameduo/bin/
-export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
-export PATH="$PATH:/Users/nyeong/.dotnet/tools"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export GPG_TTY=$(tty)

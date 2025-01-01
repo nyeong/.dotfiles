@@ -1,5 +1,15 @@
-# ~/.dotfiles/packages/zsh/default.nix
-{ config, pkgs, userConfig, ... }: {
+{ config, pkgs, lib, userConfig, ... }: {
+  home.packages = with pkgs; [
+    curl
+    zsh
+    git
+  ];
+
+  home.activation.zinit = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      export PATH="${pkgs.zsh}/bin:${pkgs.git}/bin:${pkgs.curl}/bin:$PATH"
+      bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+    '';
+
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
@@ -45,22 +55,9 @@
       if [[ -r "${''XDG_CACHE_HOME:-$HOME/.cache''}/p10k-instant-prompt-${''(%):-%n''}.zsh" ]]; then
         source "${''XDG_CACHE_HOME:-$HOME/.cache''}/p10k-instant-prompt-${''(%):-%n''}.zsh"
       fi
-      source ${./p10k.zsh}
       export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
-      export GPG_TTY=$(tty)
-      export TIME_STYLE='long-iso'
-
-      # zsh substring completion
-      setopt complete_in_word
-      setopt always_to_end
-      WORDCHARS=""
-
-      bindkey -e
-      bindkey '^[[A' history-substring-search-up
-      bindkey '^[[B' history-substring-search-down
-
-      zstyle ':completion:*' menu select
-      zstyle ':completion:*' list-colors "${''(s.:.)LS_COLORS''}"
+      source ${./config/p10k.zsh}
+      source ${./config/init.zsh}
     '';
 
     plugins = [
