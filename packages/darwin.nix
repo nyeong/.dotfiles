@@ -14,5 +14,6 @@
     ./direnv
     ./wezterm
     ./zsh
+    ./hammerspoon
   ];
 }
