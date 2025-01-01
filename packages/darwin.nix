@@ -15,5 +15,6 @@
     ./wezterm
     ./zsh
     ./hammerspoon
+    ./zellij
   ];
 }
