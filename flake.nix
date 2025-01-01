@@ -11,7 +11,7 @@
 
   outputs = inputs@{ self, darwin, nixpkgs, home-manager }:
   let
-    config = {
+    userConfig = {
       username = "nyeong";
       hostname = "subin-dev";
       home = "/Users/nyeong";
@@ -19,11 +19,14 @@
     };
   in
   {
-    darwinConfigurations.${config.hostname}= darwin.lib.darwinSystem {
+    darwinConfigurations.${userConfig.hostname}= darwin.lib.darwinSystem {
       system = "aarch64-darwin";
-      specialArgs = { inherit config; };
+      specialArgs = { inherit userConfig; inherit self; };
       modules = [
         home-manager.darwinModules.home-manager
+        {
+          home-manager.extraSpecialArgs = { inherit userConfig; };
+        }
         ./system/darwin.nix
         ./home/default.nix
       ];
