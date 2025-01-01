@@ -20,7 +20,6 @@
 
   fonts.packages = with pkgs; [
     fira-code
-    # (nerdfonts.override { fonts = [ "FiraCode" ]; })
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
   ];
