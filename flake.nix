@@ -12,6 +12,7 @@
   outputs = inputs@{ self, darwin, nixpkgs, home-manager }:
   let
     userConfig = {
+      fullname = "An Nyeong";
       username = "nyeong";
       hostname = "subin-dev";
       home = "/Users/nyeong";

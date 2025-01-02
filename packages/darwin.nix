@@ -8,6 +8,7 @@
     git
     lsd
     discord
+    delta
   ];
 
   imports = [
