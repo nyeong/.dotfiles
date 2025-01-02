@@ -9,6 +9,7 @@
     lsd
     discord
     delta
+    bitwarden-cli
   ];
 
   imports = [
