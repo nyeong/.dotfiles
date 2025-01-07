@@ -5,17 +5,17 @@
     git
   ];
 
-  home.activation.zinit = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      export PATH="${pkgs.zsh}/bin:${pkgs.git}/bin:${pkgs.curl}/bin:$PATH"
-      bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
-    '';
+  home.activation.zinit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    export PATH="${pkgs.zsh}/bin:${pkgs.git}/bin:${pkgs.curl}/bin:$PATH"
+    bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+  '';
 
   programs.zsh = {
     enable = true;
-    autosuggestion.enable = true;
-    enableCompletion = true;
-    syntaxHighlighting.enable = true;
-    historySubstringSearch.enable = true;
+    # autosuggestion.enable = true;
+    # enableCompletion = true;
+    # syntaxHighlighting.enable = true;
+    # historySubstringSearch.enable = true;
 
     shellAliases = {
       switch = "darwin-rebuild switch --flake ~/.dotfiles#${userConfig.hostname}";
@@ -59,13 +59,5 @@
       source ${./config/p10k.zsh}
       source ${./config/init.zsh}
     '';
-
-    plugins = [
-      {
-        name = "powerlevel10k";
-        src = pkgs.zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-      }
-    ];
   };
 }

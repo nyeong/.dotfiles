@@ -1,5 +1,5 @@
 { self, userConfig, pkgs, inputs, ... }: {
-  environment.systemPackages = with pkgs; [];
+  environment.systemPackages = with pkgs; [ ];
 
   nix.settings.experimental-features = "nix-command flakes";
   nix.useDaemon = true;

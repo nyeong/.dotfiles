@@ -10,27 +10,27 @@
   };
 
   outputs = inputs@{ self, darwin, nixpkgs, home-manager }:
-  let
-    userConfig = {
-      fullname = "An Nyeong";
-      username = "nyeong";
-      hostname = "subin-dev";
-      home = "/Users/nyeong";
-      email = "me@annyeong.me";
+    let
+      userConfig = {
+        fullname = "An Nyeong";
+        username = "nyeong";
+        hostname = "subin-dev";
+        home = "/Users/nyeong";
+        email = "me@annyeong.me";
+      };
+    in
+    {
+      darwinConfigurations.${userConfig.hostname} = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        specialArgs = { inherit userConfig; inherit self; };
+        modules = [
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.extraSpecialArgs = { inherit userConfig; };
+          }
+          ./system/darwin.nix
+          ./home/default.nix
+        ];
+      };
     };
-  in
-  {
-    darwinConfigurations.${userConfig.hostname}= darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      specialArgs = { inherit userConfig; inherit self; };
-      modules = [
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.extraSpecialArgs = { inherit userConfig; };
-        }
-        ./system/darwin.nix
-        ./home/default.nix
-      ];
-    };
-  };
 }
