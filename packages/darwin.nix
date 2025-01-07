@@ -9,7 +9,7 @@
     lsd
     discord
     delta
-    bitwarden-cli
+    nixpkgs-fmt
   ];
 
   imports = [
