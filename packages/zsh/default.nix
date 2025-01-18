@@ -23,7 +23,17 @@
       mv = "mv -i";
       cp = "cp -i";
 
-
+      # git
+      gs = "git status";
+      gc = "git commit";
+      gp = "git push";
+      gd = "git diff";
+      gds = "git diff --staged";
+      gsw = "git switch";
+      ga = "git add";
+      gl = "git log --oneline --graph";
+      gf = "git fetch --prune";
+      gcm = "git commit -m";
 
       # lsd
       ls = "lsd";
