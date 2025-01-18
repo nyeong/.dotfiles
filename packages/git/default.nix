@@ -1,4 +1,8 @@
-{ userConfig }: {
+{ userConfig, pkgs, ... }: {
+  home.packages = with pkgs; [
+    delta
+  ];
+
   programs.git = {
     enable = true;
     userName = userConfig.fullname;
@@ -36,6 +40,13 @@
     # vim 사용자를 위한 설정
     delta = {
       enable = true;
+      package = pkgs.writeScriptBin "delta" ''
+        if defaults read -g AppleInterfaceStyle &> /dev/null; then
+          ${pkgs.delta}/bin/delta "$@"
+        else
+          ${pkgs.delta}/bin/delta --light "$@"
+        fi
+      '';
       options = {
         navigate = true;
         line-numbers = true;
@@ -43,4 +54,18 @@
       };
     };
   };
+
+  programs.zsh.shellAliases = {
+    gs = "git status";
+    gc = "git commit";
+    gp = "git push";
+    gd = "git diff";
+    gds = "git diff --staged";
+    gsw = "git switch";
+    ga = "git add";
+    gl = "git log --oneline --graph";
+    gf = "git fetch --prune";
+    gcm = "git commit -m";
+  };
+
 }

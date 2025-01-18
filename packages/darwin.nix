@@ -8,7 +8,6 @@
     git
     lsd
     discord
-    delta
     nixpkgs-fmt
   ];
 
