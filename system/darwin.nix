@@ -1,6 +1,13 @@
 { self, userConfig, pkgs, inputs, ... }: {
   environment.systemPackages = with pkgs; [ ];
 
+  homebrew = {
+    enable = true;
+    taps = [];
+    brews = [];
+    casks = [ "zen-browser" "cursor" ];
+  };
+
   nix.settings.experimental-features = "nix-command flakes";
   nix.useDaemon = true;
 
