@@ -11,6 +11,11 @@
   nix.settings.experimental-features = "nix-command flakes";
   nix.useDaemon = true;
 
+  environment.systemPackages = with pkgs; [
+    emacs-unstable
+  ];
+  services.nix-daemon.enable = true;
+
   programs.zsh.enable = true;
 
   system.configurationRevision = self.rev or self.dirtyRev or null;

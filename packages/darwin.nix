@@ -9,6 +9,7 @@
     lsd
     discord
     nixpkgs-fmt
+    utm
   ];
 
   imports = [
