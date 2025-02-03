@@ -32,14 +32,22 @@
         home = "/Users/nyeong";
         email = "me@annyeong.me";
       };
+      user = "An Nyeong";
       linuxSystems = [ "aarch64-linux" ];
-      darwinSystems = ["aarch64-darwin" ];
+      darwinSystems = [ "aarch64-darwin" ];
       forAllSystems = nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems);
+      devShell = system: let pkgs = nixpkgs.legacyPackages.${system}; in {
+        default = with pkgs; mkShell {
+          nativeBuildInputs = with pkgs; [ bashInteractive git age ];
+          shellHook = with pkgs; ''
+            export EDITOR=vim
+          '';
+        };
+      };
     in
     {
-      darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system: let
-        user = userConfig.username;
-      in
+      devShells = forAllSystems devShell;
+      darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system:
         darwin.lib.darwinSystem {
           inherit system;
           specialArgs = { inherit userConfig; inherit self; };

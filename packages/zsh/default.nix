@@ -18,7 +18,7 @@
     # historySubstringSearch.enable = true;
 
     shellAliases = {
-      switch = "darwin-rebuild switch --flake ~/.dotfiles#${userConfig.hostname}";
+      switch = "darwin-rebuild switch --flake ~/.dotfiles";
 
       mv = "mv -i";
       cp = "cp -i";
