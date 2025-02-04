@@ -32,7 +32,7 @@
         home = "/Users/nyeong";
         email = "me@annyeong.me";
       };
-      user = "An Nyeong";
+      user = "nyeong";
       linuxSystems = [ "aarch64-linux" ];
       darwinSystems = [ "aarch64-darwin" ];
       forAllSystems = nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems);

@@ -1,20 +1,17 @@
 { self, userConfig, pkgs, inputs, ... }: {
-  environment.systemPackages = with pkgs; [ ];
 
-  homebrew = {
-    enable = true;
-    taps = [];
-    brews = [];
-    casks = [ "zen-browser" "cursor" ];
-  };
+  imports = [
+    ../modules/shared
+  ];
 
   nix.settings.experimental-features = "nix-command flakes";
   nix.useDaemon = true;
 
+  services.nix-daemon.enable = true;
+
   environment.systemPackages = with pkgs; [
     emacs-unstable
-  ];
-  services.nix-daemon.enable = true;
+  ] ++ (import ../modules/shared/packages.nix { inherit pkgs; });
 
   programs.zsh.enable = true;
 
