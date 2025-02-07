@@ -1,11 +1,11 @@
-{ config, pkgs, lib, ... }:
-let
-  hammerspoon = pkgs.callPackage ./package.nix { };
-in
+{ user }:
 {
-  home.packages = [ hammerspoon ];
-  home.file.".config/hammerspoon" = {
-    source = ./config;
-    recursive = true;
+  homebrew.casks = [ "hammerspoon" ];
+
+  home-manager.users.${user}.home =  {
+    file.".config/hammerspoon" = {
+      source = ./config;
+      recursive = true;
+    };
   };
 }
