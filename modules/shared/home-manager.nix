@@ -156,29 +156,6 @@ let name = "An Nyeong";
     '';
   };
 
-  git = {
-    enable = true;
-    ignores = [ "*.swp" ];
-    userName = name;
-    userEmail = email;
-    lfs = {
-      enable = true;
-    };
-    signing = {
-      key = "B8BC049D1E042935C003C1D135EF2695DD158D46";
-      signByDefault = true;
-    };
-    extraConfig = {
-      init.defaultBranch = "main";
-      core = {
-	    editor = "vim";
-        autocrlf = "input";
-      };
-      commit.gpgsign = true;
-      pull.rebase = true;
-      rebase.autoStash = true;
-    };
-  };
 
   vim = {
     enable = true;

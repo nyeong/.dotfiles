@@ -1,10 +1,13 @@
 { pkgs, ... }:
 let
   user = "nyeong";
+  name = "An Nyeong";
+  email = "me@annyeong.me";
 
   packages = [
     # terminal
     (import ./zellij { inherit user pkgs; })
+    (import ./git { inherit user name email pkgs; })
 
     # editor
     (import ./emacs { inherit user pkgs; })
@@ -31,7 +34,6 @@ let
     openssh
     sqlite
     wget
-    git
     hyperfine
     curl
     zip
