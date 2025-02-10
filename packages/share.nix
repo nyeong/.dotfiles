@@ -3,6 +3,9 @@ let
   user = "nyeong";
 
   packages = [
+    # terminal
+    (import ./zellij { inherit user pkgs; })
+
     # editor
     (import ./emacs { inherit user pkgs; })
 
@@ -32,7 +35,6 @@ let
     hyperfine
     curl
     zip
-    zellij
     yt-dlp
     tokei
 

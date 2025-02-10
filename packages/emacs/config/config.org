@@ -163,6 +163,20 @@ I use ~general.el~ to define groups of keybindings under my 'leader' definition.
         :prefix "SPC"))
 #+END_SRC
 
+**** File Pickers
+
+#+NAME: file-pickers
+#+BEGIN_SRC emacs-lisp
+  (dl/leader-keys
+    "f"  '(:ignore f :which-key "file")
+    "ff" '(counsel-find-file :which-key "find file")
+    "fr" '(counsel-recentf :which-key "recent files")
+    "fd" '(delete-file :which-key "delete file")
+    "fr" '(rename-file :which-key "rename file")
+    "fc" '(copy-file :which-key "copy file")
+    "fm" '(dired :which-key "dired"))
+#+END_SRC
+
 **** Emacs cleanup
 Helpful keybindings to help keep Emacs sane.
 
@@ -1063,8 +1077,11 @@ Projectile enables me to organize projects with a killer grep interface.
     :config (projectile-mode)
     :custom
       ((projectile-completion-system 'ivy))
-    :bind-keymap
-	    ("C-c p" . projectile-command-map)
+    :config
+      (dl/leader-keys
+        "p"  '(:ignore p :which-key "projectile")
+        "pp" '(projectile-switch-project :which-key "switch project")
+        "pf" '(projectile-find-file :which-key "find file"))
     :init
       (setq projectile-enable-caching t)
       (setq projectile-sort-order 'recently-active)
@@ -1163,7 +1180,7 @@ Everything related to M-x compile.
         :placeOpenBraceOnNewLineForFunctions nil))
 #+END_SRC
 
-*** LSP
+*** SP
 This is my IDE. It includes the same engine that powers VS Code, in addition to Github Copilot.
 
 #+NAME: lsp-mode
