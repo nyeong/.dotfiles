@@ -1,5 +1,6 @@
 { user, pkgs }:
 let
+  # TODO: xdg input으로 주입받기
   xdg-data-home = ".local/share";
   emacs-overlay-ref = "3e35634650753a5644cf07148cf49df1f023efce";
   emacs-overlay-sha256 = "1jkggd9ypw0g42vx2r0a9fcahrhcvga68igddznxb4rfxaw6wzra";

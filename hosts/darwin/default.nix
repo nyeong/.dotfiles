@@ -93,11 +93,15 @@ let user = "nyeong"; in
 
       trackpad = {
         Clicking = false;
+
+        # 트랙패드에서 세 손가락으로 끌기
+        # 짱입니다 꼭 쓰세요
         TrackpadThreeFingerDrag = true;
       };
     };
   };
 
+  # TODO: zsh에 의존하는 건 zsh에서 isDarwin으로 분기하기
   programs.zsh = {
     enableGlobalCompInit = false;
   };

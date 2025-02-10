@@ -4,6 +4,7 @@ let name = "An Nyeong";
     user = "nyeong";
     email = "me@annyeong.me"; in
 {
+  # TODO: wezterm도 packages로 옮기자
   wezterm = {
     enable = true;
     extraConfig = ''
@@ -25,7 +26,7 @@ let name = "An Nyeong";
     '';
   };
 
-  # Shared shell configuration
+  # TODO: zsh도 packages로 옮기자
   zsh = {
     enable = true;
     enableCompletion = true;
@@ -156,7 +157,7 @@ let name = "An Nyeong";
     '';
   };
 
-
+  # TODO: vim도 packages로 옮기자
   vim = {
     enable = true;
     plugins = with pkgs.vimPlugins; [ vim-airline vim-airline-themes vim-startify vim-tmux-navigator ];
@@ -267,7 +268,7 @@ let name = "An Nyeong";
       '';
      };
 
-
+  # TODO: ssh도 packages로 옮기자
   ssh = {
     enable = true;
     includes = [

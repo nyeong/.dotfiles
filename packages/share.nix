@@ -4,6 +4,7 @@ let
   name = "An Nyeong";
   email = "me@annyeong.me";
 
+  # TODO: 매번 inherit user pkgs 하지 않을 방법은 없을까?
   packages = [
     # terminal
     (import ./zellij { inherit user pkgs; })
