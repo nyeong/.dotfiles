@@ -18,6 +18,13 @@ in
   services.emacs.package = pkgs.emacs-unstable;
 
   home-manager.users.${user}.home = {
+    packages = with pkgs; [
+      # Doom Emacs dependencies
+      git
+      ripgrep
+      fd
+    ]; 
+
     file = {
       ".config/emacs/init.el" = {
         source = ./config/init.el;
