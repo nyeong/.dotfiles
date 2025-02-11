@@ -39,6 +39,10 @@ let
   home-packages = with pkgs; [
     dockutil
     pinentry_mac
+
+    # Archive
+    keka
+    the-unarchiver
   ];
 
   # Mac App Store 앱
