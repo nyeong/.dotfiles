@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   user = "nyeong";
   name = "An Nyeong";
@@ -7,6 +7,7 @@ let
   # TODO: 매번 inherit user pkgs 하지 않을 방법은 없을까?
   packages = [
     # terminal
+    (import ./zsh { inherit user pkgs lib; })
     (import ./zellij { inherit user pkgs; })
     (import ./git { inherit user name email pkgs; })
 
@@ -79,6 +80,8 @@ let
     unrar
     unzip
     zsh-powerlevel10k
+
+    anki-bin
 
     python3
     elixir
