@@ -1,3 +1,8 @@
+# TODO: Doom Emacs 의존성 넣기
+# - https://github.com/ryan4yin/nix-config/tree/main/home/base/tui/editors/emacs
+# emacs가 느리다면:
+# - https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83
+
 { user, pkgs }:
 let
   # TODO: xdg input으로 주입받기
@@ -8,28 +13,31 @@ let
     url = "https://github.com/nix-community/emacs-overlay/archive/${emacs-overlay-ref}.tar.gz";
     sha256 = emacs-overlay-sha256;
   });
+  doom-emacs = builtins.fetchGit {
+    url = "https://github.com/hlissner/doom-emacs";
+    rev = "2bc052425ca45a41532be0648ebd976d1bd2e6c1";
+  };
 
 in
 {
-  nixpkgs.overlays = [
-    emacs-overlay
-  ];
+  home-manager.users.${user} = {
+    programs.emacs = {
+      enable = true;
+      extraPackages = epkgs: [ epkgs.vterm ];
+    };
 
-  services.emacs.package = pkgs.emacs-unstable;
-
-  home-manager.users.${user}.home = {
-    packages = with pkgs; [
+    home.packages = with pkgs; [
       # Doom Emacs dependencies
       git
       ripgrep
       fd
-    ]; 
 
-    file = {
-      ".config/emacs/init.el" = {
-        source = ./config/init.el;
-      };
+      # vterm depedency
+      gcc
+      cmake
+    ];
 
+    home.file = {
       # Raycast script so that "Run Emacs" is available and uses Emacs daemon
       # darwin only
       # TODO: isDarwin일 때에만 생성하도록 변경 필요

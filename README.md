@@ -12,7 +12,19 @@ Nix에 모든 것을 맡기는 중...
 - `packages/shared.nix` : packages에 별도로 만든 패키지들 로드. 별도 설정 등이 필요 없는 패키지들은 여기서 정의.
 - `packages/darwin.nix` : shared.nix를 불러오고, darwin에서만 필요한 패키지도 정의.
 
+## 🤔
+
+### Doom Emacs
+
+이걸 어떻게 Nix에 녹여야할까
+
+```
+git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
+~/.config/emacs/bin/doom install
+```
+
 ## 참고
 
 - [dustinlyons/nixos-config](https://github.com/dustinlyons/nixos-config)
 - [hlissner/dotfiles](https://github.com/hlissner/dotfiles)
+- [ryan4yin/nix-config](https://github.com/ryan4yin/nix-config)

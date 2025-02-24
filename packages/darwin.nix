@@ -33,6 +33,8 @@ let
     "linearmouse"
     "medis"
     "tailscale"
+
+    "zed"
   ];
 
   # home-manager로 설치할 프로그램
@@ -42,7 +44,7 @@ let
 
     # Archive
     keka
-    the-unarchiver
+    # the-unarchiver
   ];
 
   # Mac App Store 앱

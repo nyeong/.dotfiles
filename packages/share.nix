@@ -44,6 +44,8 @@ let
 
     zinit
 
+    direnv
+
     # Encryption and security tools
     age
     age-plugin-yubikey
