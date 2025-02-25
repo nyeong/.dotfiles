@@ -17,6 +17,9 @@ let
     # font
     (import ./sf-mono { inherit user pkgs; })
     (import ./monoplex { inherit user pkgs; })
+
+    # lang
+    (import ./nix { inherit pkgs; })
   ];
 
   # home-manager로 설치할 프로그램

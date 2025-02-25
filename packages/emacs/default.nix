@@ -31,6 +31,11 @@ in
       git
       ripgrep
       fd
+      imagemagick
+      ffmpegthumbnailer
+      mediainfo
+      gnutar
+      unzip
 
       # vterm depedency
       gcc

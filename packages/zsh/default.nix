@@ -16,6 +16,8 @@
         emacsclient = "emacsclient -c -a emacs";
         switch = "nix run /Users/nyeong/.dotfiles#build-switch";
 
+        gls = "${pkgs.coreutils}/bin/ls";
+
         mv = "mv -i";
         cp = "cp -i";
         rm = "rm -i";
