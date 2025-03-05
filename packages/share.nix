@@ -85,6 +85,7 @@ let
     zsh-powerlevel10k
 
     anki-bin
+    zotero
 
     python3
     elixir
