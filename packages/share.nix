@@ -90,7 +90,6 @@ let
     python3
     elixir
     ruby
-    nil
   ];
 in
 {
