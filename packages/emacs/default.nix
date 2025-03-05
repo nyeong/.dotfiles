@@ -10,7 +10,8 @@ let
   emacs-overlay-ref = "3e35634650753a5644cf07148cf49df1f023efce";
   emacs-overlay-sha256 = "1jkggd9ypw0g42vx2r0a9fcahrhcvga68igddznxb4rfxaw6wzra";
   emacs-overlay = import (builtins.fetchTarball {
-    url = "https://github.com/nix-community/emacs-overlay/archive/${emacs-overlay-ref}.tar.gz";
+    url =
+      "https://github.com/nix-community/emacs-overlay/archive/${emacs-overlay-ref}.tar.gz";
     sha256 = emacs-overlay-sha256;
   });
   doom-emacs = builtins.fetchGit {
@@ -18,8 +19,7 @@ let
     rev = "2bc052425ca45a41532be0648ebd976d1bd2e6c1";
   };
 
-in
-{
+in {
   home-manager.users.${user} = {
     programs.emacs = {
       enable = true;

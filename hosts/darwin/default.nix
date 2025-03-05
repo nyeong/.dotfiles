@@ -1,13 +1,13 @@
 { agenix, config, pkgs, ... }:
 
-let user = "nyeong"; in
+let user = "nyeong";
 
-{
+in {
   imports = [
     ../../modules/darwin/secrets.nix
     ../../modules/darwin/home-manager.nix
     ../../modules/shared
-     agenix.darwinModules.default
+    agenix.darwinModules.default
   ];
 
   # Auto upgrade nix package and the daemon service.
@@ -18,14 +18,20 @@ let user = "nyeong"; in
     package = pkgs.nix;
     settings = {
       trusted-users = [ "@admin" "${user}" ];
-      substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
-      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+      substituters =
+        [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
+      trusted-public-keys =
+        [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
     };
 
     gc = {
       user = "root";
       automatic = true;
-      interval = { Weekday = 0; Hour = 2; Minute = 0; };
+      interval = {
+        Weekday = 0;
+        Hour = 2;
+        Minute = 0;
+      };
       options = "--delete-older-than 30d";
     };
 
@@ -38,9 +44,8 @@ let user = "nyeong"; in
   system.checks.verifyNixPath = false;
 
   # Load configuration that is shared across systems
-  environment.systemPackages = with pkgs; [
-    agenix.packages."${pkgs.system}".default
-  ];
+  environment.systemPackages = with pkgs;
+    [ agenix.packages."${pkgs.system}".default ];
 
   launchd.user.agents.emacs.path = [ config.environment.systemPath ];
   launchd.user.agents.emacs.serviceConfig = {
@@ -64,7 +69,6 @@ let user = "nyeong"; in
         AppleShowAllExtensions = true;
         ApplePressAndHoldEnabled = false;
 
-  
         # 키 반복 속도
         # 120, 90, 60, 30, 12, 6, 2
         KeyRepeat = 2;
@@ -86,9 +90,7 @@ let user = "nyeong"; in
         tilesize = 24;
       };
 
-      finder = {
-        _FXShowPosixPathInTitle = false;
-      };
+      finder = { _FXShowPosixPathInTitle = false; };
 
       trackpad = {
         Clicking = false;
@@ -101,7 +103,5 @@ let user = "nyeong"; in
   };
 
   # TODO: zsh에 의존하는 건 zsh에서 isDarwin으로 분기하기
-  programs.zsh = {
-    enableGlobalCompInit = false;
-  };
+  programs.zsh = { enableGlobalCompInit = false; };
 }

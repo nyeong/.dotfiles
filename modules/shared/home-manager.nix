@@ -1,9 +1,10 @@
 { config, pkgs, lib, ... }:
 
-let name = "An Nyeong";
-    user = "nyeong";
-    email = "me@annyeong.me"; in
-{
+let
+  name = "An Nyeong";
+  user = "nyeong";
+  email = "me@annyeong.me";
+in {
   # TODO: wezterm도 packages로 옮기자
   wezterm = {
     enable = true;
@@ -26,11 +27,15 @@ let name = "An Nyeong";
     '';
   };
 
-
   # TODO: vim도 packages로 옮기자
   vim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [ vim-airline vim-airline-themes vim-startify vim-tmux-navigator ];
+    plugins = with pkgs.vimPlugins; [
+      vim-airline
+      vim-airline-themes
+      vim-startify
+      vim-tmux-navigator
+    ];
     settings = { ignorecase = true; };
     extraConfig = ''
       "" General
@@ -135,30 +140,26 @@ let name = "An Nyeong";
 
       let g:airline_theme='bubblegum'
       let g:airline_powerline_fonts = 1
-      '';
-     };
+    '';
+  };
 
   # TODO: ssh도 packages로 옮기자
   ssh = {
     enable = true;
     includes = [
       (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
-        "/home/${user}/.ssh/config_external"
-      )
+        "/home/${user}/.ssh/config_external")
       (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
-        "/Users/${user}/.ssh/config_external"
-      )
+        "/Users/${user}/.ssh/config_external")
     ];
     matchBlocks = {
       "github.com" = {
         identitiesOnly = true;
         identityFile = [
           (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
-            "/home/${user}/.ssh/id_ed25519"
-          )
+            "/home/${user}/.ssh/id_ed25519")
           (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
-            "/Users/${user}/.ssh/id_ed25519"
-          )
+            "/Users/${user}/.ssh/id_ed25519")
         ];
       };
     };

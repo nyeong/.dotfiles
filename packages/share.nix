@@ -91,11 +91,8 @@ let
     elixir
     ruby
   ];
-in
-{
+in {
   imports = packages;
 
-  home-manager.users.${user}.home = {
-    packages = home-packages;
-  };
+  home-manager.users.${user}.home = { packages = home-packages; };
 }

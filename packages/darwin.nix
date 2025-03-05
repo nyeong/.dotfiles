@@ -52,11 +52,8 @@ let
   # If you have previously added these apps to your Mac App Store profile (but not installed them on this system),
   # you may receive an error message "Redownload Unavailable with This Apple ID".
   # This message is safe to ignore. (https://github.com/dustinlyons/nixos-config/issues/83)
-  masApps = {
-    "wireguard" = 1451685025;
-  };
-in
-{
+  masApps = { "wireguard" = 1451685025; };
+in {
   imports = packages ++ [ ./share.nix ];
 
   homebrew = {
@@ -65,7 +62,5 @@ in
     masApps = masApps;
   };
 
-  home-manager.users.${user}.home = {
-    packages = home-packages;
-  };
+  home-manager.users.${user}.home = { packages = home-packages; };
 }

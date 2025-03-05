@@ -9,12 +9,8 @@ let
   '';
   sharedFiles = import ../shared/files.nix { inherit config pkgs; };
   additionalFiles = import ./files.nix { inherit user config pkgs; };
-in
-{
-  imports = [
-   ./dock
-   ../../packages/darwin.nix
-  ];
+in {
+  imports = [ ./dock ../../packages/darwin.nix ];
 
   # It me
   users.users.${user} = {
@@ -27,7 +23,7 @@ in
   # Enable home-manager
   home-manager = {
     useGlobalPkgs = true;
-    users.${user} = { pkgs, config, lib, ... }:{
+    users.${user} = { pkgs, config, lib, ... }: {
       home = {
         enableNixpkgsReleaseCheck = false;
         file = lib.mkMerge [
@@ -38,7 +34,8 @@ in
 
         stateVersion = "24.11";
       };
-      programs = {} // import ../shared/home-manager.nix { inherit config pkgs lib; };
+      programs = { }
+        // import ../shared/home-manager.nix { inherit config pkgs lib; };
 
       # Marked broken Oct 20, 2022 check later to remove this
       # https://github.com/nix-community/home-manager/issues/3344
@@ -47,10 +44,10 @@ in
   };
 
   # Fully declarative dock using the latest from Nix Store
-  local = { 
+  local = {
     dock = {
       enable = true;
-      entries = [];
+      entries = [ ];
     };
   };
 }

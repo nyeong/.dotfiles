@@ -1,5 +1,4 @@
-{ user }:
-{
+{ user }: {
   homebrew.casks = [ "karabiner-elements" ];
 
   home-manager.users.${user}.home.file = {

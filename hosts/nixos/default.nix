@@ -1,8 +1,11 @@
 { config, inputs, pkgs, agenix, ... }:
 
-let user = "nyeong";
-    keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p" ]; in
-{
+let
+  user = "nyeong";
+  keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p"
+  ];
+in {
   imports = [
     ../../modules/nixos/secrets.nix
     ../../modules/nixos/disk-config.nix
@@ -19,7 +22,8 @@ let user = "nyeong";
       };
       efi.canTouchEfiVariables = true;
     };
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+    initrd.availableKernelModules =
+      [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
     # Uncomment for AMD GPU
     # initrd.kernelModules = [ "amdgpu" ];
     kernelPackages = pkgs.linuxPackages_latest;
@@ -39,12 +43,15 @@ let user = "nyeong";
   };
 
   nix = {
-    nixPath = [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
+    nixPath =
+      [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
     settings = {
       allowed-users = [ "${user}" ];
       trusted-users = [ "@admin" "${user}" ];
-      substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
-      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+      substituters =
+        [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
+      trusted-public-keys =
+        [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
     };
 
     package = pkgs.nix;
@@ -89,9 +96,7 @@ let user = "nyeong";
       };
 
       # Tiling window manager
-      windowManager.bspwm = {
-        enable = true;
-      };
+      windowManager.bspwm = { enable = true; };
 
       # Turn Caps Lock into Ctrl
       layout = "us";
@@ -118,7 +123,7 @@ let user = "nyeong";
       overrideDevices = true;
 
       settings = {
-        devices = {};
+        devices = { };
         options.globalAnnounceEnabled = false; # Only sync on LAN
       };
     };
@@ -147,13 +152,11 @@ let user = "nyeong";
         animation-for-menu-window = "none";
         animation-for-transient-window = "slide-down";
         corner-radius = 12;
-        rounded-corners-exclude = [
-          "class_i = 'polybar'"
-          "class_g = 'i3lock'"
-        ];
+        rounded-corners-exclude =
+          [ "class_i = 'polybar'" "class_g = 'i3lock'" ];
         round-borders = 3;
-        round-borders-exclude = [];
-        round-borders-rule = [];
+        round-borders-exclude = [ ];
+        round-borders-rule = [ ];
         shadow = true;
         shadow-radius = 8;
         shadow-opacity = 0.4;
@@ -164,8 +167,7 @@ let user = "nyeong";
         frame-opacity = 0.7;
         inactive-opacity-override = false;
         active-opacity = 1.0;
-        focus-exclude = [
-        ];
+        focus-exclude = [ ];
 
         opacity-rule = [
           "100:class_g = 'i3lock'"
@@ -184,13 +186,9 @@ let user = "nyeong";
           kern = "3x3box";
         };
 
-        shadow-exclude = [
-          "class_g = 'Dunst'"
-        ];
+        shadow-exclude = [ "class_g = 'Dunst'" ];
 
-        blur-background-exclude = [
-          "class_g = 'Dunst'"
-        ];
+        blur-background-exclude = [ "class_g = 'Dunst'" ];
 
         backend = "glx";
         vsync = false;
@@ -204,8 +202,17 @@ let user = "nyeong";
         log-level = "info";
 
         wintypes = {
-          normal = { fade = true; shadow = false; };
-          tooltip = { fade = true; shadow = false; opacity = 0.75; focus = true; full-shadow = false; };
+          normal = {
+            fade = true;
+            shadow = false;
+          };
+          tooltip = {
+            fade = true;
+            shadow = false;
+            opacity = 0.75;
+            focus = true;
+            full-shadow = false;
+          };
           dock = { shadow = false; };
           dnd = { shadow = false; };
           popup_menu = { opacity = 1.0; };
@@ -225,9 +232,7 @@ let user = "nyeong";
   };
 
   # When emacs builds from no cache, it exceeds the 90s timeout default
-  systemd.user.services.emacs = {
-    serviceConfig.TimeoutStartSec = "7min";
-  };
+  systemd.user.services.emacs = { serviceConfig.TimeoutStartSec = "7min"; };
 
   # Enable CUPS to print documents
   # services.printing.enable = true;
@@ -249,8 +254,7 @@ let user = "nyeong";
     ledger.enable = true;
   };
 
-
- # Add docker daemon
+  # Add docker daemon
   virtualisation.docker.enable = true;
   virtualisation.docker.logDriver = "json-file";
 
@@ -266,21 +270,17 @@ let user = "nyeong";
       openssh.authorizedKeys.keys = keys;
     };
 
-    root = {
-      openssh.authorizedKeys.keys = keys;
-    };
+    root = { openssh.authorizedKeys.keys = keys; };
   };
 
   # Don't require password for users in `wheel` group for these commands
   security.sudo = {
     enable = true;
     extraRules = [{
-      commands = [
-       {
-         command = "${pkgs.systemd}/bin/reboot";
-         options = [ "NOPASSWD" ];
-        }
-      ];
+      commands = [{
+        command = "${pkgs.systemd}/bin/reboot";
+        options = [ "NOPASSWD" ];
+      }];
       groups = [ "wheel" ];
     }];
   };

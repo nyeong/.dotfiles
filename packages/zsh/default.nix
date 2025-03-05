@@ -1,5 +1,4 @@
-{ user, pkgs, lib }:
-{
+{ user, pkgs, lib }: {
   home-manager.users.${user} = {
     programs.direnv = {
       enable = true;
@@ -52,14 +51,14 @@
       };
       plugins = [
         {
-            name = "powerlevel10k";
-            src = pkgs.zsh-powerlevel10k;
-            file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+          name = "powerlevel10k";
+          src = pkgs.zsh-powerlevel10k;
+          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
         }
         {
-            name = "powerlevel10k-config";
-            src = lib.cleanSource ./config;
-            file = "p10k.zsh";
+          name = "powerlevel10k-config";
+          src = lib.cleanSource ./config;
+          file = "p10k.zsh";
         }
         {
           name = "zsh-expand-all";
@@ -70,7 +69,7 @@
           };
         }
         {
-          name ="zsh-z";
+          name = "zsh-z";
           file = "zsh-z.plugin.zsh";
           src = builtins.fetchGit {
             url = "https://github.com/agkozak/zsh-z";
