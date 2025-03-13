@@ -1,1 +1,1 @@
-{ pkgs, ... }: { environment.systemPackages = [ pkgs.nixfmt pkgs.nil ]; }
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.nixfmt-rfc-style pkgs.nil ]; }

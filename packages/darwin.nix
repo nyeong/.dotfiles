@@ -11,9 +11,6 @@ let
 
   # 단순 cask로 설치할 프로그램
   casks = [
-    # Development Tools
-    "cursor"
-
     # Communication Tools
     "discord"
     "notion"

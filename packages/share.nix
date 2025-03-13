@@ -45,6 +45,8 @@ let
     yt-dlp
     tokei
 
+    code-cursor
+
     zinit
 
     # Encryption and security tools
