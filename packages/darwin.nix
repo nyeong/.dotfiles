@@ -32,6 +32,8 @@ let
     "tailscale"
 
     "zed"
+
+    "cursor"
   ];
 
   # home-manager로 설치할 프로그램

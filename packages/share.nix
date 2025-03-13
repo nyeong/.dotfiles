@@ -12,7 +12,7 @@ let
     (import ./git { inherit user name email pkgs; })
 
     # editor
-    (import ./emacs { inherit user pkgs; })
+    (import ./emacs { inherit user pkgs lib; })
 
     # font
     (import ./sf-mono { inherit user pkgs; })
@@ -44,8 +44,6 @@ let
     zip
     yt-dlp
     tokei
-
-    code-cursor
 
     zinit
 

@@ -1,26 +1,17 @@
 # TODO: Doom Emacs 의존성 넣기
 # - https://github.com/ryan4yin/nix-config/tree/main/home/base/tui/editors/emacs
+# config/doom은 nix로 관리하지 않고 직접 =ln -sf=
 # emacs가 느리다면:
 # - https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83
 
-{ user, pkgs }:
+{ user, pkgs, lib }:
 let
   # TODO: xdg input으로 주입받기
   xdg-data-home = ".local/share";
-  emacs-overlay-ref = "3e35634650753a5644cf07148cf49df1f023efce";
-  emacs-overlay-sha256 = "1jkggd9ypw0g42vx2r0a9fcahrhcvga68igddznxb4rfxaw6wzra";
-  emacs-overlay = import (builtins.fetchTarball {
-    url =
-      "https://github.com/nix-community/emacs-overlay/archive/${emacs-overlay-ref}.tar.gz";
-    sha256 = emacs-overlay-sha256;
-  });
-  doom-emacs = builtins.fetchGit {
-    url = "https://github.com/hlissner/doom-emacs";
-    rev = "2bc052425ca45a41532be0648ebd976d1bd2e6c1";
-  };
+  xdg-config-home = ".config";
 
 in {
-  home-manager.users.${user} = {
+  home-manager.users.${user} = { pkgs, lib, ... }: {
     programs.emacs = {
       enable = true;
       extraPackages = epkgs: [ epkgs.vterm ];
@@ -41,6 +32,15 @@ in {
       gcc
       cmake
     ];
+
+    home.activation = {
+      linkDoomConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        if [ -e "$HOME/${xdg-config-home}/doom" ]; then
+          $DRY_RUN_CMD rm -f "$HOME/${xdg-config-home}/doom"
+        fi
+        $DRY_RUN_CMD ln -sf "/Users/nyeong/.dotfiles/packages/emacs/config/doom" "$HOME/${xdg-config-home}/doom"
+      '';
+    };
 
     home.file = {
       # Raycast script so that "Run Emacs" is available and uses Emacs daemon
