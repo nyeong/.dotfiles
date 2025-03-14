@@ -375,6 +375,44 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
 ** hanassig 자동 동기화
 
 
+* Git 자동 동기화
+
+#+begin_src elisp :tangle config.el
+(defvar nyeong/git-sync-timer nil
+  "Timer for periodic git pull.")
+
+(defun nyeong/in-org-directory-p ()
+  "Return t if current buffer's file is in org-directory."
+  (when-let ((file-name (buffer-file-name)))
+    (string-prefix-p (expand-file-name org-directory)
+                    (expand-file-name file-name))))
+
+(defun nyeong/git-sync-pull ()
+  "Pull changes from remote repository for org-directory."
+  (when (and (nyeong/in-org-directory-p)
+             (not (active-minibuffer-window)))
+    (let ((default-directory org-directory))
+      (message "Pulling changes from org-directory remote...")
+      (shell-command "git pull"))))
+
+(defun nyeong/git-sync-save ()
+  "Commit and push changes when saving files in org-directory."
+  (when (nyeong/in-org-directory-p)
+    (let ((default-directory org-directory)
+          (file-relative-name (file-relative-name buffer-file-name org-directory)))
+      (shell-command "git add .")
+      (shell-command (format "git commit -m \"Auto commit: %s\"" file-relative-name))
+      (shell-command "git push"))))
+
+;; Start periodic pull timer (every 5 minutes)
+(unless nyeong/git-sync-timer
+  (setq nyeong/git-sync-timer
+        (run-with-timer 0 300 #'nyeong/git-sync-pull)))
+
+;; Add save hook for automatic commit and push
+(add-hook 'after-save-hook #'nyeong/git-sync-save)
+#+end_src
+
 * Aider
 
 #+begin_src elisp :tangle config.el
