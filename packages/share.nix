@@ -67,6 +67,8 @@ let
     noto-fonts-emoji
     meslo-lgs-nf
 
+    aider-chat
+
     # Node.js development tools
     nodePackages.npm # globally install npm
     nodejs

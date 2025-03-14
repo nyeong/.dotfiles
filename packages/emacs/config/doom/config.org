@@ -7,6 +7,11 @@
 
 (setq user-full-name "An Nyeong"
       user-mail-address "me@annyeong.me")
+
+;; secrets.el 파일 로드 (API 키 등 민감한 정보)
+(let ((secret-file (expand-file-name "secrets.el" doom-private-dir)))
+  (when (file-exists-p secret-file)
+    (load secret-file)))
 #+end_src
 
 * 외관
@@ -68,7 +73,7 @@
 
 ** 템플릿
 :PROPERTIES:
-:LAST_MODIFIED: [2025-03-12 Wed]
+:LAST_MODIFIED: [2025-03-14 Fri]
 :END:
 #+begin_src elisp :tangle config.el
 ;; 기본 템플릿
@@ -365,6 +370,15 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
               (when (and tangle-file (string-match-p "/" tangle-file))
                 (nyeong/org-babel-tangle-ensure-directory tangle-file)))))
 #+end_src
+* Aider
+
+#+begin_src elisp :tangle config.el
+(use-package aider
+  :config
+  (setq aider-args '("--model" "sonnet")))
+  (setenv "ANTHROPIC_API_KEY" ANTHROPIC_API_KEY)
+#+end_src
+
 * 언어별 설정
 
 ** Nix
