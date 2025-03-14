@@ -92,6 +92,7 @@ let
     python3
     elixir
     ruby
+    playwright
   ];
 in {
   imports = packages;
