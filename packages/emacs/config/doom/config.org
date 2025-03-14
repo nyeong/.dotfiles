@@ -370,6 +370,11 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
               (when (and tangle-file (string-match-p "/" tangle-file))
                 (nyeong/org-babel-tangle-ensure-directory tangle-file)))))
 #+end_src
+
+
+** hanassig 자동 동기화
+
+
 * Aider
 
 #+begin_src elisp :tangle config.el
