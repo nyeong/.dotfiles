@@ -375,8 +375,17 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
 ** hanassig Git 자동 동기화
 
 #+begin_src elisp :tangle config.el
-(defvar nyeong/git-sync-timer nil
+(defvar nyeong/git-sync-pull-timer nil
   "Timer for periodic git pull.")
+
+(defvar nyeong/git-sync-push-timer nil
+  "Timer for periodic git push.")
+
+(defvar nyeong/last-git-push-time nil
+  "Timestamp of the last git push.")
+
+(defvar nyeong/git-changes-pending nil
+  "Flag indicating whether there are uncommitted changes.")
 
 (defun nyeong/in-org-directory-p ()
   "Return t if current buffer's file is in org-directory."
@@ -392,22 +401,36 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
       (message "Pulling changes from org-directory remote...")
       (shell-command "git pull"))))
 
-(defun nyeong/git-sync-save ()
-  "Commit and push changes when saving files in org-directory."
-  (when (nyeong/in-org-directory-p)
-    (let ((default-directory org-directory)
-          (file-relative-name (file-relative-name buffer-file-name org-directory)))
+(defun nyeong/git-sync-push ()
+  "Commit and push changes if there are any pending changes."
+  (when (and nyeong/git-changes-pending
+             (not (active-minibuffer-window)))
+    (let ((default-directory org-directory))
       (shell-command "git add .")
-      (shell-command (format "git commit -m \"Auto commit: %s\"" file-relative-name))
-      (shell-command "git push"))))
+      (shell-command (format "git commit -m \"Auto commit: %s\"" 
+                            (format-time-string "%Y-%m-%d %H:%M:%S")))
+      (shell-command "git push")
+      (setq nyeong/git-changes-pending nil)
+      (setq nyeong/last-git-push-time (current-time))
+      (message "Changes pushed to remote repository."))))
+
+(defun nyeong/mark-git-changes ()
+  "Mark that there are pending changes to be committed."
+  (when (nyeong/in-org-directory-p)
+    (setq nyeong/git-changes-pending t)))
 
 ;; Start periodic pull timer (every 5 minutes)
-(unless nyeong/git-sync-timer
-  (setq nyeong/git-sync-timer
+(unless nyeong/git-sync-pull-timer
+  (setq nyeong/git-sync-pull-timer
         (run-with-timer 0 300 #'nyeong/git-sync-pull)))
 
-;; Add save hook for automatic commit and push
-(add-hook 'after-save-hook #'nyeong/git-sync-save)
+;; Start periodic push timer (every 10 minutes)
+(unless nyeong/git-sync-push-timer
+  (setq nyeong/git-sync-push-timer
+        (run-with-timer 0 600 #'nyeong/git-sync-push)))
+
+;; Add save hook to mark changes
+(add-hook 'after-save-hook #'nyeong/mark-git-changes)
 #+end_src
 * Aider
 
