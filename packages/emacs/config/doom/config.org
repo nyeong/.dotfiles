@@ -406,13 +406,15 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
   (when (and nyeong/git-changes-pending
              (not (active-minibuffer-window)))
     (let ((default-directory org-directory))
-      (shell-command "git add .")
-      (shell-command (format "git commit -m \"Auto commit: %s\"" 
-                            (format-time-string "%Y-%m-%d %H:%M:%S")))
-      (shell-command "git push")
-      (setq nyeong/git-changes-pending nil)
-      (setq nyeong/last-git-push-time (current-time))
-      (message "Changes pushed to remote repository."))))
+      (when (string-match-p "Changes not staged for commit"
+                           (shell-command-to-string "git status"))
+        (shell-command "git add .")
+        (shell-command (format "git commit -m \"Auto commit: %s\"" 
+                              (format-time-string "%Y-%m-%d %H:%M:%S")))
+        (shell-command "git push")
+        (setq nyeong/git-changes-pending nil)
+        (setq nyeong/last-git-push-time (current-time))
+        (message "Changes pushed to remote repository.")))))
 
 (defun nyeong/mark-git-changes ()
   "Mark that there are pending changes to be committed."
@@ -424,10 +426,10 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
   (setq nyeong/git-sync-pull-timer
         (run-with-timer 0 300 #'nyeong/git-sync-pull)))
 
-;; Start periodic push timer (every 10 minutes)
+;; Start periodic push timer (every 30 minutes)
 (unless nyeong/git-sync-push-timer
   (setq nyeong/git-sync-push-timer
-        (run-with-timer 0 600 #'nyeong/git-sync-push)))
+        (run-with-timer 0 1800 #'nyeong/git-sync-push)))
 
 ;; Add save hook to mark changes
 (add-hook 'after-save-hook #'nyeong/mark-git-changes)
