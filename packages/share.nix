@@ -93,6 +93,7 @@ let
     elixir
     ruby
     playwright
+    playwright-driver.browsers
   ];
 in {
   imports = packages;

@@ -372,10 +372,7 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
 #+end_src
 
 
-** hanassig 자동 동기화
-
-
-* Git 자동 동기화
+** hanassig Git 자동 동기화
 
 #+begin_src elisp :tangle config.el
 (defvar nyeong/git-sync-timer nil
@@ -412,7 +409,6 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
 ;; Add save hook for automatic commit and push
 (add-hook 'after-save-hook #'nyeong/git-sync-save)
 #+end_src
-
 * Aider
 
 #+begin_src elisp :tangle config.el
