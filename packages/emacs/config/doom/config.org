@@ -394,27 +394,33 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
                     (expand-file-name file-name))))
 
 (defun nyeong/git-sync-pull ()
-  "Pull changes from remote repository for org-directory."
+  "Pull changes from remote repository for org-directory asynchronously."
   (when (and (nyeong/in-org-directory-p)
              (not (active-minibuffer-window)))
     (let ((default-directory org-directory))
       (message "Pulling changes from org-directory remote...")
-      (shell-command "git pull"))))
+      (async-shell-command "git pull" "*Git Pull*")
+      (with-current-buffer "*Git Pull*"
+        (special-mode)))))
 
 (defun nyeong/git-sync-push ()
-  "Commit and push changes if there are any pending changes."
+  "Commit and push changes if there are any pending changes asynchronously."
   (when (and nyeong/git-changes-pending
              (not (active-minibuffer-window)))
     (let ((default-directory org-directory))
       (when (string-match-p "Changes not staged for commit"
                            (shell-command-to-string "git status"))
-        (shell-command "git add .")
-        (shell-command (format "git commit -m \"Auto commit: %s\"" 
-                              (format-time-string "%Y-%m-%d %H:%M:%S")))
-        (shell-command "git push")
+        (async-shell-command
+         (concat
+          "git add . && "
+          "git commit -m \"Auto commit: " (format-time-string "%Y-%m-%d %H:%M:%S") "\" && "
+          "git push")
+         "*Git Push*")
+        (with-current-buffer "*Git Push*"
+          (special-mode))
         (setq nyeong/git-changes-pending nil)
         (setq nyeong/last-git-push-time (current-time))
-        (message "Changes pushed to remote repository.")))))
+        (message "Git sync started in background...")))))
 
 (defun nyeong/mark-git-changes ()
   "Mark that there are pending changes to be committed."
