@@ -73,7 +73,7 @@
 
 ** 템플릿
 :PROPERTIES:
-:LAST_MODIFIED: [2025-03-14 Fri]
+:LAST_MODIFIED: [2025-03-17 Mon]
 :END:
 #+begin_src elisp :tangle config.el
 ;; 기본 템플릿
@@ -434,6 +434,7 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
 ;; Add save hook to mark changes
 (add-hook 'after-save-hook #'nyeong/mark-git-changes)
 #+end_src
+
 * Aider
 
 #+begin_src elisp :tangle config.el
