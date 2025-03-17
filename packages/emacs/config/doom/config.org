@@ -396,26 +396,29 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
 (defun nyeong/git-sync-pull ()
   "Pull changes from remote repository for org-directory asynchronously."
   (when (and (nyeong/in-org-directory-p)
-             (not (active-minibuffer-window)))
-    (let ((default-directory org-directory))
-      (message "Pulling changes from org-directory remote...")
-      (start-process "git-pull" nil "git" "pull")
-      (message "Pulling changes from org-directory remote...")))))
+             (not (active-minibuffer-window))
+             (not (current-message))  ; 메시지 영역이 사용중이지 않을 때만
+             (not isearch-mode))      ; 검색 중이 아닐 때만
+    (let ((default-directory org-directory)
+          (process-connection-type nil)) ; 프로세스 버퍼 생성 방지
+      (start-process "git-pull" nil "git" "pull"))))
 
 (defun nyeong/git-sync-push ()
   "Commit and push changes if there are any pending changes asynchronously."
   (when (and nyeong/git-changes-pending
-             (not (active-minibuffer-window)))
-    (let ((default-directory org-directory))
+             (not (active-minibuffer-window))
+             (not (current-message))  ; 메시지 영역이 사용중이지 않을 때만
+             (not isearch-mode))      ; 검색 중이 아닐 때만
+    (let ((default-directory org-directory)
+          (process-connection-type nil)) ; 프로세스 버퍼 생성 방지
       (when (string-match-p "Changes not staged for commit"
                            (shell-command-to-string "git status"))
-        (start-process "git-push" nil "git" "add" ".")
+        (start-process "git-add" nil "git" "add" ".")
         (start-process "git-commit" nil "git" "commit" "-m"
                       (concat "Auto commit: " (format-time-string "%Y-%m-%d %H:%M:%S")))
         (start-process "git-push" nil "git" "push")
         (setq nyeong/git-changes-pending nil)
-        (setq nyeong/last-git-push-time (current-time))
-        (message "Git sync started in background...")))))
+        (setq nyeong/last-git-push-time (current-time))))))
 
 (defun nyeong/mark-git-changes ()
   "Mark that there are pending changes to be committed."
