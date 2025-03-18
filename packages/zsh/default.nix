@@ -1,4 +1,9 @@
-{ user, pkgs, lib }: {
+{
+  user,
+  pkgs,
+  lib,
+}:
+{
   home-manager.users.${user} = {
     programs.direnv = {
       enable = true;
@@ -21,8 +26,6 @@
         emacsclient = "emacsclient -c -a emacs";
         switch = "nix run /Users/nyeong/.dotfiles#build-switch";
 
-        gls = "${pkgs.coreutils}/bin/ls";
-
         mv = "mv -i";
         cp = "cp -i";
         rm = "rm -i";
@@ -44,9 +47,13 @@
         gd = "git diff";
         gds = "git diff --staged";
         gl = "git log --oneline --graph";
+        glg = "git log --grep";
+        gls = "git log -S";
+        glG = "git log -G";
         gla = "git log --oneline --graph --all";
         gf = "git fetch --prune";
         gsw = "git switch";
+        gca = "git commit --amend --no-edit";
         gcm = "git commit -m";
       };
       plugins = [

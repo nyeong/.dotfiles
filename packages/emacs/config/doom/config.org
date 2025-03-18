@@ -371,7 +371,6 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
                 (nyeong/org-babel-tangle-ensure-directory tangle-file)))))
 #+end_src
 
-
 ** hanassig Git 자동 동기화
 
 #+begin_src elisp :tangle config.el
