@@ -203,7 +203,8 @@
 
 #+begin_src elisp :tangle config.el
 (after! org
-  (setq org-cite-export-processors '((t csl))
+  (setq org-agenda-files '("~/Nextcloud/hanassig/journals/weekly")
+        org-cite-export-processors '((t csl))
         org-cite-csl-styles-dir "~/Nextcloud/hanassig/csl-styles"
         org-cite-csl-default-style "ieee"
         org-cite-global-bibliography '("~/Nextcloud/hanassig/references.bib")))
@@ -312,7 +313,9 @@ Creates the weekly file if it doesn't exist with sections for all days of the we
                    ":CREATED_AT: <" (substring date-str 1 -1) ">\n"
                    ":LAST_MODIFIED: <" (substring date-str 1 -1) ">\n"
                    ":END:\n"
-                   "#+TITLE: " week-id "\n\n"
+                   "#+TITLE: " week-id "\n"
+                   "#+FILETAGS: :weekly:\n"
+                   "#+DATE: <" (format-time-string "%Y-%m-%d" monday) ">\n\n"
                    "* 이번주 목표 [0/0]\n"
                    "\n"
                    "* 주간 회고\n"
