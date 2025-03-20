@@ -203,7 +203,9 @@
 
 #+begin_src elisp :tangle config.el
 (after! org
-  (setq org-agenda-files '("~/Nextcloud/hanassig/journals/weekly")
+  (setq org-agenda-files '("~/Nextcloud/hanassig/journals/weekly"
+                          "~/Nextcloud/hanassig/projects"
+                          "~/Nextcloud/hanassig/areas")
         org-cite-export-processors '((t csl))
         org-cite-csl-styles-dir "~/Nextcloud/hanassig/csl-styles"
         org-cite-csl-default-style "ieee"
