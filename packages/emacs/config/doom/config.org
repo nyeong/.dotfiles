@@ -87,8 +87,8 @@
     :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         ,(concat
                           ":PROPERTIES:\n"
-                          ":CREATED_AT: [%<%Y-%m-%d %a>\n]"
-                          ":LAST_MODIFIED: [%<%Y-%m-%d %a>\n]"
+                          ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
+                          ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
                           ":END:\n"
                           "#+TITLE: ${title}\n\n"))
     ;; ensures that the full file will be displayed when captured.
@@ -101,8 +101,8 @@
     :target (file+head "projects/${slug}.org"
                        ,(concat
                          ":PROPERTIES:\n"
-                         ":CREATED_AT: [%<%Y-%m-%d %a>]\n"
-                         ":LAST_MODIFIED: [%<%Y-%m-%d %a>]\n"
+                         ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
+                         ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
                          ":END:\n\n"
                          "#+title: ${title}\n"
                          "#+DESCRIPTION: \n"))
@@ -117,8 +117,8 @@
     :target (file+head "areas/${slug}.org"
                        ,(concat
                          ":PROPERTIES:\n"
-                         ":CREATED_AT: [%<%Y-%m-%d %a>]\n"
-                         ":LAST_MODIFIED: [%<%Y-%m-%d %a>]\n"
+                         ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
+                         ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
                          ":END:\n"
                          "#+TITLE: ${title}\n"
                          "#+DESCRIPTION: \n"))
@@ -133,8 +133,8 @@
     :target (file+head "notes/${slug}.org"
                        ,(concat
                          ":PROPERTIES:\n"
-                         ":CREATED_AT: [%<%Y-%m-%d %a>]\n"
-                         ":LAST_MODIFIED: [%<%Y-%m-%d %a>]\n"
+                         ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
+                         ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
                          ":END:\n"
                          "#+TITLE: ${title}\n"
                          "#+DESCRIPTION: \n"))
@@ -149,8 +149,8 @@
     :target (file+head "inbox/capture.org"
                        ,(concat
                          ":PROPERTIES:\n"
-                         ":CREATED_AT: [%<%Y-%m-%d %a>]\n"
-                         ":LAST_MODIFIED: [%<%Y-%m-%d %a>]\n"
+                         ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
+                         ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
                          ":END:\n"
                          "#+TITLE: 캡처 박스\n"))
     :unnarrowed t)
