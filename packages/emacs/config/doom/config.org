@@ -192,7 +192,7 @@
       (goto-char (point-min))
       (when (re-search-forward ":LAST_MODIFIED:" nil t)
         (org-set-property "LAST_MODIFIED"
-                         (format-time-string "[%Y-%m-%d %a]"))))))
+                         (format-time-string "<%Y-%m-%d %a>"))))))
 
 (add-hook 'before-save-hook #'nyeong/update-last-modified)
 #+end_src
@@ -309,8 +309,8 @@ Creates the weekly file if it doesn't exist with sections for all days of the we
 
           (insert (concat
                    ":PROPERTIES:\n"
-                   ":CREATED_AT: " date-str "\n"
-                   ":LAST_MODIFIED: " date-str "\n"
+                   ":CREATED_AT: <" (substring date-str 1 -1) ">\n"
+                   ":LAST_MODIFIED: <" (substring date-str 1 -1) ">\n"
                    ":END:\n"
                    "#+TITLE: " week-id "\n\n"
                    "* 이번주 목표 [0/0]\n"
