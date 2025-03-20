@@ -300,7 +300,7 @@ Creates the weekly file if it doesn't exist with sections for all days of the we
             (let* ((day-time (time-add monday (seconds-to-time (* 86400 i))))
                    (day-str (format-time-string "[%Y-%m-%d %a]" day-time)))
               (setq days-content (concat days-content
-                                         "\n* " day-str "\n"
+                                         "\n* <" (substring day-str 1 -1) ">\n"
                                          "** 한 일\n"
                                          "- \n"
                                          "\n"
@@ -337,7 +337,7 @@ Creates the weekly file if it doesn't exist with sections for all days of the we
          (today-str (format-time-string "[%Y-%m-%d %a]" (current-time))))
     (switch-to-buffer buf)
     (goto-char (point-min))
-    (if (re-search-forward (concat "^\\* " today-str) nil t)
+    (if (re-search-forward (concat "^\\* <" (substring today-str 1 -1) ">") nil t)
         (progn
           ;; Move to the first item in "한 일" section
           (re-search-forward "^\\*\\* 한 일" nil t)
