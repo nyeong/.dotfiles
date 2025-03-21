@@ -68,7 +68,8 @@
 (setq org-directory "~/Nextcloud/hanassig/")
 (after! org-roam
   (setq org-roam-directory (file-truename "~/Nextcloud/hanassig")
-        epa-pinentry-mode 'loopback))
+        epa-pinentry-mode 'loopback
+        org-roam-node-template "#+TITLE: ${title}\n"))
 #+end_src
 
 ** 템플릿
@@ -194,7 +195,16 @@
         (org-set-property "LAST_MODIFIED"
                          (format-time-string "<%Y-%m-%d %a>"))))))
 
+(defun nyeong/upcase-org-title ()
+  "Convert #+title: to #+TITLE: in org files."
+  (when (derived-mode-p 'org-mode)
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "^#\\+title:" nil t)
+        (replace-match "#+TITLE:" t)))))
+
 (add-hook 'before-save-hook #'nyeong/update-last-modified)
+(add-hook 'before-save-hook #'nyeong/upcase-org-title)
 #+end_src
 
 ** Biblio
