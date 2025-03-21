@@ -132,12 +132,12 @@
     "%?"
     :target (file+head "notes/${slug}.org"
                        ,(concat
-                         "#+TITLE: ${title}\n"
-                         "#+DESCRIPTION: \n"
                          ":PROPERTIES:\n"
                          ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
                          ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
-                         ":END:\n"))
+                         ":END:\n"
+                         "#+TITLE: ${title}\n"
+                         "#+DESCRIPTION: \n"))
     :unnarrowed t)
   "개념 정리를 위한 org-roam 캡처 템플릿.
 - ${title}: 문서 제목")
