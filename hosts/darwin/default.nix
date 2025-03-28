@@ -1,8 +1,15 @@
-{ agenix, config, pkgs, ... }:
+{
+  agenix,
+  config,
+  pkgs,
+  ...
+}:
 
-let user = "nyeong";
+let
+  user = "nyeong";
 
-in {
+in
+{
   imports = [
     ../../modules/darwin/secrets.nix
     ../../modules/darwin/home-manager.nix
@@ -17,11 +24,15 @@ in {
   nix = {
     package = pkgs.nix;
     settings = {
-      trusted-users = [ "@admin" "${user}" ];
-      substituters =
-        [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
-      trusted-public-keys =
-        [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+      trusted-users = [
+        "@admin"
+        "${user}"
+      ];
+      substituters = [
+        "https://nix-community.cachix.org"
+        "https://cache.nixos.org"
+      ];
+      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
     };
 
     gc = {
@@ -44,8 +55,7 @@ in {
   system.checks.verifyNixPath = false;
 
   # Load configuration that is shared across systems
-  environment.systemPackages = with pkgs;
-    [ agenix.packages."${pkgs.system}".default ];
+  environment.systemPackages = with pkgs; [ agenix.packages."${pkgs.system}".default ];
 
   launchd.user.agents.emacs.path = [ config.environment.systemPath ];
   launchd.user.agents.emacs.serviceConfig = {
@@ -59,13 +69,49 @@ in {
     StandardOutPath = "/tmp/emacs.out.log";
   };
 
+  # sudo 요구 시 TouchId로 패스
   security.pam.enableSudoTouchIdAuth = true;
+
+  networking = {
+    hostName = "nyeong-air";
+  };
 
   system = {
     stateVersion = 4;
 
     defaults = {
+
+      screensaver.askForPassword = true;
+      screensaver.askForPasswordDelay = 0;
+      CustomUserPreferences = {
+        "com.apple.symbolichotkeys" = {
+          AppleSymbolicHotKeys = {
+
+            # 언어 변경을 shift + space로
+            "60" = {
+              enabled = true;
+              value = {
+                parameters = [
+                  32
+                  49
+                  131072
+                ];
+                type = "standard";
+              };
+            };
+            # Spotlight Search
+            "64" = {
+              enabled = false;
+            };
+          };
+        };
+      };
       NSGlobalDomain = {
+        AppleICUForce24HourTime = true;
+        NSAutomaticCapitalizationEnabled = false;
+        NSAutomaticPeriodSubstitutionEnabled = false;
+        NSAutomaticQuoteSubstitutionEnabled = false;
+        NSAutomaticSpellingCorrectionEnabled = false;
         AppleShowAllExtensions = true;
         ApplePressAndHoldEnabled = false;
 
@@ -90,7 +136,9 @@ in {
         tilesize = 24;
       };
 
-      finder = { _FXShowPosixPathInTitle = false; };
+      finder = {
+        _FXShowPosixPathInTitle = false;
+      };
 
       trackpad = {
         Clicking = false;
@@ -103,5 +151,7 @@ in {
   };
 
   # TODO: zsh에 의존하는 건 zsh에서 isDarwin으로 분기하기
-  programs.zsh = { enableGlobalCompInit = false; };
+  programs.zsh = {
+    enableGlobalCompInit = false;
+  };
 }

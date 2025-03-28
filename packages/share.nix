@@ -9,7 +9,14 @@ let
     # terminal
     (import ./zsh { inherit user pkgs lib; })
     (import ./zellij { inherit user pkgs; })
-    (import ./git { inherit user name email pkgs; })
+    (import ./git {
+      inherit
+        user
+        name
+        email
+        pkgs
+        ;
+    })
 
     # editor
     (import ./emacs { inherit user pkgs lib; })
@@ -95,8 +102,11 @@ let
     playwright
     playwright-driver.browsers
   ];
-in {
+in
+{
   imports = packages;
 
-  home-manager.users.${user}.home = { packages = home-packages; };
+  home-manager.users.${user}.home = {
+    packages = home-packages;
+  };
 }

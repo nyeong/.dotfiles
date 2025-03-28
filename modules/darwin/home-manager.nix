@@ -30,6 +30,13 @@ in {
           sharedFiles
           additionalFiles
           { "emacs-launcher.command".source = myEmacsLauncher; }
+          {
+            "~/Library/KeyBindings/DefaultkeyBinding.dict".text = ''
+              {
+                "₩" = ("insertText:", "`");
+              }
+              '';
+          }
         ];
 
         stateVersion = "24.11";
