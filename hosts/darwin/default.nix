@@ -86,18 +86,15 @@ in
       CustomUserPreferences = {
         "com.apple.symbolichotkeys" = {
           AppleSymbolicHotKeys = {
-
             # 언어 변경을 shift + space로
             "60" = {
               enabled = true;
-              value = {
-                parameters = [
-                  32
-                  49
-                  131072
-                ];
-                type = "standard";
-              };
+              value.parameters = [
+                32
+                49
+                131072
+              ];
+              value.type = "standard";
             };
             # Spotlight Search
             "64" = {
@@ -114,6 +111,7 @@ in
         NSAutomaticSpellingCorrectionEnabled = false;
         AppleShowAllExtensions = true;
         ApplePressAndHoldEnabled = false;
+        # NSToolbarTitleViewRolloverDelay = 0;
 
         # 키 반복 속도
         # 120, 90, 60, 30, 12, 6, 2
@@ -123,6 +121,7 @@ in
         # 120, 94, 68, 35, 25, 15
         InitialKeyRepeat = 15;
 
+        # "com.apple.Preview.NSWindowSupportsAutomaticInlineTitle" = false;
         "com.apple.mouse.tapBehavior" = 1;
         "com.apple.sound.beep.volume" = 0.0;
         "com.apple.sound.beep.feedback" = 0;
