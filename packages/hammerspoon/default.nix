@@ -14,5 +14,12 @@
       source = ./config;
       recursive = true;
     };
+    file.".config/hammerspoon/Spoons/PaperWM.spoon" = {
+      source = builtins.fetchGit {
+        url = "https://github.com/mogenson/PaperWM.spoon.git";
+        rev = "41389206e739e6f48ea59ddcfc07254226f4c93f";
+      };
+      recursive = true;
+    };
   };
 }
