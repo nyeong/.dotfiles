@@ -46,6 +46,7 @@ let
     # Archive
     keka
     # the-unarchiver
+    # utm
   ];
 
   # Mac App Store 앱

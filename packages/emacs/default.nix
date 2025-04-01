@@ -4,20 +4,65 @@
 # emacs가 느리다면:
 # - https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83
 
-{ user, pkgs, lib }:
+{ user, pkgs, lib, config }:
 let
   # TODO: xdg input으로 주입받기
   xdg-data-home = ".local/share";
   xdg-config-home = ".config";
+  
+  emacs-overlay = import (fetchTarball {
+    url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
+    sha256 = "0cihccjd6xlsf012hfr8p1pv2dw5jbyy6cnlrd2lzygk50yhpsby";
+  });
+  
+  my-emacs = pkgs.emacs-unstable.override {
+    withNativeCompilation = false;
+    withSQLite3 = true;
+    withTreeSitter = true;
+    withWebP = true;
+  };
+  
+  my-emacs-with-packages = (pkgs.emacsPackagesFor my-emacs).emacsWithPackages (epkgs: with epkgs; [
+    pkgs.libgccjit
+    pkgs.gcc
+    # pkgs.mu
+    vterm
+    # multi-vterm
+    # pdf-tools
+    treesit-grammars.with-all-grammars
+  ]);
+ 
 
 in {
+  services.emacs.package = my-emacs-with-packages;
+  services.emacs.enable = true;
+
+  nixpkgs.overlays = [ emacs-overlay ];
+  
+  # macOS only
+  launchd.user.agents.emacs.path = [ config.environment.systemPath ];
+  launchd.user.agents.emacs.serviceConfig = {
+    KeepAlive = true;
+    RunAtLoad = true;
+    ProgramArguments = [
+      "/bin/sh"
+      "-c"
+      "/bin/wait4path ${my-emacs-with-packages}/bin/emacs && exec ${my-emacs-with-packages}/bin/emacs --fg-daemon"
+    ];
+    StandardErrorPath = "/tmp/emacs.err.log";
+    StandardOutPath = "/tmp/emacs.out.log";
+  };
+
   home-manager.users.${user} = { pkgs, lib, ... }: {
     programs.emacs = {
       enable = true;
-      extraPackages = epkgs: [ epkgs.vterm ];
+      package = my-emacs-with-packages;
     };
 
     home.packages = with pkgs; [
+      emacs-all-the-icons-fonts
+      (aspellWithDicts (d: [d.en d.sv]))
+
       # Doom Emacs dependencies
       git
       ripgrep
@@ -27,6 +72,9 @@ in {
       mediainfo
       gnutar
       unzip
+
+      # for native complication
+      # libgccjit
 
       # vterm depedency
       gcc
@@ -40,6 +88,14 @@ in {
         fi
         $DRY_RUN_CMD ln -sf "/Users/nyeong/.dotfiles/packages/emacs/config/doom" "$HOME/${xdg-config-home}/doom"
       '';
+      
+      # # macOS용 Emacs.app 심볼릭 링크 생성
+      # linkEmacsApp = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      #   if [ -d "${my-emacs-with-packages}/Applications/Emacs.app" ]; then
+      #     $DRY_RUN_CMD mkdir -p "$HOME/Applications"
+      #     $DRY_RUN_CMD ln -sf "${my-emacs-with-packages}/Applications/Emacs.app" "$HOME/Applications/Emacs.app"
+      #   fi
+      # '';
     };
 
     home.file = {
@@ -63,10 +119,10 @@ in {
 
           if [[ $1 = "-t" ]]; then
             # Terminal mode
-            ${pkgs.emacs}/bin/emacsclient -t $@
+            ${my-emacs-with-packages}/bin/emacsclient -t $@
           else
             # GUI mode
-            ${pkgs.emacs}/bin/emacsclient -c -n $@
+            ${my-emacs-with-packages}/bin/emacsclient -c -n $@
           fi
         '';
       };

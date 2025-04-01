@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 let
   user = "nyeong";
   name = "An Nyeong";
@@ -19,7 +19,7 @@ let
     })
 
     # editor
-    (import ./emacs { inherit user pkgs lib; })
+    (import ./emacs { inherit user pkgs lib config; })
 
     # font
     (import ./sf-mono { inherit user pkgs; })
@@ -33,8 +33,6 @@ let
   home-packages = with pkgs; [
     # General packages for development and system management
     wezterm
-    aspell
-    aspellDicts.en
     bash-completion
     bat
     btop
@@ -60,8 +58,8 @@ let
     gnupg
     libfido2
 
-    gcc
-    libgccjit
+    # gcc
+    # libgccjit
 
     # Media-related packages
     emacs-all-the-icons-fonts
