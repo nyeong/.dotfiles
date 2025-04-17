@@ -99,6 +99,11 @@ let
     ruby
     playwright
     playwright-driver.browsers
+
+    # haskell
+    haskellPackages.ghc
+    haskellPackages.haskell-language-server
+    haskellPackages.stack
   ];
 in
 {

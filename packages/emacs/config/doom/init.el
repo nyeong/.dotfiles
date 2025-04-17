@@ -86,7 +86,7 @@
      ;;grammar           ; tasing grammar mistake every you make
 
      :tools
-     ;;ansible
+     ansible
      biblio            ; Writes a PhD for you (citation needed)
      ;;collab            ; buffers with friends
      ;;debugger          ; FIXME stepping through code, to help you add bugs
@@ -136,7 +136,7 @@
      ;;gdscript          ; the language you waited for
      ;;(go +lsp)         ; the hipster dialect
      ;;(graphql +lsp)    ; Give queries a REST
-     ;;(haskell +lsp)    ; a language that's lazier than I am
+     (haskell +lsp +tree-sitter)    ; a language that's lazier than I am
      ;;hy                ; readability of scheme w/ speed of python
      ;;idris             ; a language you can depend on
      ;;json              ; At least it ain't XML
@@ -167,31 +167,31 @@
      ;;rest              ; Emacs as a REST client
      ;;rst               ; ReST in peace
      ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-     (rust +lsp +tree-sitter)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-     ;;scala             ; java, but good
-     (scheme +guile)            ; a fully conniving family of lisps
-     (sh +lsp +tree-sitter)                ; she sells {ba,z,fi}sh shells on the C xor
-     ;;sml
-     ;;solidity          ; do you need a blockchain? No.
-     ;;swift             ; who asked for emoji variables?
-     ;;terra             ; Earth and Moon in alignment for performance.
-     (web +lsp +tree-sitter)               ; the tubes
-     (yaml +lsp +tree-sitter)              ; JSON, but readable
-     (zig +lsp +tree-sitter)               ; C, but simpler
+       (rust +lsp +tree-sitter)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;scala             ; java, but good
+       (scheme +guile)            ; a fully conniving family of lisps
+       (sh +lsp +tree-sitter)                ; she sells {ba,z,fi}sh shells on the C xor
+       ;;sml
+       ;;solidity          ; do you need a blockchain? No.
+       ;;swift             ; who asked for emoji variables?
+       ;;terra             ; Earth and Moon in alignment for performance.
+       (web +lsp +tree-sitter)               ; the tubes
+       (yaml +lsp +tree-sitter)              ; JSON, but readable
+       (zig +lsp +tree-sitter)               ; C, but simpler
 
-     :email
-     ;;(mu4e +org +gmail)
-     ;;notmuch
-     ;;(wanderlust +gmail)
+       :email
+       ;;(mu4e +org +gmail)
+       ;;notmuch
+       ;;(wanderlust +gmail)
 
-     :app
-     ;;calendar
-     ;;emms
-     ;;everywhere        ; *leave* Emacs!? You must be joking
-     ;;irc               ; how neckbeards socialize
-     ;;(rss +org)        ; emacs as an RSS reader
-     ;;twitter           ; twitter client https://twitter.com/vnought
+       :app
+       ;;calendar
+       ;;emms
+       ;;everywhere        ; *leave* Emacs!? You must be joking
+       ;;irc               ; how neckbeards socialize
+       ;;(rss +org)        ; emacs as an RSS reader
+       ;;twitter           ; twitter client https://twitter.com/vnought
 
-     :config
-     literate
-     (default +bindings +smartparens))
+       :config
+       literate
+       (default +bindings +smartparens))

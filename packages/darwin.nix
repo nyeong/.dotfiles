@@ -43,6 +43,8 @@ let
 
     raycast
 
+    anki-bin
+
     # Archive
     keka
     # the-unarchiver
