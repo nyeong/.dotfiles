@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   user = "nyeong";
   name = "An Nyeong";
@@ -19,7 +24,14 @@ let
     })
 
     # editor
-    (import ./emacs { inherit user pkgs lib config; })
+    (import ./emacs {
+      inherit
+        user
+        pkgs
+        lib
+        config
+        ;
+    })
 
     # font
     (import ./sf-mono { inherit user pkgs; })
@@ -101,9 +113,9 @@ let
     playwright-driver.browsers
 
     # haskell
-    haskellPackages.ghc
-    haskellPackages.haskell-language-server
-    haskellPackages.stack
+    haskell.packages.ghc98.ghc
+    haskell.packages.ghc98.haskell-language-server
+    haskell.packages.ghc98.stack
   ];
 in
 {
