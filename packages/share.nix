@@ -62,6 +62,9 @@ let
     yt-dlp
     tokei
 
+    dbeaver-bin
+    postgresql
+
     zinit
 
     # Encryption and security tools
@@ -108,6 +111,7 @@ let
 
     python3
     elixir
+    elixir_ls
     ruby
     playwright
     playwright-driver.browsers

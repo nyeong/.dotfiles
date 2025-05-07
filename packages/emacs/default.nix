@@ -58,10 +58,10 @@ in
   home-manager.users.${user} =
     { pkgs, lib, ... }:
     {
-      # programs.emacs = {
-      # enable = true;
-      # package = my-emacs-with-packages;
-      # };
+      programs.emacs = {
+        enable = true;
+        package = my-emacs-with-packages;
+      };
 
       home.packages = with pkgs; [
         # my-emacs-with-packages

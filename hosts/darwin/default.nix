@@ -17,9 +17,6 @@ in
     agenix.darwinModules.default
   ];
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
-
   # Setup user, packages, programs
   nix = {
     package = pkgs.nix;
@@ -36,7 +33,6 @@ in
     };
 
     gc = {
-      user = "root";
       automatic = true;
       interval = {
         Weekday = 0;
@@ -57,10 +53,9 @@ in
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [ agenix.packages."${pkgs.system}".default ];
 
-
-
   # sudo 요구 시 TouchId로 패스
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
+  ids.gids.nixbld = 350;
 
   networking = {
     hostName = "nyeong-air";

@@ -96,7 +96,7 @@
      ;;ein               ; tame Jupyter notebooks with emacs
      (eval +overlay)     ; run code, run (also, repls)
      lookup              ; navigate your code and its documentation
-     lsp               ; M-x vscode
+     (lsp +peek)               ; M-x vscode
      (magit +forge)             ; a git porcelain for Emacs
      ;;make              ; run make tasks from Emacs
      ;;pass              ; password manager for nerds
@@ -122,13 +122,13 @@
      ;;csharp            ; unity, .NET, and mono shenanigans
      ;;data              ; config/data formats
      ;;(dart +flutter)   ; paint ui and not much else
-     ;;dhall
-     (elixir +lsp +tree-sitter)            ; erlang done right
-     ;;elm               ; care for a cup of TEA?
-     emacs-lisp        ; drown in parentheses
-     ;;erlang            ; an elegant language for a more civilized age
-     ;;ess               ; emacs speaks statistics
-     ;;factor
+       ;;dhall
+       (elixir +lsp +tree-sitter)            ; erlang done right
+       ;;elm               ; care for a cup of TEA?
+       emacs-lisp        ; drown in parentheses
+       ;;erlang            ; an elegant language for a more civilized age
+       ;;ess               ; emacs speaks statistics
+       ;;factor
      ;;faust             ; dsp, but you get to keep your soul
      ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
      ;;fsharp            ; ML stands for Microsoft's Language
@@ -152,7 +152,7 @@
      ;;nim               ; python + lisp at the speed of c
      (nix +tree-sitter +lsp)               ; I hereby declare "nix geht mehr!"
      ;;ocaml             ; an objective camel
-     (org +roam2 +pretty)               ; organize your plain life in plain text
+     (org +roam2 +pretty +dragndrop)               ; organize your plain life in plain text
      ;;php               ; perl's insecure younger brother
      ;;plantuml          ; diagrams for confusing people more
      ;;graphviz          ; diagrams for confusing yourself even more
@@ -167,20 +167,20 @@
      ;;rest              ; Emacs as a REST client
      ;;rst               ; ReST in peace
      ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       (rust +lsp +tree-sitter)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-       ;;scala             ; java, but good
-       (scheme +guile)            ; a fully conniving family of lisps
-       (sh +lsp +tree-sitter)                ; she sells {ba,z,fi}sh shells on the C xor
-       ;;sml
-       ;;solidity          ; do you need a blockchain? No.
-       ;;swift             ; who asked for emoji variables?
-       ;;terra             ; Earth and Moon in alignment for performance.
-       (web +lsp +tree-sitter)               ; the tubes
-       (yaml +lsp +tree-sitter)              ; JSON, but readable
-       (zig +lsp +tree-sitter)               ; C, but simpler
+     (rust +lsp +tree-sitter)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+     ;;scala             ; java, but good
+     (scheme +guile)            ; a fully conniving family of lisps
+     (sh +lsp +tree-sitter)                ; she sells {ba,z,fi}sh shells on the C xor
+     ;;sml
+     ;;solidity          ; do you need a blockchain? No.
+     ;;swift             ; who asked for emoji variables?
+     ;;terra             ; Earth and Moon in alignment for performance.
+     (web +lsp +tree-sitter)               ; the tubes
+     (yaml +lsp +tree-sitter)              ; JSON, but readable
+     (zig +lsp +tree-sitter)               ; C, but simpler
 
-       :email
-       ;;(mu4e +org +gmail)
+     :email
+     ;;(mu4e +org +gmail)
        ;;notmuch
        ;;(wanderlust +gmail)
 

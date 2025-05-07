@@ -40,20 +40,21 @@
 
 ** 글꼴
 
-|  1245678 |   |
-|----------+---|
+|   1245678 |   |
+|-----------+---|
 | one둘삼넷 |   |
-|          |   |
+|           |   |
 
 #+begin_src elisp :tangle config.el
-(setq doom-font (font-spec :family "Liga SFMono Nerd Font" :size 14 :weight 'semi-light))
+(setq doom-font (font-spec :family "Monoplex KR Wide Nerd" :size 14 :weight 'semi-light))
 ;;       doom-variable-pitch-font (font-spec :family "Liga SFMono Nerd Font" :size 14 :weight 'semi-light)
 ;;       doom-serif-font (font-spec :family "Liga SFMono Nerd Font" :size 14 :weight 'semi-light))
 
-(set-face-attribute 'default nil :family "Liga SFMono Nerd Font")
-(set-fontset-font "fontset-default" '(#x1100 . #xffdc) (font-spec :family "Monoplex KR Nerd"))
-(set-fontset-font "fontset-default" '(#xe0bc . #xf66e) (font-spec :family "Monoplex KR Nerd"))
-(set-fontset-font "fontset-default" 'hangul (font-spec :family "Monoplex KR Nerd"))
+(set-face-attribute 'default nil :family "Monoplex KR Wide Nerd")
+;; (set-face-attribute 'default nil :family "Liga SFMono Nerd Font")
+;; (set-fontset-font "fontset-default" '(#x1100 . #xffdc) (font-spec :family "Monoplex KR Nerd"))
+;; (set-fontset-font "fontset-default" '(#xe0bc . #xf66e) (font-spec :family "Monoplex KR Nerd"))
+;; (set-fontset-font "fontset-default" 'hangul (font-spec :family "Monoplex KR Nerd"))
 (set-face-attribute 'default nil :height 140)
 (set-default 'line-spacing 3)
 
@@ -74,7 +75,7 @@
 
 ** 템플릿
 :PROPERTIES:
-:LAST_MODIFIED: [2025-03-17 Mon]
+:LAST_MODIFIED: <2025-04-23 Wed>
 :END:
 #+begin_src elisp :tangle config.el
 ;; 기본 템플릿

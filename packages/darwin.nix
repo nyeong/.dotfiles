@@ -31,10 +31,10 @@ let
     "medis"
     "tailscale"
 
-    "cursor"
-
     "nextcloud"
     "orbstack"
+
+    "autodesk-fusion"
   ];
 
   # home-manager로 설치할 프로그램
@@ -45,6 +45,8 @@ let
     raycast
 
     anki-bin
+
+    code-cursor
 
     # Archive
     keka
