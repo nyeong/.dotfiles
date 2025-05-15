@@ -13,11 +13,11 @@ let
   casks = [
     # Communication Tools
     "discord"
-    "notion"
-    "slack"
 
     # Utility Tools
     "syncthing"
+    "tailscale"
+    "nextcloud"
 
     # Productivity Tools
     "raycast"
@@ -26,15 +26,12 @@ let
     "arc"
 
     "kicad"
-    "datagrip"
     "linearmouse"
-    "medis"
-    "tailscale"
+    # "medis"
 
-    "nextcloud"
     "orbstack"
-
-    "autodesk-fusion"
+    "freecad"
+    "moonlight"
   ];
 
   # home-manager로 설치할 프로그램
