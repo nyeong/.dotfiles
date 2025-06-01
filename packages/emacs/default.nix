@@ -80,6 +80,9 @@ in
         mediainfo
         gnutar
         unzip
+
+        # babel
+        d2
       ];
 
       home.activation = {

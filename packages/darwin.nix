@@ -59,6 +59,7 @@ let
   masApps = {
     # "wireguard" = 1451685025;
     "KakaoTalk" = 869223134;
+    "Kyobo" = 445290463;
   };
 in
 {
