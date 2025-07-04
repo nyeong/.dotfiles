@@ -122,13 +122,13 @@
      ;;csharp            ; unity, .NET, and mono shenanigans
      ;;data              ; config/data formats
      ;;(dart +flutter)   ; paint ui and not much else
-       ;;dhall
-       (elixir +lsp +tree-sitter)            ; erlang done right
-       ;;elm               ; care for a cup of TEA?
-       emacs-lisp        ; drown in parentheses
-       ;;erlang            ; an elegant language for a more civilized age
-       ;;ess               ; emacs speaks statistics
-       ;;factor
+     ;;dhall
+     (elixir +lsp +tree-sitter)            ; erlang done right
+     ;;elm               ; care for a cup of TEA?
+     emacs-lisp        ; drown in parentheses
+     ;;erlang            ; an elegant language for a more civilized age
+     ;;ess               ; emacs speaks statistics
+     ;;factor
      ;;faust             ; dsp, but you get to keep your soul
      ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
      ;;fsharp            ; ML stands for Microsoft's Language
@@ -152,7 +152,7 @@
      ;;nim               ; python + lisp at the speed of c
      (nix +tree-sitter +lsp)               ; I hereby declare "nix geht mehr!"
      ;;ocaml             ; an objective camel
-     (org +roam2 +pretty +dragndrop)               ; organize your plain life in plain text
+     (org +roam2 +pretty +dragndrop +hugo)               ; organize your plain life in plain text
      ;;php               ; perl's insecure younger brother
      ;;plantuml          ; diagrams for confusing people more
      ;;graphviz          ; diagrams for confusing yourself even more

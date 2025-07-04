@@ -9,6 +9,10 @@
 (package! d2-mode)
 (package! ob-d2)
 
+(package! org-ql
+ :recipe (:host github :repo "alphapapa/org-ql"
+       :files (:defaults (:exclude "helm-*.el"))))
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
 

@@ -1,10 +1,16 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   name = "An Nyeong";
   user = "nyeong";
   email = "me@annyeong.me";
-in {
+in
+{
   # TODO: wezterm도 packages로 옮기자
   wezterm = {
     enable = true;
@@ -36,7 +42,9 @@ in {
       vim-startify
       vim-tmux-navigator
     ];
-    settings = { ignorecase = true; };
+    settings = {
+      ignorecase = true;
+    };
     extraConfig = ''
       "" General
       set number
@@ -143,23 +151,15 @@ in {
     '';
   };
 
-  # TODO: ssh도 packages로 옮기자
   ssh = {
     enable = true;
-    includes = [
-      (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
-        "/home/${user}/.ssh/config_external")
-      (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
-        "/Users/${user}/.ssh/config_external")
-    ];
+    addKeysToAgent = "yes";
     matchBlocks = {
       "github.com" = {
         identitiesOnly = true;
         identityFile = [
-          (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
-            "/home/${user}/.ssh/id_ed25519")
-          (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
-            "/Users/${user}/.ssh/id_ed25519")
+          (lib.mkIf pkgs.stdenv.hostPlatform.isLinux "/home/${user}/.ssh/id_ed25519")
+          (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "/Users/${user}/.ssh/id_ed25519")
         ];
       };
     };

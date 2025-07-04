@@ -26,6 +26,7 @@
       extraConfig = {
         init.defaultBranch = "main";
         core = {
+          quotepath = false;
           editor = "vim";
           autocrlf = "input";
           pager = "delta";

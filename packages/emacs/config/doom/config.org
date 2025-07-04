@@ -73,9 +73,24 @@
         org-roam-node-template "#+TITLE: ${title}\n"))
 #+end_src
 
+** org-ql
+
+#+begin_src elisp :tangle config.el
+(use-package! org-ql
+  :after org)
+#+end_src
+
+** 기본 설정
+
+#+begin_src elisp :tangle config.el
+;; 픽셀 단위 스크롤
+(pixel-scroll-precision-mode t)
+#+end_src
+
+** Org Attach
 ** 템플릿
 :PROPERTIES:
-:LAST_MODIFIED: <2025-05-16 Fri>
+:LAST_MODIFIED: <2025-06-18 Wed>
 :END:
 #+begin_src elisp :tangle config.el
 ;; 기본 템플릿
@@ -434,16 +449,23 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
              (not (active-minibuffer-window))
              (not (current-message))  ; 메시지 영역이 사용중이지 않을 때만
              (not isearch-mode))      ; 검색 중이 아닐 때만
-    (let ((default-directory org-directory)
-          (process-connection-type nil)) ; 프로세스 버퍼 생성 방지
-      (when (string-match-p "Changes not staged for commit"
-                           (shell-command-to-string "git status"))
-        (start-process "git-add" nil "git" "add" ".")
-        (start-process "git-commit" nil "git" "commit" "-m"
-                      (concat "Auto commit: " (format-time-string "%Y-%m-%d %H:%M:%S")))
-        (start-process "git-push" nil "git" "push")
+    (let* ((daily-commit-script (expand-file-name "bin/daily_commit.sh" org-directory))
+           (repo-path org-directory)
+           (full-command (format "%s %s" daily-commit-script repo-path)))
+      (unless (file-exists-p daily-commit-script)
+        (message "Error: Daily commit script not found at %s" daily-commit-script)
+        (ding)
         (setq nyeong/git-changes-pending nil)
-        (setq nyeong/last-git-push-time (current-time))))))
+        (signal 'file-error (list "Daily commit script not found" daily-commit-script)))
+      (message "Running daily Git sync for %s..." repo-path)
+      (start-process-shell-command
+        "git-daily-sync-process"
+        nil
+        full-command)
+
+      (setq nyeong/git-changes-pending nil)
+      (setq nyeong/last-git-push-time (current-time))
+      (message "Daily Git sync process started."))))
 
 (defun nyeong/mark-git-changes ()
   "Mark that there are pending changes to be committed."
@@ -463,6 +485,9 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
 ;; Add save hook to mark changes
 (add-hook 'after-save-hook #'nyeong/mark-git-changes)
 #+end_src
+
+#+RESULTS:
+| doom-modeline-update-vcs | doom-modeline-update-buffer-file-name | nyeong/mark-git-changes | +evil-display-vimlike-save-message-h | doom-auto-revert-buffers-h | doom-guess-mode-h |
 
 * 언어별 설정
 
