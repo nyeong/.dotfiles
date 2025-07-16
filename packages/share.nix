@@ -39,10 +39,21 @@ let
 
     # lang
     (import ./nix { inherit pkgs; })
+    (import ./javascript {
+      inherit
+        user
+        pkgs
+        lib
+        config
+        ;
+    })
   ];
 
   # home-manager로 설치할 프로그램
   home-packages = with pkgs; [
+    claude-code
+    gemini-cli
+
     # General packages for development and system management
     wezterm
     bash-completion
@@ -61,6 +72,7 @@ let
     zip
     yt-dlp
     tokei
+    xz
 
     dbeaver-bin
     postgresql
@@ -86,12 +98,6 @@ let
     noto-fonts
     noto-fonts-emoji
     meslo-lgs-nf
-
-    aider-chat
-
-    # Node.js development tools
-    nodePackages.npm # globally install npm
-    nodejs
 
     # Text and terminal utilities
     htop

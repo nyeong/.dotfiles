@@ -90,7 +90,7 @@
 ** Org Attach
 ** 템플릿
 :PROPERTIES:
-:LAST_MODIFIED: <2025-06-18 Wed>
+:LAST_MODIFIED: <2025-07-13 Sun>
 :END:
 #+begin_src elisp :tangle config.el
 ;; 기본 템플릿
@@ -485,9 +485,6 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
 ;; Add save hook to mark changes
 (add-hook 'after-save-hook #'nyeong/mark-git-changes)
 #+end_src
-
-#+RESULTS:
-| doom-modeline-update-vcs | doom-modeline-update-buffer-file-name | nyeong/mark-git-changes | +evil-display-vimlike-save-message-h | doom-auto-revert-buffers-h | doom-guess-mode-h |
 
 * 언어별 설정
 

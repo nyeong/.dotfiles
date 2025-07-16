@@ -15,15 +15,11 @@ let
     "discord"
 
     # Utility Tools
-    "syncthing"
     "tailscale"
     "nextcloud"
 
     # Productivity Tools
     "raycast"
-
-    # Browsers
-    "arc"
 
     "kicad"
     "linearmouse"

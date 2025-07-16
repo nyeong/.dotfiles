@@ -49,7 +49,7 @@ in
             { "emacs-launcher.command".source = myEmacsLauncher; }
           ];
 
-          stateVersion = "24.11";
+          stateVersion = "25.05";
         };
         programs = { } // import ../shared/home-manager.nix { inherit config pkgs lib; };
 
