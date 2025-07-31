@@ -89,9 +89,7 @@
 
 ** Org Attach
 ** 템플릿
-:PROPERTIES:
-:LAST_MODIFIED: <2025-07-13 Sun>
-:END:
+
 #+begin_src elisp :tangle config.el
 ;; 기본 템플릿
 (setq org-roam-capture-templates
@@ -104,8 +102,8 @@
     :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                         ,(concat
                           ":PROPERTIES:\n"
-                          ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
-                          ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
+                          ":CREATED: <%<%Y-%m-%d %a>>\n"
+                          ":MODIFIED: <%<%Y-%m-%d %a>>\n"
                           ":END:\n"
                           "#+TITLE: ${title}\n\n"))
     ;; ensures that the full file will be displayed when captured.
@@ -118,8 +116,8 @@
     :target (file+head "projects/${slug}.org"
                        ,(concat
                          ":PROPERTIES:\n"
-                         ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
-                         ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
+                         ":CREATED: <%<%Y-%m-%d %a>>\n"
+                         ":MODIFIED: <%<%Y-%m-%d %a>>\n"
                          ":END:\n\n"
                          "#+title: ${title}\n"
                          "#+DESCRIPTION: \n"))
@@ -134,8 +132,8 @@
     :target (file+head "areas/${slug}.org"
                        ,(concat
                          ":PROPERTIES:\n"
-                         ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
-                         ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
+                         ":CREATED: <%<%Y-%m-%d %a>>\n"
+                         ":MODIFIED: <%<%Y-%m-%d %a>>\n"
                          ":END:\n"
                          "#+TITLE: ${title}\n"
                          "#+DESCRIPTION: \n"))
@@ -150,8 +148,8 @@
     :target (file+head "notes/${slug}.org"
                        ,(concat
                          ":PROPERTIES:\n"
-                         ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
-                         ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
+                         ":CREATED: <%<%Y-%m-%d %a>>\n"
+                         ":MODIFIED: <%<%Y-%m-%d %a>>\n"
                          ":END:\n\n"
                          "#+TITLE: ${title}\n"
                          "#+DESCRIPTION: \n"))
@@ -166,8 +164,8 @@
     :target (file+head "inbox/capture.org"
                        ,(concat
                          ":PROPERTIES:\n"
-                         ":CREATED_AT: <%<%Y-%m-%d %a>>\n"
-                         ":LAST_MODIFIED: <%<%Y-%m-%d %a>>\n"
+                         ":CREATED: <%<%Y-%m-%d %a>>\n"
+                         ":MODIFIED: <%<%Y-%m-%d %a>>\n"
                          ":END:\n"
                          "#+TITLE: 캡처 박스\n"))
     :unnarrowed t)
@@ -180,8 +178,8 @@
                        ,(concat
                          ":PROPERTIES:\n"
                          ":ROAM_REFS: [cite:@${citekey}] ${url}\n"
-                         ":CREATED_AT: [%<%Y-%m-%d %a>]\n"
-                         ":LAST_MODIFIED: [%<%Y-%m-%d %a>]\n"
+                         ":CREATED: [%<%Y-%m-%d %a>]\n"
+                         ":MODIFIED: [%<%Y-%m-%d %a>]\n"
                          ":END:\n"
                          "#+TITLE: ${title}\n"))
     :immediate-finish t
@@ -207,8 +205,8 @@
   (when (derived-mode-p 'org-mode)
     (save-excursion
       (goto-char (point-min))
-      (when (re-search-forward ":LAST_MODIFIED:" nil t)
-        (org-set-property "LAST_MODIFIED"
+      (when (re-search-forward ":MODIFIED:" nil t)
+        (org-set-property "MODIFIED"
                          (format-time-string "<%Y-%m-%d %a>"))))))
 
 (defun nyeong/upcase-org-title ()
@@ -338,8 +336,8 @@ Creates the weekly file if it doesn't exist with sections for all days of the we
 
           (insert (concat
                    ":PROPERTIES:\n"
-                   ":CREATED_AT: <" (substring date-str 1 -1) ">\n"
-                   ":LAST_MODIFIED: <" (substring date-str 1 -1) ">\n"
+                   ":CREATED: <" (substring date-str 1 -1) ">\n"
+                   ":MODIFIED: <" (substring date-str 1 -1) ">\n"
                    ":END:\n"
                    "#+TITLE: " week-id "\n"
                    "#+FILETAGS: :weekly:\n"
