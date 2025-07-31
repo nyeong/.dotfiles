@@ -53,6 +53,32 @@
             home-manager.users.${userConfig.username} = import ./hosts/nyeong-air/home-manager.nix;
             home-manager.extraSpecialArgs = commonArgs;
           }
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              user = userConfig.username;
+              taps = {
+                "homebrew/homebrew-cask" = homebrew-cask;
+                "homebrew/homebrew-core" = homebrew-core;
+              };
+              autoMigrate = true;
+            };
+          }
+        ];
+      };
+      nixosConfigurations."nixvm" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = commonArgs;
+        modules = [
+          ./hosts/nixvm
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.${userConfig.username} = import ./hosts/nixvm/home-manager.nix;
+            home-manager.extraSpecialArgs = commonArgs;
+          }
         ];
       };
     };

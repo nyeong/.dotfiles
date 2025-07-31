@@ -32,8 +32,6 @@
     tokei
     xz
 
-    firefox
-
     dbeaver-bin
     postgresql
 

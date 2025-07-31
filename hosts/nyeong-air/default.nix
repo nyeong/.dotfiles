@@ -5,6 +5,7 @@
     ../../modules/darwin/hammerspoon
     ../../modules/darwin/karabiner
 
+    ../../modules/fonts
     ../../modules/fonts/monoplex
     ../../modules/fonts/sf-mono
   ];
