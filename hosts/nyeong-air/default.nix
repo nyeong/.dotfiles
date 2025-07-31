@@ -21,15 +21,15 @@
     enable = true;
 
     onActivation = {
-      autoUpdate = true;
-      upgrade = true;
-      cleanup = "zap";
+      autoUpdate = false;
+      upgrade = false;  
+      cleanup = "none";
     };
   };
 
   homebrew.casks = [
     "discord"
-    "tailscale"
+    "tailscale-app" 
     "nextcloud"
     "raycast"
     "orbstack"
@@ -43,7 +43,6 @@
   # This message is safe to ignore. (https://github.com/dustinlyons/nixos-config/issues/83)
   homebrew.masApps = {
     "KakaoTalk" = 869223134;
-    "Kyobo" = 445290463;
   };
 
   # Setup user, packages, programs

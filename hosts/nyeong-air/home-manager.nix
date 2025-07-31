@@ -76,9 +76,8 @@
 
     python3
     elixir
-    elixir_ls
+    elixir-ls
     ruby
-    playwright
     playwright-driver.browsers
   ];
 }

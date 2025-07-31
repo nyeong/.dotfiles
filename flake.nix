@@ -10,30 +10,14 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-homebrew = { url = "github:zhaofengli-wip/nix-homebrew"; };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    secrets = {
-      url = "git+ssh://git@github.com/nyeong/secrets.git";
-      flake = false;
-    };
+
   };
-  outputs = { self, nix-darwin, nix-homebrew, homebrew-bundle, homebrew-core
-    , homebrew-cask, home-manager, nixpkgs, disko, secrets, }@inputs:
+  outputs = { self, nix-darwin, home-manager, nixpkgs, disko, }@inputs:
     let
       userConfig = import ./modules/shared/user-config.nix;
 
@@ -52,18 +36,6 @@
             home-manager.useUserPackages = true;
             home-manager.users.${userConfig.username} = import ./hosts/nyeong-air/home-manager.nix;
             home-manager.extraSpecialArgs = commonArgs;
-          }
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              user = userConfig.username;
-              taps = {
-                "homebrew/homebrew-cask" = homebrew-cask;
-                "homebrew/homebrew-core" = homebrew-core;
-              };
-              autoMigrate = true;
-            };
           }
         ];
       };
