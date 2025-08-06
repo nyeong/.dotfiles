@@ -9,6 +9,7 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    completionInit = "autoload -U compinit && compinit -i";
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     autocd = false;
@@ -107,8 +108,7 @@
       setopt always_to_end
       WORDCHARS='''
       zmodload -i zsh/complist
-      autoload -Uz compinit bashcompinit
-      compinit -i
+      autoload -Uz bashcompinit
       bashcompinit
 
       zstyle ':completion:*' menu select
