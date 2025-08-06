@@ -5,6 +5,7 @@
     ../../modules/home/ssh.nix
     ../../modules/home/zellij
     ../../modules/home/zsh
+    ../../modules/home/javascript
   ];
 
   home.username = userConfig.username;
@@ -31,6 +32,8 @@
     yt-dlp
     tokei
     xz
+
+    ripgrep
 
     firefox
 

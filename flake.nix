@@ -10,16 +10,14 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
   outputs = { self, nix-darwin, home-manager, nixpkgs, disko, }@inputs:
     let
-      userConfig = import ./modules/shared/user-config.nix;
+      userConfig = import ./shared/user-config.nix;
 
       commonArgs = {
         inherit userConfig;
@@ -37,6 +35,7 @@
             home-manager.users.${userConfig.username} = import ./hosts/nyeong-air/home-manager.nix;
             home-manager.extraSpecialArgs = commonArgs;
           }
+
         ];
       };
       nixosConfigurations."nixvm" = nixpkgs.lib.nixosSystem {
