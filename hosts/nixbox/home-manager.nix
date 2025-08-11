@@ -15,5 +15,6 @@
     lsd
     coreutils
     ripgrep
+    fd
   ];
 }

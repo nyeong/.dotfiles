@@ -1,4 +1,35 @@
 { config, pkgs, userConfig, ...}: {
+  # rclone WebDAV
+  systemd.services.rclone-webdav = {
+    description = "rclone WebDAV server for library";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "simple";
+      User = "nyeong";
+      ExecStart = ''
+          ${pkgs.rclone}/bin/rclone serve webdav /storage/@library \
+          --addr :8080 \
+          --user nyeong \
+          --pass 'tNyoKUwUKXxQ9oVWh8j14lVzr8tbb4LY_8meve8'
+        '';
+      Restart = "on-failure";
+    };
+  };
+
+  virtualisation.oci-containers.containers.calibre-web = {
+    image = "linuxserver/calibre-web:latest";
+    ports = [ "8083:8083" ];
+    environment = {
+      PUID = "1000";
+      PGID = "100";
+      TZ = "Asia/Seoul";
+    };
+    volumes = [
+      "/storage/@library:/books"
+    ];
+  };
+
   nix = {
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
