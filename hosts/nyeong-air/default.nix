@@ -34,6 +34,7 @@
     "raycast"
     "orbstack"
     "moonlight"
+    "calibre"
   ];
 
   # Mac App Store 앱
