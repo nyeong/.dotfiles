@@ -22,7 +22,11 @@ in {
           path = "~/.dotfiles";
           devices = deviceNames;
           # Exclude the git repo internals from sync
-          ignorePatterns = [ ".git" ];
+          ignores = [
+            ".git"
+            ".DS_Store"
+            "**/.git/**"
+          ];
         };
       };
     };
