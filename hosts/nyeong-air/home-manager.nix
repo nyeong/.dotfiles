@@ -32,6 +32,7 @@
     yt-dlp
     tokei
     xz
+    ripgrep
 
     ripgrep
 
