@@ -29,12 +29,11 @@
   networking = {
     hostName = "nixbox";
     networkmanager.enable = true;
-    firewall.enable = true;
-    firewall.allowedTCPPorts = [
-      22
-      80
-      443
-    ];
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 80 443 22000 8384 ];
+      allowedUDPPorts = [ 22000 21027 ];
+    };
   };
 
   time.timeZone = "Asia/Seoul";

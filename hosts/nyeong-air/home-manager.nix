@@ -6,6 +6,7 @@
     ../../modules/home/zellij
     ../../modules/home/zsh
     ../../modules/home/javascript
+    ../../modules/home/syncthing
   ];
 
   home.username = userConfig.username;

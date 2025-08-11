@@ -3,6 +3,7 @@
     ../../modules/home/zsh
     ../../modules/home/ssh.nix
     ../../modules/home/git.nix
+    ../../modules/home/syncthing
   ];
 
   home.username = userConfig.username;
