@@ -64,7 +64,12 @@
             language = "system";
             files = "\\.nix$";
             pass_filenames = true;
-            entry = "${pkgs.statix}/bin/statix check --format=stderr || true";
+            entry = "${pkgs.bash}/bin/bash";
+            args = [
+              "-c"
+              ''${pkgs.statix}/bin/statix check --format=stderr "$@" || true''
+              "--"
+            ];
           };
           deadnix-warn = {
             enable = true;
@@ -72,12 +77,29 @@
             language = "system";
             files = "\\.nix$";
             pass_filenames = true;
-            entry = "${pkgs.deadnix}/bin/deadnix --no-progress || true";
+            entry = "${pkgs.bash}/bin/bash";
+            args = [
+              "-c"
+              ''${pkgs.deadnix}/bin/deadnix --no-progress "$@" || true''
+              "--"
+            ];
           };
         };
       };
+      # Strict variant for CI (fails on warnings)
+      ciPreCommit = git-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          treefmt = {
+            enable = true;
+            package = treefmtEval.config.build.wrapper;
+          };
+          statix.enable = true;
+          deadnix.enable = true;
+        };
+      };
     in {
-      inherit pkgs treefmtEval preCommit;
+      inherit pkgs treefmtEval preCommit ciPreCommit;
     });
   in {
     # nix fmt → run treefmt wrapper
@@ -90,8 +112,12 @@
     });
     # CI/local checks
     checks = nixpkgs.lib.genAttrs systems (system: {
-      pre-commit = perSystem.${system}.preCommit;
+      pre-commit = perSystem.${system}.preCommit; # warn-only hooks
       formatting = perSystem.${system}.treefmtEval.config.build.check self;
+    });
+    # CI strict lint as a buildable package
+    packages = nixpkgs.lib.genAttrs systems (system: {
+      ci-lint = perSystem.${system}.ciPreCommit;
     });
     darwinConfigurations."nyeong-air" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
