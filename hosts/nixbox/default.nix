@@ -22,19 +22,6 @@
     };
   };
 
-  virtualisation.oci-containers.containers.calibre-web = {
-    image = "linuxserver/calibre-web:latest";
-    ports = ["8083:8083"];
-    environment = {
-      PUID = "1000";
-      PGID = "100";
-      TZ = "Asia/Seoul";
-    };
-    volumes = [
-      "/storage/@library:/books"
-    ];
-  };
-
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
@@ -50,6 +37,7 @@
 
   imports = [
     ./hardware-configuration.nix
+    ./containers.nix
     ../../modules/system/emacs
   ];
 
@@ -67,7 +55,7 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [22 80 443 22000 8384];
+      allowedTCPPorts = [22 80 443 5000 8080 8083 22000 8384];
       allowedUDPPorts = [22000 21027];
     };
   };
