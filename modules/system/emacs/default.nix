@@ -1,6 +1,5 @@
 # TODO: Doom Emacs 의존성 넣기
 # - https://github.com/ryan4yin/nix-config/tree/main/home/base/tui/editors/emacs
-# config/doom은 nix로 관리하지 않고 직접 =ln -sf=
 # emacs가 느리다면:
 # - https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83
 
@@ -18,14 +17,18 @@ let
     sha256 = "1m0ry2q9ndvk3kk9k9c74wkf5nq9zbihra5qawhpw49xr456j0gx";
   });
 
-  my-emacs = pkgs.emacs-unstable.override {
-    withNativeCompilation = false;
-    withSQLite3 = true;
-    withTreeSitter = true;
-    withWebP = true;
-  };
+  chosenEmacsBase = if pkgs ? emacs-unstable then pkgs.emacs-unstable else pkgs.emacs;
+  chosenEmacs = if pkgs ? emacs-unstable then
+    chosenEmacsBase.override {
+      withNativeCompilation = false;
+      withSQLite3 = true;
+      withTreeSitter = true;
+      withWebP = true;
+    }
+  else
+    chosenEmacsBase;
 
-  my-emacs-with-packages = (pkgs.emacsPackagesFor my-emacs).emacsWithPackages (
+  my-emacs-with-packages = (pkgs.emacsPackagesFor chosenEmacs).emacsWithPackages (
     epkgs: with epkgs; [
       vterm
       treesit-grammars.with-all-grammars
@@ -33,25 +36,14 @@ let
   );
 
 in {
-  # macOS only
-  launchd.user.agents.emacs.path = [ config.environment.systemPath ];
-  launchd.user.agents.emacs.serviceConfig = {
-    KeepAlive = true;
-    RunAtLoad = true;
-    ProgramArguments = [
-      "/bin/sh"
-      "-c"
-      "/bin/wait4path ${my-emacs-with-packages}/bin/emacs && exec ${my-emacs-with-packages}/bin/emacs --fg-daemon"
-    ];
-    StandardErrorPath = "/tmp/emacs.err.log";
-    StandardOutPath = "/tmp/emacs.out.log";
-  };
-  # Common
+  # Overlay must be set at the system level; safe on both darwin and linux
   nixpkgs.overlays = [ emacs-overlay ];
 
   home-manager.users.${userConfig.username} =
-    { pkgs, lib, ... }:
-    {
+    { pkgs, lib, config, ... }:
+    let
+      doomConfigPath = "${config.home.homeDirectory}/.dotfiles/modules/system/emacs/config/doom";
+    in {
       programs.emacs = {
         enable = true;
         package = my-emacs-with-packages;
@@ -79,49 +71,24 @@ in {
         d2
       ];
 
-      home.activation = {
-        linkDoomConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          if [ -e "$HOME/${xdg-config-home}/doom" ]; then
-            $DRY_RUN_CMD rm -f "$HOME/${xdg-config-home}/doom"
-          fi
-          $DRY_RUN_CMD ln -sf "/Users/nyeong/.dotfiles/packages/emacs/config/doom" "$HOME/${xdg-config-home}/doom"
-        '';
-
-        # # macOS용 Emacs.app 심볼릭 링크 생성
-        # linkEmacsApp = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        #   if [ -d "${my-emacs-with-packages}/Applications/Emacs.app" ]; then
-        #     $DRY_RUN_CMD mkdir -p "$HOME/Applications"
-        #     $DRY_RUN_CMD ln -sf "${my-emacs-with-packages}/Applications/Emacs.app" "$HOME/Applications/Emacs.app"
-        #   fi
-        # '';
-      };
-
-      home.file = lib.optionalAttrs isDarwin {
-        # Raycast script so that "Run Emacs" is available and uses Emacs daemon
-        "${xdg-data-home}/bin/emacsclient" = {
-          executable = true;
-          text = ''
-            #!/bin/zsh
-            #
-            # Required parameters:
-            # @raycast.schemaVersion 1
-            # @raycast.title Run Emacs
-            # @raycast.mode silent
-            #
-            # Optional parameters:
-            # @raycast.packageName Emacs
-            # @raycast.icon ${xdg-data-home}/img/icons/Emacs.icns
-            # @raycast.iconDark ${xdg-data-home}/img/icons/Emacs.icns
-
-            if [[ $1 = "-t" ]]; then
-              # Terminal mode
-              ${my-emacs-with-packages}/bin/emacsclient -t $@
-            else
-              # GUI mode
-              ${my-emacs-with-packages}/bin/emacsclient -c -n $@
-            fi
-          '';
-        };
-      };
+      # Deploy Doom config and optional macOS helper in one merged attrset
+      home.file = lib.mkMerge [
+        {
+          "${xdg-config-home}/doom".source = config.lib.file.mkOutOfStoreSymlink doomConfigPath;
+        }
+        (lib.optionalAttrs isDarwin {
+          "${xdg-data-home}/bin/emacsclient" = {
+            executable = true;
+            text = ''
+              #!/bin/zsh
+              if [[ $1 = "-t" ]]; then
+                ${my-emacs-with-packages}/bin/emacsclient -t $@
+              else
+                ${my-emacs-with-packages}/bin/emacsclient -c -n $@
+              fi
+            '';
+          };
+        })
+      ];
     };
 }

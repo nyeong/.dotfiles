@@ -16,6 +16,7 @@ Nix에 모든 것을 맡기는 중...
 ## hosts
 
 - nyeong-air : 맥북에어
+- nixbox : 내 홈랩
 
 ```bash
 # macOS

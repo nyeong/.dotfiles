@@ -46,6 +46,7 @@
   imports =
     [ 
       ./hardware-configuration.nix
+      ../../modules/system/emacs
     ];
 
   boot.loader = {
