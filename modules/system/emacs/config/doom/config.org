@@ -66,9 +66,9 @@
 * Org
 
 #+begin_src elisp :tangle config.el
-(setq org-directory "~/Nextcloud/hanassig/")
+(setq org-directory "~/hanassig/")
 (after! org-roam
-  (setq org-roam-directory (file-truename "~/Nextcloud/hanassig")
+  (setq org-roam-directory (file-truename "~/hanassig")
         epa-pinentry-mode 'loopback
         org-roam-node-template "#+TITLE: ${title}\n"))
 #+end_src
@@ -227,14 +227,14 @@
 
 #+begin_src elisp :tangle config.el
 (after! org
-  (setq org-agenda-files '("~/Nextcloud/hanassig/journals/weekly"
-                          "~/Nextcloud/hanassig/projects"
-                          "~/Nextcloud/hanassig/areas")
+  (setq org-agenda-files '("~/hanassig/journals/weekly"
+                          "~/hanassig/projects"
+                          "~/hanassig/areas")
         org-cite-export-processors '((t csl))
-        org-cite-csl-styles-dir "~/Nextcloud/hanassig/csl-styles"
+        org-cite-csl-styles-dir "~/hanassig/csl-styles"
         org-cite-csl-default-style "ieee"
-        org-cite-global-bibliography '("~/Nextcloud/hanassig/references.bib")))
-(setq! citar-bibliography '("~/Nextcloud/hanassig/references.bib"))
+        org-cite-global-bibliography '("~/hanassig/references.bib")))
+(setq! citar-bibliography '("~/hanassig/references.bib"))
 #+end_src
 
 위의 =references.bib=에서 하나씩 가져와서 템플릿으로 만드는 함수. [[https://jethrokuan.github.io/org-roam-guide/][How I Take Notes with Org-roam]] 참고하였고, API가 바뀌어서 수정하였다:

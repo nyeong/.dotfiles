@@ -17,11 +17,20 @@ in {
       devices = devices;
 
       folders = {
+        hanassig = {
+          id = "hanassig";
+          path = "~/hanassig";
+          devices = deviceNames;
+          ignores = [
+            ".git"
+            ".DS_Store"
+            "**/.git/**"
+          ];
+        };
         dotfiles = {
           id = "dotfiles";
           path = "~/.dotfiles";
           devices = deviceNames;
-          # Exclude the git repo internals from sync
           ignores = [
             ".git"
             ".DS_Store"
