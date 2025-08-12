@@ -4,6 +4,13 @@
   userConfig,
   ...
 }: {
+  # Create container directories with proper permissions
+  systemd.tmpfiles.rules = [
+    "d /var/lib/containers 0755 root root -"
+    "d /var/lib/containers/kavita 0755 1000 100 -"
+    "d /var/lib/containers/calibre-web 0755 1000 100 -"
+  ];
+
   # Enable OCI containers with Podman backend
   virtualisation.oci-containers.backend = "podman";
 
@@ -21,7 +28,6 @@
       "/var/lib/containers/kavita:/config"
     ];
     autoStart = true;
-    extraOptions = ["--restart=unless-stopped"];
   };
 
   # Calibre Web - eBook library manager
@@ -38,6 +44,5 @@
       "/var/lib/containers/calibre-web:/config"
     ];
     autoStart = true;
-    extraOptions = ["--restart=unless-stopped"];
   };
 }
