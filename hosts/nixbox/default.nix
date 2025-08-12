@@ -1,25 +1,30 @@
-{ config, pkgs, userConfig, ...}: {
+{
+  config,
+  pkgs,
+  userConfig,
+  ...
+}: {
   # rclone WebDAV
   systemd.services.rclone-webdav = {
     description = "rclone WebDAV server for library";
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
+    after = ["network.target"];
+    wantedBy = ["multi-user.target"];
     serviceConfig = {
       Type = "simple";
       User = "nyeong";
       ExecStart = ''
-          ${pkgs.rclone}/bin/rclone serve webdav /storage/@library \
-          --addr :8080 \
-          --user nyeong \
-          --pass 'tNyoKUwUKXxQ9oVWh8j14lVzr8tbb4LY_8meve8'
-        '';
+        ${pkgs.rclone}/bin/rclone serve webdav /storage/@library \
+        --addr :8080 \
+        --user nyeong \
+        --pass 'tNyoKUwUKXxQ9oVWh8j14lVzr8tbb4LY_8meve8'
+      '';
       Restart = "on-failure";
     };
   };
 
   virtualisation.oci-containers.containers.calibre-web = {
     image = "linuxserver/calibre-web:latest";
-    ports = [ "8083:8083" ];
+    ports = ["8083:8083"];
     environment = {
       PUID = "1000";
       PGID = "100";
@@ -32,9 +37,9 @@
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
-      trusted-users = [ "root" "nyeong" ];
+      trusted-users = ["root" "nyeong"];
     };
     gc = {
       automatic = true;
@@ -43,11 +48,10 @@
     };
   };
 
-  imports =
-    [ 
-      ./hardware-configuration.nix
-      ../../modules/system/emacs
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/system/emacs
+  ];
 
   boot.loader = {
     systemd-boot.enable = true;
@@ -63,18 +67,20 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 80 443 22000 8384 ];
-      allowedUDPPorts = [ 22000 21027 ];
+      allowedTCPPorts = [22 80 443 22000 8384];
+      allowedUDPPorts = [22000 21027];
     };
   };
 
   time.timeZone = "Asia/Seoul";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  swapDevices = [{
-    device = "/swapfile";
-    size = 32 * 1024;
-  }];
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 32 * 1024;
+    }
+  ];
 
   services.openssh = {
     enable = true;
@@ -93,7 +99,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHW38hDRPSN1QuPELEBOj5ex6mV9Iw69z6jJRdveibGE me@annyeong.me"
     ];
-    shell = pkgs.zsh ;
+    shell = pkgs.zsh;
   };
 
   virtualisation.podman = {
@@ -113,7 +119,7 @@
   services.btrfs.autoScrub = {
     enable = true;
     interval = "monthly";
-    fileSystems = [ "/storage" ];
+    fileSystems = ["/storage"];
   };
 
   # This option defines the first version of NixOS you have installed on this particular machine,

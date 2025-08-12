@@ -1,4 +1,9 @@
-{ userConfig, pkgs, lib, ... }: {
+{
+  userConfig,
+  pkgs,
+  lib,
+  ...
+}: {
   programs.ssh = {
     enable = true;
     addKeysToAgent = "yes";

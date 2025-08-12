@@ -1,7 +1,6 @@
-{ userConfig, ... }:
-{
+{userConfig, ...}: {
   # TODO: casks로 깔까 nix로 깔까...
-  homebrew.casks = [ "hammerspoon" ];
+  homebrew.casks = ["hammerspoon"];
 
   system.defaults.CustomUserPreferences = {
     "org.hammerspoon.Hammerspoon" = {

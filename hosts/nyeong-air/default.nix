@@ -1,4 +1,9 @@
-{ config, pkgs, userConfig, ... }: {
+{
+  config,
+  pkgs,
+  userConfig,
+  ...
+}: {
   imports = [
     ../../modules/system/emacs
 
@@ -22,14 +27,14 @@
 
     onActivation = {
       autoUpdate = true;
-      upgrade = true;  
+      upgrade = true;
       cleanup = "zap";
     };
   };
 
   homebrew.casks = [
     "discord"
-    "tailscale-app" 
+    "tailscale-app"
     "nextcloud"
     "raycast"
     "orbstack"
@@ -60,7 +65,7 @@
         "https://nix-community.cachix.org"
         "https://cache.nixos.org"
       ];
-      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+      trusted-public-keys = ["cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
     };
 
     gc = {

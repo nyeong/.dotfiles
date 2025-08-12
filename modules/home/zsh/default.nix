@@ -1,5 +1,8 @@
-{ pkgs, lib, ... }:
 {
+  pkgs,
+  lib,
+  ...
+}: {
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -13,7 +16,7 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     autocd = false;
-    cdpath = [ "~/.local/share/src" ];
+    cdpath = ["~/.local/share/src"];
     shellAliases = {
       search = "rg -p --glob '!node_modules/*'  $@";
       grep = "rg -p --glob '!node_modules/*'  $@";

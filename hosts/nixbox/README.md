@@ -1,5 +1,4 @@
-nixbox
-======
+# nixbox
 
 - OS: NixOS 25.11 (Xantusia) x86_64
 - Kernel: Linux 6.12.41
@@ -17,6 +16,6 @@ nixbox
 - [ ] PDF, 전자책 관리
 - [ ] 미디어 스트리밍
 - [ ] 웹 아카이빙
-- [ ] 사진 백업 
+- [ ] 사진 백업
 - [ ] 재무 관리 (Firefly III)
 - [ ] 시스템 모니터링 (Prometheus + Grafana)

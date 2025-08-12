@@ -1,5 +1,9 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   devices = {
     "nyeong-air" = {
       id = "A5GD47O-W3OI5WT-QJ4XHFT-BXKN3UK-BU6XIQ2-5MCVG46-D3DLYQS-TLKPZA2";
@@ -41,5 +45,3 @@ in {
     };
   };
 }
-
-

@@ -1,6 +1,6 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   home = {
-    packages = [ pkgs.zellij ];
-    file.".config/zellij/config.kdl" = { source = ./config/config.kdl; };
+    packages = [pkgs.zellij];
+    file.".config/zellij/config.kdl" = {source = ./config/config.kdl;};
   };
 }

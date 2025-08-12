@@ -1,5 +1,9 @@
 # https://blog.gitbutler.com/how-git-core-devs-configure-git/
-{ userConfig, pkgs, ... }: {
+{
+  userConfig,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     git
     delta
@@ -7,7 +11,7 @@
   ];
   programs.git = {
     enable = true;
-    ignores = [ "*.swp" ];
+    ignores = ["*.swp"];
     userName = userConfig.name;
     userEmail = userConfig.email;
     lfs = {

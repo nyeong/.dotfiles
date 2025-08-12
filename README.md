@@ -13,18 +13,17 @@ Nix에 모든 것을 맡기는 중...
 
 우선은 한 파일에 몰아넣고, 공통된다면 분리하자!
 
+## Usage
+
+- 포매팅 : `nix format`
+- 설정 적용
+  - darwin : `sudo darwin-rebuild switch --flake .#nyeong-air`
+  - linux : `sudo nixos-rebuild switch --flake .#hostname`
+
 ## hosts
 
 - nyeong-air : 맥북에어
 - nixbox : 내 홈랩
-
-```bash
-# macOS
-sudo darwin-rebuild switch --flake .#nyeong-air
-
-# NixOS
-sudo nixos-rebuild switch --flake .#hostname
-```
 
 ## 🤔
 

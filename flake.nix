@@ -14,43 +14,112 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Formatting + Git hooks
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = { self, nix-darwin, home-manager, nixpkgs, disko, }@inputs:
-    let
-      userConfig = import ./shared/user-config.nix;
+  outputs = {
+    self,
+    nix-darwin,
+    home-manager,
+    nixpkgs,
+    disko,
+    treefmt-nix,
+    git-hooks,
+  } @ inputs: let
+    userConfig = import ./shared/user-config.nix;
 
-      commonArgs = {
-        inherit userConfig;
+    commonArgs = {
+      inherit userConfig;
+    };
+    systems = ["aarch64-darwin" "x86_64-linux"];
+    perSystem = nixpkgs.lib.genAttrs systems (system: let
+      pkgs = import nixpkgs {inherit system;};
+      treefmtEval = treefmt-nix.lib.evalModule pkgs {
+        projectRootFile = "flake.nix";
+        programs = {
+          alejandra.enable = true; # Nix formatter
+          stylua.enable = true; # Lua (Hammerspoon)
+          shfmt.enable = true; # Shell
+          prettier.enable = true; # JSON/Markdown/YAML/etc.
+        };
+      };
+      preCommit = git-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          treefmt = {
+            enable = true;
+            package = treefmtEval.config.build.wrapper;
+          };
+          # Warn-only Nix linters (do not fail commit)
+          statix-warn = {
+            enable = true;
+            name = "statix (warn)";
+            language = "system";
+            files = "\\.nix$";
+            pass_filenames = true;
+            entry = "${pkgs.statix}/bin/statix check --format=stderr || true";
+          };
+          deadnix-warn = {
+            enable = true;
+            name = "deadnix (warn)";
+            language = "system";
+            files = "\\.nix$";
+            pass_filenames = true;
+            entry = "${pkgs.deadnix}/bin/deadnix --no-progress || true";
+          };
+        };
       };
     in {
-      darwinConfigurations."nyeong-air" = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = commonArgs;
-        modules = [
-          ./hosts/nyeong-air
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.${userConfig.username} = import ./hosts/nyeong-air/home-manager.nix;
-            home-manager.extraSpecialArgs = commonArgs;
-          }
-
-        ];
+      inherit pkgs treefmtEval preCommit;
+    });
+  in {
+    # nix fmt → run treefmt wrapper
+    formatter = nixpkgs.lib.genAttrs systems (system: (perSystem.${system}.treefmtEval.config.build.wrapper));
+    # pre-commit hook auto-installs when entering dev shell
+    devShells = nixpkgs.lib.genAttrs systems (system: {
+      default = (perSystem.${system}.pkgs).mkShell {
+        shellHook = (perSystem.${system}.preCommit).shellHook;
       };
-      nixosConfigurations."nixbox" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = commonArgs;
-        modules = [
-          ./hosts/nixbox
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.${userConfig.username} = import ./hosts/nixbox/home-manager.nix;
-            home-manager.extraSpecialArgs = commonArgs;
-          }
-        ];
-      };
+    });
+    # CI/local checks
+    checks = nixpkgs.lib.genAttrs systems (system: {
+      pre-commit = perSystem.${system}.preCommit;
+      formatting = perSystem.${system}.treefmtEval.config.build.check self;
+    });
+    darwinConfigurations."nyeong-air" = nix-darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
+      specialArgs = commonArgs;
+      modules = [
+        ./hosts/nyeong-air
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.${userConfig.username} = import ./hosts/nyeong-air/home-manager.nix;
+          home-manager.extraSpecialArgs = commonArgs;
+        }
+      ];
     };
+    nixosConfigurations."nixbox" = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = commonArgs;
+      modules = [
+        ./hosts/nixbox
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.${userConfig.username} = import ./hosts/nixbox/home-manager.nix;
+          home-manager.extraSpecialArgs = commonArgs;
+        }
+      ];
+    };
+  };
 }

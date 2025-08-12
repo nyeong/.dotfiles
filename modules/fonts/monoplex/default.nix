@@ -1,7 +1,11 @@
-{ pkgs, userConfig, ... }:
-let monoplexOverlay = import ./overlay.nix;
+{
+  pkgs,
+  userConfig,
+  ...
+}: let
+  monoplexOverlay = import ./overlay.nix;
 in {
-  nixpkgs.overlays = [ monoplexOverlay ];
+  nixpkgs.overlays = [monoplexOverlay];
 
-  fonts.packages = with pkgs; [ monoplex-bin ];
+  fonts.packages = with pkgs; [monoplex-bin];
 }

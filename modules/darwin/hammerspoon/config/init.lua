@@ -9,8 +9,7 @@ end
 
 local esc_bind
 local function back_to_eng()
-	local targetForEnglish =
-		{ "WezTerm", "Emacs", "Cursor", "Doom Emacs" }
+	local targetForEnglish = { "WezTerm", "Emacs", "Cursor", "Doom Emacs" }
 	-- esc의 원래 동작 보장. 참고 https://github.com/johngrib/johngrib.github.io/issues/130#issuecomment-699728202
 	esc_bind:disable()
 	hs.eventtap.keyStroke({}, "escape")
@@ -28,4 +27,3 @@ local function back_to_eng()
 end
 
 esc_bind = hs.hotkey.new({}, "escape", back_to_eng):enable()
-

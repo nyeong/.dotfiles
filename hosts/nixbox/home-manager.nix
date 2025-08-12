@@ -1,4 +1,8 @@
-{ userConfig, pkgs, ... }: {
+{
+  userConfig,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../modules/home/zsh
     ../../modules/home/ssh.nix

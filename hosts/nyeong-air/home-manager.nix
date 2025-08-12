@@ -1,4 +1,8 @@
-{ userConfig, pkgs, ... }: {
+{
+  userConfig,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../modules/home/git.nix
     ../../modules/home/wezterm.nix
