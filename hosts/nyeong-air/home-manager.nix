@@ -1,6 +1,8 @@
 {
   userConfig,
   pkgs,
+  lib,
+  config,
   ...
 }: {
   imports = [
@@ -12,6 +14,12 @@
     ../../modules/home/javascript
     ../../modules/home/syncthing
   ];
+
+  home.file."${config.home.homeDirectory}/Library/KeyBindings/DefaultKeyBinding.dict".text = ''
+    {
+        "₩" = ("insertText:", "`");
+    }
+  '';
 
   home.username = userConfig.username;
   home.homeDirectory = "/Users/${userConfig.username}";

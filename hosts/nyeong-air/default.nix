@@ -35,7 +35,6 @@
   homebrew.casks = [
     "discord"
     "tailscale-app"
-    "nextcloud"
     "raycast"
     "orbstack"
     "moonlight"
