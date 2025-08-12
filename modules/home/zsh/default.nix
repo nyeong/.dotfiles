@@ -22,8 +22,7 @@
       grep = "rg -p --glob '!node_modules/*'  $@";
       diff = "difft";
       emacs = "emacsclient -t";
-      emacsclient = "emacsclient -c -a emacs";
-      switch = "nix run /Users/nyeong/.dotfiles#build-switch";
+      emacsclient = "emacsclient -c -a 'emacs --init-directory $HOME/.config/emacs'";
 
       mv = "mv -i";
       cp = "cp -i";
@@ -103,7 +102,7 @@
       # Emacs is my editor
       export ALTERNATE_EDITOR=""
       export EDITOR="emacsclient -t"
-      export VISUAL="emacsclient -c -a emacs"
+      export VISUAL="emacsclient -c -a 'emacs --init-directory $HOME/.config/emacs'"
       export GPG_TTY=$(tty)
       export TIME_STYLE="long-iso"
 

@@ -60,6 +60,9 @@ in {
       package = my-emacs-with-packages;
     };
 
+    # Ensure our user bin dir is on PATH for wrappers we install below
+    home.sessionPath = ["${config.home.homeDirectory}/${xdg-data-home}/bin"];
+
     home.packages = with pkgs; [
       # my-emacs-with-packages
       emacs-all-the-icons-fonts
@@ -82,24 +85,49 @@ in {
       d2
     ];
 
-    # Deploy Doom config and optional macOS helper in one merged attrset
+    # Deploy Doom config and wrappers in one merged attrset
     home.file = lib.mkMerge [
       {
         "${xdg-config-home}/doom".source = config.lib.file.mkOutOfStoreSymlink doomConfigPath;
       }
-      (lib.optionalAttrs isDarwin {
+      {
+        # XDG-only wrappers so Emacs uses ~/.config/emacs (Doom core) as init dir
+        "${xdg-data-home}/bin/emacs" = {
+          executable = true;
+          text = ''
+            #!/usr/bin/env sh
+            exec ${my-emacs-with-packages}/bin/emacs --init-directory "${config.home.homeDirectory}/.config/emacs" "$@"
+          '';
+        };
         "${xdg-data-home}/bin/emacsclient" = {
           executable = true;
           text = ''
-            #!/bin/zsh
-            if [[ $1 = "-t" ]]; then
-              ${my-emacs-with-packages}/bin/emacsclient -t $@
+            #!/usr/bin/env sh
+            # TTY vs GUI handling
+            if [ "x$1" = "x-t" ]; then
+              exec ${my-emacs-with-packages}/bin/emacsclient -t -a "${my-emacs-with-packages}/bin/emacs --init-directory ${config.home.homeDirectory}/.config/emacs --daemon" "$@"
             else
-              ${my-emacs-with-packages}/bin/emacsclient -c -n $@
+              exec ${my-emacs-with-packages}/bin/emacsclient -c -n -a "${my-emacs-with-packages}/bin/emacs --init-directory ${config.home.homeDirectory}/.config/emacs --daemon" "$@"
             fi
           '';
         };
-      })
+      }
     ];
+
+    # Auto-start Emacs daemon on Linux (nixbox) as a user systemd service
+    systemd.user.services.emacs = lib.mkIf isLinux {
+      Unit = {
+        Description = "Emacs Daemon (Doom, XDG)";
+        After = ["default.target"];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "${my-emacs-with-packages}/bin/emacs --fg-daemon --init-directory ${config.home.homeDirectory}/.config/emacs";
+        Restart = "on-failure";
+      };
+      Install = {
+        WantedBy = ["default.target"];
+      };
+    };
   };
 }
