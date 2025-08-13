@@ -4,6 +4,13 @@
   userConfig,
   ...
 }: {
+  imports = [
+    ./services/caddy.nix
+    ./hardware-configuration.nix
+    ./containers.nix
+    ../../modules/system/emacs
+  ];
+
   # rclone WebDAV
   systemd.services.rclone-webdav = {
     description = "rclone WebDAV server for library";
@@ -35,27 +42,17 @@
     };
   };
 
-  imports = [
-    ./hardware-configuration.nix
-    ./containers.nix
-    ../../modules/system/emacs
-  ];
-
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
   };
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
   networking = {
     hostName = "nixbox";
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [22 80 443 5000 8080 8083 22000 8384];
+      allowedTCPPorts = [22 80 443 5000 5299 8080 8081 8083 22000 8384];
       allowedUDPPorts = [22000 21027];
     };
   };
