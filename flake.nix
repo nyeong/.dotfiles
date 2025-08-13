@@ -23,6 +23,14 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    secrets = {
+      url = "git+ssh://git@github.com/nyeong/secrets.git";
+      flake = false;
+    };
   };
   outputs = {
     self,
@@ -32,11 +40,13 @@
     disko,
     treefmt-nix,
     git-hooks,
+    agenix,
+    secrets,
   } @ inputs: let
     userConfig = import ./shared/user-config.nix;
 
     commonArgs = {
-      inherit userConfig;
+      inherit userConfig secrets;
     };
     systems = ["aarch64-darwin" "x86_64-linux"];
     perSystem = nixpkgs.lib.genAttrs systems (system: let
@@ -138,6 +148,7 @@
       specialArgs = commonArgs;
       modules = [
         ./hosts/nixbox
+        agenix.nixosModules.default
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;

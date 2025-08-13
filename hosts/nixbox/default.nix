@@ -2,6 +2,7 @@
   config,
   pkgs,
   userConfig,
+  secrets,
   ...
 }: {
   imports = [
@@ -10,6 +11,9 @@
     ./containers.nix
     ../../modules/system/emacs
   ];
+
+  # agenix secrets
+  age.secrets.webdav-password.file = "${secrets}/webdav-password.age";
 
   # rclone WebDAV
   systemd.services.rclone-webdav = {
@@ -20,10 +24,10 @@
       Type = "simple";
       User = "nyeong";
       ExecStart = ''
-        ${pkgs.rclone}/bin/rclone serve webdav /storage/@library \
+        ${pkgs.rclone}/bin/rclone serve webdav /storage \
         --addr :8080 \
         --user nyeong \
-        --pass 'tNyoKUwUKXxQ9oVWh8j14lVzr8tbb4LY_8meve8'
+        --pass $(cat ${config.age.secrets.webdav-password.path})
       '';
       Restart = "on-failure";
     };
@@ -99,6 +103,10 @@
     helix
 
     rclone
+
+    # Cursor SSH
+    wget
+    nodejs
   ];
 
   services.btrfs.autoScrub = {

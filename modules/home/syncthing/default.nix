@@ -16,7 +16,7 @@
 in {
   services.syncthing = {
     enable = true;
-    guiAddress = "0.0.0.0:8384";
+    guiAddress = "localhost:8384";
     settings = {
       # Register known devices (only those with non-empty id)
       devices = devices;
