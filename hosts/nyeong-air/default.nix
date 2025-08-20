@@ -39,6 +39,7 @@
     "orbstack"
     "moonlight"
     "calibre"
+    "vial"
   ];
 
   # Mac App Store 앱

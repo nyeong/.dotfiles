@@ -26,6 +26,7 @@
   home.stateVersion = "25.11";
   home.packages = with pkgs; [
     claude-code
+    gemini-cli
 
     # General packages for development and system management
     bash-completion

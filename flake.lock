@@ -152,11 +152,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1754950654,
-        "narHash": "sha256-30f9MF+zIKLodQRuSLyY4OSDZSOy5O+/FslgPt/prbc=",
+        "lastModified": 1755121891,
+        "narHash": "sha256-UtYkukiGnPRJ5rpd4W/wFVrLMh8fqtNkqHTPgHEtrqU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d19f3213e51469321835a9188adfa20391ff9371",
+        "rev": "279ca5addcdcfa31ac852b3ecb39fc372684f426",
         "type": "github"
       },
       "original": {
@@ -188,11 +188,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1754725699,
-        "narHash": "sha256-iAcj9T/Y+3DBy2J0N+yF9XQQQ8IEb5swLFzs23CdP88=",
+        "lastModified": 1755027561,
+        "narHash": "sha256-IVft239Bc8p8Dtvf7UAACMG5P3ZV+3/aO28gXpGtMXI=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "85dbfc7aaf52ecb755f87e577ddbe6dbbdbc1054",
+        "rev": "005433b926e16227259a1843015b5b2b7f7d1fc3",
         "type": "github"
       },
       "original": {
@@ -217,10 +217,10 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1755086438,
-        "narHash": "sha256-YnzbWyDVbY4D7dKtQvAMkvpRgHXgCkGxKsb6G2PWBiw=",
+        "lastModified": 1755087533,
+        "narHash": "sha256-FOBnzrRtYRnQiAdgwpr/EbkkPsP8A+wOxiBnPJVtRGg=",
         "ref": "refs/heads/main",
-        "rev": "244a5221c0ae9990a73e0702dc485e7f081c786c",
+        "rev": "df48547c2cad37c41717fc46253d6c0407cb4d6e",
         "revCount": 3,
         "type": "git",
         "url": "ssh://git@github.com/nyeong/secrets.git"

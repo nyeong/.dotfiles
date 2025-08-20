@@ -7,31 +7,22 @@
 }: {
   imports = [
     ./services/caddy.nix
+    ./services/rclone.nix
     ./hardware-configuration.nix
-    ./containers.nix
+    ./containers
     ../../modules/system/emacs
   ];
 
   # agenix secrets
-  age.secrets.webdav-password.file = "${secrets}/webdav-password.age";
-
-  # rclone WebDAV
-  systemd.services.rclone-webdav = {
-    description = "rclone WebDAV server for library";
-    after = ["network.target"];
-    wantedBy = ["multi-user.target"];
-    serviceConfig = {
-      Type = "simple";
-      User = "nyeong";
-      ExecStart = ''
-        ${pkgs.rclone}/bin/rclone serve webdav /storage \
-        --addr :8080 \
-        --user nyeong \
-        --pass $(cat ${config.age.secrets.webdav-password.path})
-      '';
-      Restart = "on-failure";
-    };
+  age.secrets.webdav-password = {
+    file = "${secrets}/webdav-password.age";
+    owner = "nyeong";
+    group = "users";
+    mode = "0400";
   };
+
+  # agenix identity keys
+  age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
 
   nix = {
     settings = {
@@ -56,7 +47,7 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [22 80 443 5000 5299 8080 8081 8083 22000 8384];
+      allowedTCPPorts = [22 22000 8384];
       allowedUDPPorts = [22000 21027];
     };
   };
@@ -77,7 +68,11 @@
       PasswordAuthentication = false;
       PermitRootLogin = "no";
     };
+    startWhenNeeded = true;
   };
+
+  # SSH Agent
+  programs.ssh.startAgent = true;
 
   # Ensure system zsh is enabled when user's login shell is zsh
   programs.zsh.enable = true;

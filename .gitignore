@@ -10,3 +10,5 @@ result
 .stfolder
 .direnv/
 .pre-commit-config.yaml
+
+_*
