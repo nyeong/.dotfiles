@@ -95,6 +95,7 @@
     vim
     git
     htop
+    bottom
     helix
 
     rclone

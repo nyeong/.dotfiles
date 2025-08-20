@@ -27,6 +27,7 @@
   home.packages = with pkgs; [
     claude-code
     gemini-cli
+    code-cursor
 
     # General packages for development and system management
     bash-completion

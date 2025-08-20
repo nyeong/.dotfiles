@@ -32,6 +32,7 @@ in {
             "**/.git/**"
           ];
         };
+
         dotfiles = {
           id = "dotfiles";
           path = "~/.dotfiles";

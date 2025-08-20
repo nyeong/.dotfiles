@@ -113,21 +113,5 @@ in {
         };
       }
     ];
-
-    # Auto-start Emacs daemon on Linux (nixbox) as a user systemd service
-    systemd.user.services.emacs = lib.mkIf isLinux {
-      Unit = {
-        Description = "Emacs Daemon (Doom, XDG)";
-        After = ["default.target"];
-      };
-      Service = {
-        Type = "simple";
-        ExecStart = "${my-emacs-with-packages}/bin/emacs --fg-daemon --init-directory ${config.home.homeDirectory}/.config/emacs";
-        Restart = "on-failure";
-      };
-      Install = {
-        WantedBy = ["default.target"];
-      };
-    };
   };
 }

@@ -5,11 +5,11 @@ Nix에 모든 것을 맡기는 중...
 ## 구조
 
 - `flake.nix` : 모두의 entry point
-- `hosts/{hostname}/default.nix` : 각 호스트에 대한 시스템 설정
-- `hosts/{hostname}/home-manager.nix` : 각 호스트에 대한 홈 설정
-- `modules/darwin/{module-name}` : darwin에서만 쓰는 모듈
-- `modules/home/{module-name}` : home-manager에서 쓰는 모듈
-- `modules/fonts/{module-name}` : 폰트
+- `hosts/{hostname}/` : 각 시스템에 대한 설정
+- `modules/` : 재사용 가능한 설정
+- `modules/home/` : home-manager 내에서 재사용 가능한 설정
+- `modules/system/` : nixos, nix-darwin 내에서 재사용 가능한 설정
+- `modules/darwin/` : nix-darwin 내에서만 재사용 가능한 설정
 
 우선은 한 파일에 몰아넣고, 공통된다면 분리하자!
 
