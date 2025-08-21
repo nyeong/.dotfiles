@@ -16,7 +16,7 @@ in {
       TZ = tz;
     };
     volumes = [
-      "/storage/@flims:/media"
+      "/storage/@films:/media"
       "/var/lib/containers/jellyfin/config:/config"
       "/var/lib/containers/jellyfin/cache:/cache"
     ];

@@ -10,15 +10,13 @@ in {
     image = "ghcr.io/archivebox/archivebox:latest";
     ports = ["8001:8000"];
     environment = {
+      CSRF_TRUSTED_ORIGINS = "http://localhost:8001";
       PUID = puid;
       PGID = pgid;
       TZ = tz;
     };
     volumes = [
       "/storage/@archives/archivebox:/data"
-    ];
-    extraOptions = [
-      "--user=${puid}:${pgid}"
     ];
     autoStart = true;
   };

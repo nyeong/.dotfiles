@@ -7,22 +7,22 @@
 }: {
   imports = [
     ./services/caddy.nix
-    ./services/rclone.nix
+    ./services/rclone
     ./hardware-configuration.nix
     ./containers
     ../../modules/system/emacs
   ];
 
+  # agenix identity keys
+  age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+
   # agenix secrets
-  age.secrets.webdav-password = {
-    file = "${secrets}/webdav-password.age";
+  age.secrets."rclone.htpasswd" = {
+    file = "${secrets}/rclone.htpasswd.age";
     owner = "nyeong";
     group = "users";
     mode = "0400";
   };
-
-  # agenix identity keys
-  age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
 
   nix = {
     settings = {
@@ -47,7 +47,7 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [22 22000 8384];
+      allowedTCPPorts = [22 22000 8384 8080 8081];
       allowedUDPPorts = [22000 21027];
     };
   };
