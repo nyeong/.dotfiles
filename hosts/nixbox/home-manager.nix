@@ -21,4 +21,11 @@
     ripgrep
     fd
   ];
+
+  # nixbox에서 syncthing 폴더 경로 설정
+  services.syncthing.settings.folders = {
+    "screenshots@nyeong-air".path = "/storage/@screenshots/nyeong-air";
+    "hanassig".path = "~/hanassig";
+    "dotfiles".path = "~/.dotfiles";
+  };
 }

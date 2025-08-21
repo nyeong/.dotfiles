@@ -99,4 +99,11 @@
     ruby
     playwright-driver.browsers
   ];
+
+  # nyeong-air에서 syncthing 폴더 경로 설정
+  services.syncthing.settings.folders = {
+    "screenshots@nyeong-air".path = "~/Screenshots";
+    "hanassig".path = "~/hanassig";
+    "dotfiles".path = "~/.dotfiles";
+  };
 }

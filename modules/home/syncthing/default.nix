@@ -22,9 +22,20 @@ in {
       devices = devices;
 
       folders = {
+        "screenshots@nyeong-air" = {
+          id = "screenshots@nyeong-air";
+          devices = ["nyeong-air" "nixbox"];
+          # path는 각 호스트의 home-manager에서 정의
+          ignores = [
+            ".git"
+            ".DS_Store"
+            "**/.git/**"
+          ];
+        };
+
         hanassig = {
           id = "hanassig";
-          path = "~/hanassig";
+          # path는 각 호스트의 home-manager에서 정의
           devices = deviceNames;
           ignores = [
             ".git"
@@ -35,7 +46,7 @@ in {
 
         dotfiles = {
           id = "dotfiles";
-          path = "~/.dotfiles";
+          # path는 각 호스트의 home-manager에서 정의
           devices = deviceNames;
           ignores = [
             ".git"
