@@ -1,6 +1,7 @@
 # File Browser - File manager
 {containerConfig, ...}: let
   inherit (containerConfig) puid pgid tz;
+  palette = import ../_palette.nix;
 in {
   # Create container directories with proper permissions
   systemd.tmpfiles.rules = [
@@ -12,7 +13,7 @@ in {
   # File Browser - File manager
   virtualisation.oci-containers.containers.filebrowser = {
     image = "filebrowser/filebrowser:latest";
-    ports = ["8081:8081"];
+    ports = ["${palette.ports.filebrowser}:8081"];
     environment = {
       PUID = puid;
       PGID = pgid;
@@ -23,7 +24,7 @@ in {
     ];
     cmd = [
       "--port"
-      "8081"
+      "${palette.ports.filebrowser}"
     ];
     volumes = [
       "/storage:/srv"

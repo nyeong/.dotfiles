@@ -25,8 +25,8 @@
     mode = "0400";
   };
 
-  age.secrets."tailscale.authkey" = {
-    file = "${secrets}/tailscale.authkey.age";
+  age.secrets."tailscale.nixbox.auth" = {
+    file = "${secrets}/tailscale.nixbox.auth.age";
     owner = "caddy";
     group = "caddy";
     mode = "0400";

@@ -1,5 +1,6 @@
 {containerConfig, ...}: let
   inherit (containerConfig) puid pgid tz;
+  palette = import ../_palette.nix;
 in {
   systemd.tmpfiles.rules = [
     "d /var/lib/containers/postgres 0755 ${puid} ${pgid} -"
@@ -9,7 +10,7 @@ in {
   virtualisation.oci-containers.containers.postgres = {
     image = "postgres:16";
     extraOptions = ["--network=host"];
-    ports = ["5432:5432"];
+    ports = ["${palette.ports.postgres}:5432"];
     environment = {
       POSTGRES_USER = "immich";
       POSTGRES_PASSWORD = "immich123";
