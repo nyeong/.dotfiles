@@ -6,7 +6,8 @@
   ...
 }: {
   imports = [
-    ./services/caddy.nix
+    ./services/tailscale.nix
+    ./services/caddy
     ./services/rclone
     ./hardware-configuration.nix
     ./containers
@@ -21,6 +22,13 @@
     file = "${secrets}/rclone.htpasswd.age";
     owner = "nyeong";
     group = "users";
+    mode = "0400";
+  };
+
+  age.secrets."tailscale.authkey" = {
+    file = "${secrets}/tailscale.authkey.age";
+    owner = "caddy";
+    group = "caddy";
     mode = "0400";
   };
 
