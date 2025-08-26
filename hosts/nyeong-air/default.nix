@@ -106,6 +106,10 @@
       screensaver.askForPassword = true;
       screensaver.askForPasswordDelay = 0;
       CustomUserPreferences = {
+        # OrbStack: set default terminal to WezTerm via nix-darwin
+        "dev.orbstack.gui" = {
+          "DefaultTerminal" = "${pkgs.wezterm}/Applications/WezTerm.app";
+        };
         "com.apple.symbolichotkeys" = {
           AppleSymbolicHotKeys = {
             # 언어 변경을 shift + space로

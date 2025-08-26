@@ -15,6 +15,7 @@
     ../../modules/home/syncthing
   ];
 
+  # ₩를 `으로 대체
   home.file."${config.home.homeDirectory}/Library/KeyBindings/DefaultKeyBinding.dict".text = ''
     {
         "₩" = ("insertText:", "`");
