@@ -1,6 +1,7 @@
 {
   userConfig,
   pkgs,
+  lib,
   ...
 }: {
   programs.wezterm = {
@@ -23,4 +24,6 @@
       return config
     '';
   };
+
+  # OrbStack defaults are set via nix-darwin in host config
 }
