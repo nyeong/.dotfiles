@@ -9,6 +9,7 @@
     ./services/tailscale.nix
     ./services/caddy
     ./services/rclone
+    ./services/adguard
     ./hardware-configuration.nix
     ./containers
     ../../modules/system/emacs
@@ -22,13 +23,6 @@
     file = "${secrets}/rclone.htpasswd.age";
     owner = "nyeong";
     group = "users";
-    mode = "0400";
-  };
-
-  age.secrets."tailscale.nixbox.auth" = {
-    file = "${secrets}/tailscale.nixbox.auth.age";
-    owner = "caddy";
-    group = "caddy";
     mode = "0400";
   };
 
@@ -55,8 +49,8 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [22 22000 8384 8080 8081];
-      allowedUDPPorts = [22000 21027];
+      allowedTCPPorts = [22 53 22000 8384 8080 8081];
+      allowedUDPPorts = [53 22000 21027];
     };
   };
 

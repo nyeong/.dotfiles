@@ -13,6 +13,7 @@
     ../../modules/home/zsh
     ../../modules/home/javascript
     ../../modules/home/syncthing
+    ../../modules/home/cursor
   ];
 
   # ₩를 `으로 대체

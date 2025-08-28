@@ -39,7 +39,11 @@ in {
         --addr :${palette.ports.webdav_hanassig} \
         --user nyeong \
         --config ${./config/rclone.conf} \
-        --htpasswd ${config.age.secrets."rclone.htpasswd".path}
+        --htpasswd ${config.age.secrets."rclone.htpasswd".path} \
+        --disable-http2 \
+        --vfs-cache-mode off \
+        --dir-cache-time 0 \
+        --log-level DEBUG
       '';
       Restart = "on-failure";
     };
