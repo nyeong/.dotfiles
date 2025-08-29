@@ -143,6 +143,21 @@
         }
       ];
     };
+    nixosConfigurations."nix" = nixpkgs.lib.nixosSystem {
+      system = "aarch64-linux";
+      specialArgs = commonArgs;
+      modules = [
+        ./hosts/nix
+        agenix.nixosModules.default
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.${userConfig.username} = import ./hosts/nix/home-manager.nix;
+          home-manager.extraSpecialArgs = commonArgs;
+        }
+      ];
+    };
     nixosConfigurations."nixbox" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = commonArgs;
