@@ -217,11 +217,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1755773835,
-        "narHash": "sha256-898ZQhtCqlrz/ykyg/EYhPkW6KaUqyb7SIbc3OF7whI=",
+        "lastModified": 1757304010,
+        "narHash": "sha256-JBY4oRrf3RKAB0IFZXjLoK3xSGKFMGwXsy2CsJW7eds=",
         "ref": "refs/heads/main",
-        "rev": "1a5344ce71d77f02ee9269557c6e61d106462bc9",
-        "revCount": 7,
+        "rev": "ae6f2eee7251c3d600e9e91c5c6ccfb2974c5a92",
+        "revCount": 8,
         "type": "git",
         "url": "ssh://git@github.com/nyeong/secrets.git"
       },

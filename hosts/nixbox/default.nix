@@ -10,6 +10,7 @@
     ./services/caddy
     ./services/rclone
     ./services/adguard
+    ./services/cloudflared.nix
     ./hardware-configuration.nix
     ./containers
     ../../modules/system/emacs

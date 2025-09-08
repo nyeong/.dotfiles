@@ -24,7 +24,7 @@ in {
     "d /var/lib/containers/immich/config 0755 ${puid} ${pgid} -"
     "d /var/lib/containers/immich/postgres 0755 ${puid} ${pgid} -"
     "d /var/lib/containers/immich/ml 0755 ${puid} ${pgid} -"
-    "d /var/lib/containers/immich/valkey 0755 ${puid} ${pgid} -"
+    "d /var/lib/containers/immich/valkey 0755 999 999 -"
 
     # HDD
     "d /storage/@immich 0755 ${puid} ${pgid} -"
@@ -95,7 +95,10 @@ in {
 
   virtualisation.oci-containers.containers.immich-valkey = {
     image = "docker.io/valkey/valkey:8-bookworm@sha256:a137a2b60aca1a75130022d6bb96af423fefae4eb55faf395732db3544803280";
-    extraOptions = ["--network=immich-net"];
+    extraOptions = [
+      "--network=immich-net"
+      "--user=999:999"
+    ];
     environment = {
       TZ = tz;
     };
