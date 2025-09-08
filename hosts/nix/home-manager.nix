@@ -12,7 +12,6 @@
   home.username = userConfig.username;
   home.homeDirectory = "/home/${userConfig.username}";
   home.stateVersion = "25.11";
-
   home.packages = with pkgs; [
     git
     lsd

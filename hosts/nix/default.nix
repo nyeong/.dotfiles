@@ -44,6 +44,8 @@
 
   programs.zsh.enable = true;
 
+  programs.gnupg.agent.enable = true;
+
   environment.systemPackages = with pkgs; [
     vim
     git
@@ -52,6 +54,7 @@
     helix
     wget
     nodejs
+    pinentry
   ];
 
   security.sudo.wheelNeedsPassword = false;
