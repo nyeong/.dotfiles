@@ -40,6 +40,7 @@
     "moonlight"
     "calibre"
     "vial"
+    "wireshark"
   ];
 
   # Mac App Store 앱

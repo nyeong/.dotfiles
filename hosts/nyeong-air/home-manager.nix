@@ -39,7 +39,6 @@
     lsd
     coreutils
     killall
-    neofetch
     openssh
     sqlite
     wget
