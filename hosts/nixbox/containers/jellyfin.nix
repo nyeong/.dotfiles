@@ -24,9 +24,6 @@ in {
     ports = [
       "${palette.ports.jellyfin}:8096"
     ];
-    extraOptions = [
-      "--network=host"
-    ];
     autoStart = true;
   };
 }

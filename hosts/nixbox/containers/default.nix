@@ -9,6 +9,20 @@
   pgid = "100";
   tz = "Asia/Seoul";
 
+  update-containers = pkgs.writeShellScriptBin "update-containers" ''
+    SUDO=""
+    if [[ $(id -u) -ne 0 ]]; then
+    	SUDO="sudo"
+    fi
+
+       images=$($SUDO ${pkgs.podman}/bin/podman ps -a --format="{{.Image}}" | sort -u)
+
+       for image in $images
+       do
+         $SUDO ${pkgs.podman}/bin/podman pull $image
+       done
+  '';
+
   # Dynamically import all .nix files in the containers directory
   containerModules = let
     containerDir = ./.;
@@ -39,10 +53,28 @@ in
 
         virtualisation.oci-containers.backend = "podman";
 
+        systemd.timers = {
+          updatecontainers = {
+            timerConfig = {
+              Unit = "updatecontainers.service";
+              OnCalendar = "Mon 02:00";
+            };
+            wantedBy = ["timers.target"];
+          };
+        };
+
         systemd.services = let
           containerNames = builtins.attrNames config.virtualisation.oci-containers.containers;
         in
-          builtins.listToAttrs (map (name: {
+          {
+            updatecontainers = {
+              serviceConfig = {
+                Type = "oneshot";
+                ExecStart = "update-containers";
+              };
+            };
+          }
+          // builtins.listToAttrs (map (name: {
               name = "podman-${name}";
               value = {
                 after = ["systemd-tmpfiles-setup.service"];

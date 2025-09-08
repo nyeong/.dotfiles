@@ -17,8 +17,9 @@ Nix에 모든 것을 맡기는 중...
 
 - 포매팅 : `nix format`
 - 설정 적용
-  - darwin : `sudo darwin-rebuild switch --flake .#nyeong-air`
-  - linux : `sudo nixos-rebuild switch --flake path:.#hostname`
+  - nyeong-air : `sudo darwin-rebuild switch --flake .#nyeong-air`
+  - nixbox : `sudo nixos-rebuild switch --flake path:.#hostname`
+  - nix : `sudo nixos-rebuild switch --flake .#hostname --impure`
 
 ## hosts
 
