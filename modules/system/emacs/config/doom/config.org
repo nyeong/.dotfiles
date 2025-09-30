@@ -89,6 +89,9 @@
 
 ** Org Attach
 ** 템플릿
+:PROPERTIES:
+:MODIFIED: <2025-09-29 Mon>
+:END:
 
 #+begin_src elisp :tangle config.el
 ;; 기본 템플릿
@@ -484,6 +487,15 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
 (add-hook 'after-save-hook #'nyeong/mark-git-changes)
 #+end_src
 
+** Typst
+
+[[https://github.com/remimimimimi/org-typst-preview.el][GitHub - remimimimimi/org-typst-preview.el: Preview Typst code blocks in org-...]]
+
+#+begin_src elisp :tangle config.el
+(use-package! org-typst-preview
+  :after org
+  )
+#+end_src
 * 언어별 설정
 
 ** Nix

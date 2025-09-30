@@ -1,10 +1,10 @@
-{...}: let
+{lib, ...}: let
   palette = import ../../_palette.nix;
 in {
   services.adguardhome = {
     enable = true;
     host = "0.0.0.0";
-    port = palette.ports.adguard;
+    port = lib.toInt palette.ports.adguard;
     settings = {
       dns = {
         # Bind only to loopback, LAN, and Tailscale; avoid Podman bridge (10.88.0.1)

@@ -14,6 +14,15 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
     # Formatting + Git hooks
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -35,6 +44,9 @@
   outputs = {
     self,
     nix-darwin,
+    nix-homebrew,
+    homebrew-core,
+    homebrew-cask,
     home-manager,
     nixpkgs,
     disko,
@@ -133,6 +145,23 @@
       system = "aarch64-darwin";
       specialArgs = commonArgs;
       modules = [
+        nix-homebrew.darwinModules.nix-homebrew
+        {
+          nix-homebrew = {
+            enable = true;
+            # enableRosetta = true;
+            user = "nyeong";
+            taps = {
+              "homebrew/homebrew-core" = homebrew-core;
+              "homebrew/homebrew-cask" = homebrew-cask;
+            };
+
+            # Optional: Enable fully-declarative tap management
+            #
+            # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
+            mutableTaps = false;
+          };
+        }
         ./hosts/nyeong-air
         home-manager.darwinModules.home-manager
         {

@@ -4,7 +4,7 @@
   palette = import ../_palette.nix;
 in {
   systemd.tmpfiles.rules = [
-    "d /storage/@archives/archivebox 0755 ${puid} ${pgid} -"
+    "Z /storage/@archives/archivebox 2755 ${puid} ${pgid} -"
   ];
 
   virtualisation.oci-containers.containers.archivebox = {

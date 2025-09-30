@@ -13,6 +13,9 @@
  :recipe (:host github :repo "alphapapa/org-ql"
        :files (:defaults (:exclude "helm-*.el"))))
 
+(package! org-typst-preview
+ :recipe (:host github :repo "remimimimimi/org-typst-preview.el"))
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
 

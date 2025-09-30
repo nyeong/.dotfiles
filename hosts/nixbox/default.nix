@@ -4,12 +4,16 @@
   userConfig,
   secrets,
   ...
-}: {
+}: let
+  palette = import ./_palette.nix;
+  lib = pkgs.lib;
+in {
   imports = [
     ./services/tailscale.nix
-    ./services/caddy
-    ./services/rclone
     ./services/adguard
+    ./services/postgres.nix
+    ./services/samba.nix
+    ./services/sftpgo.nix
     ./services/cloudflared.nix
     ./hardware-configuration.nix
     ./containers
@@ -19,14 +23,7 @@
   # agenix identity keys
   age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
 
-  # agenix secrets
-  age.secrets."rclone.htpasswd" = {
-    file = "${secrets}/rclone.htpasswd.age";
-    owner = "nyeong";
-    group = "users";
-    mode = "0400";
-  };
-
+  nixpkgs.config.allowUnfree = true;
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
@@ -50,8 +47,13 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [22 53 22000 8384 8080 8081];
-      allowedUDPPorts = [53 22000 21027];
+      allowedTCPPorts = lib.concatLists [
+        [
+          22
+        ]
+        (map lib.toInt (builtins.attrValues palette.ports))
+      ];
+      allowedUDPPorts = [53 22000 21027 6881];
     };
   };
 
@@ -74,15 +76,18 @@
     startWhenNeeded = true;
   };
 
-  # SSH Agent
   programs.ssh.startAgent = true;
-
-  # Ensure system zsh is enabled when user's login shell is zsh
   programs.zsh.enable = true;
+
+  users.groups = {
+    share = {
+      gid = 1001;
+    };
+  };
 
   users.users.nyeong = {
     isNormalUser = true;
-    extraGroups = ["wheel" "networkmanager" "docker"];
+    extraGroups = ["wheel" "networkmanager" "docker" "share"];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHW38hDRPSN1QuPELEBOj5ex6mV9Iw69z6jJRdveibGE me@annyeong.me"
     ];

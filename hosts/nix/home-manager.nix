@@ -7,6 +7,7 @@
     ../../modules/home/zsh
     ../../modules/home/ssh.nix
     ../../modules/home/git.nix
+    ../../modules/home/zellij
   ];
 
   home.username = userConfig.username;

@@ -4,9 +4,9 @@
   palette = import ../_palette.nix;
 in {
   systemd.tmpfiles.rules = [
-    "d /var/lib/containers/jellyfin 0755 ${puid} ${pgid} -"
-    "d /var/lib/containers/jellyfin/config 0755 ${puid} ${pgid} -"
-    "d /var/lib/containers/jellyfin/cache 0755 ${puid} ${pgid} -"
+    "Z /var/lib/containers/jellyfin 2755 ${puid} ${pgid} -"
+    "Z /var/lib/containers/jellyfin/config 2755 ${puid} ${pgid} -"
+    "Z /var/lib/containers/jellyfin/cache 2755 ${puid} ${pgid} -"
   ];
 
   virtualisation.oci-containers.containers.jellyfin = {

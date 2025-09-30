@@ -4,7 +4,7 @@
   palette = import ../_palette.nix;
 in {
   systemd.tmpfiles.rules = [
-    "d /var/lib/containers/valkey 0755 ${puid} ${pgid} -"
+    "Z /var/lib/containers/valkey 2755 ${puid} ${pgid} -"
   ];
 
   virtualisation.oci-containers.containers.valkey = {

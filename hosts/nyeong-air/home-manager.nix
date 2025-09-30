@@ -31,6 +31,8 @@
     gemini-cli
     code-cursor
 
+    typst
+
     # General packages for development and system management
     bash-completion
     bat

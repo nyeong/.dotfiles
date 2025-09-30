@@ -5,8 +5,8 @@
   lib,
   ...
 }: let
-  puid = "1000";
-  pgid = "100";
+  puid = builtins.toString config.users.users.nyeong.uid;
+  pgid = builtins.toString config.users.groups.share.gid;
   tz = "Asia/Seoul";
 
   update-containers = pkgs.writeShellScriptBin "update-containers" ''
