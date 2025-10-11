@@ -17,7 +17,7 @@
   xdg-config-home = ".config";
 
   emacs-overlay = import (fetchTarball {
-    url = "https://github.com/nix-community/emacs-overlay/archive/44ee05e41df82bdc7e38186c4b9a740f84ef48c3.tar.gz";
+    url = "https://github.com/nix-community/emacs-overlay/archive/bca9f3125603397a9a2931d38f835b28fbd2ae8f.tar.gz";
     sha256 = "1m0ry2q9ndvk3kk9k9c74wkf5nq9zbihra5qawhpw49xr456j0gx";
   });
 
@@ -29,7 +29,7 @@
     if pkgs ? emacs-unstable
     then
       chosenEmacsBase.override {
-        withNativeCompilation = false;
+        withNativeCompilation = true;
         withSQLite3 = true;
         withTreeSitter = true;
         withWebP = true;

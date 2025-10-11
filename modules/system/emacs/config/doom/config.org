@@ -14,6 +14,16 @@
     (load secret-file)))
 #+end_src
 
+* Editor Config
+
+#+begin_src elisp :tangle config.el
+(setq-default
+ tap-width 2
+ evil-shift-width 2
+ indent-tabs-mode nil
+ standard-indent 2)
+#+end_src
+
 * 외관
 
 #+begin_src elisp :tangle config.el
@@ -87,10 +97,9 @@
 (pixel-scroll-precision-mode t)
 #+end_src
 
-** Org Attach
 ** 템플릿
 :PROPERTIES:
-:MODIFIED: <2025-09-29 Mon>
+:MODIFIED: <2025-10-11 Sat>
 :END:
 
 #+begin_src elisp :tangle config.el
@@ -297,92 +306,6 @@
                        :props (list :finalize 'find-file))))
 #+end_src
 
-** 주간 일기 추가
-
-#+begin_src elisp :tangle config.el
-(defun nyeong/ensure-weekly-journal ()
-  "Ensure the current week's journal file exists and has today's section.
-Creates the weekly file if it doesn't exist with sections for all days of the week."
-  (interactive)
-  (let* ((today (current-time))
-         (day-name (format-time-string "%a" today))
-         (date-str (format-time-string "[%Y-%m-%d %a]" today))
-         (week-year (format-time-string "%Y" today))
-         (week-num (format-time-string "%V" today))
-         (week-id (format "%s-W%s" week-year week-num))
-         ;; Use the existing org-directory variable
-         (journal-dir (expand-file-name "journals/weekly" org-directory))
-         (journal-file (expand-file-name (concat week-id ".org") journal-dir)))
-
-    ;; Create journals/weekly directory if it doesn't exist
-    (unless (file-directory-p journal-dir)
-      (make-directory journal-dir t))
-
-    ;; Create weekly file if it doesn't exist
-    (unless (file-exists-p journal-file)
-      (with-temp-file journal-file
-        (let* ((current-dow (string-to-number (format-time-string "%u" today))) ; 1-7, Monday is 1
-               (monday (time-subtract today (seconds-to-time (* 86400 (1- current-dow)))))
-               (days-content ""))
-
-          ;; Generate sections for all 7 days of the week
-          (dotimes (i 7)
-            (let* ((day-time (time-add monday (seconds-to-time (* 86400 i))))
-                   (day-str (format-time-string "[%Y-%m-%d %a]" day-time)))
-              (setq days-content (concat days-content
-                                         "\n* <" (substring day-str 1 -1) ">\n"
-                                         "** 한 일\n"
-                                         "- \n"
-                                         "\n"
-                                         "** 메모\n"
-                                         "- \n\n"))))
-
-          (insert (concat
-                   ":PROPERTIES:\n"
-                   ":CREATED: <" (substring date-str 1 -1) ">\n"
-                   ":MODIFIED: <" (substring date-str 1 -1) ">\n"
-                   ":END:\n"
-                   "#+TITLE: " week-id "\n"
-                   "#+FILETAGS: :weekly:\n"
-                   "#+DATE: <" (format-time-string "%Y-%m-%d" monday) ">\n\n"
-                   "* 이번주 목표 [0/0]\n"
-                   "\n"
-                   "* 주간 회고\n"
-                   "** 성취한 것\n"
-                   "- \n"
-                   "\n"
-                   "** 배운 것\n"
-                   "- \n"
-                   "\n"
-                   "** 다음 주 계획\n"
-                   "- \n"
-                   days-content)))))
-
-    ;; Return the buffer of the journal file
-    (find-file-noselect journal-file)))
-
-;; Function to open today's journal
-(defun nyeong/open-todays-journal ()
-  "Open the current week's journal and navigate to today's section."
-  (interactive)
-  (let* ((buf (nyeong/ensure-weekly-journal))
-         (today-str (format-time-string "[%Y-%m-%d %a]" (current-time))))
-    (switch-to-buffer buf)
-    (goto-char (point-min))
-    (if (re-search-forward (concat "^\\* <" (substring today-str 1 -1) ">") nil t)
-        (progn
-          ;; Move to the first item in "한 일" section
-          (re-search-forward "^\\*\\* 한 일" nil t)
-          (forward-line 1)
-          ;; If there's just a bullet point, position cursor after it
-          (when (looking-at "- $")
-            (end-of-line))
-          (recenter-top-bottom 4)) ; Show some context above
-      (message "Could not find today's section"))))
-
-;; Add to after-init-hook to ensure journal exists when Emacs starts
-(add-hook 'after-init-hook #'nyeong/ensure-weekly-journal)
-#+end_src
 ** babel
 *** tangle 전 디렉토리 자동 생성
 
@@ -413,90 +336,79 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
    '((d2 . t))))
 #+end_src
 
-** hanassig Git 자동 동기화
+** org-ps
 
 #+begin_src elisp :tangle config.el
-(defvar nyeong/git-sync-pull-timer nil
-  "Timer for periodic git pull.")
+(use-package! org-ps
+ :load-path "/Users/nyeong/Repos/org-ps.el"
+ :config
+ (defun org-ps-cpp--compile-cmd (source-file output-file)
+   (list "nix" "shell" "nixpkgs#clang" "nixpkgs#catch2_3" "--command"
+       "bash" "-c"
+       (format
+        "catch2_path=$(nix eval --raw nixpkgs#catch2_3.outPath) && \\\n          clang++ %s -o %s \\\n          -I\"$catch2_path/include\" \\\n          -L\"$catch2_path/lib\" \\\n          -lCatch2Main -lCatch2 \\\n          -std=c++20 -O2 -Wall -Werror -Wpedantic -Wextra"
+        (shell-quote-argument source-file)
+        (shell-quote-argument output-file))))
 
-(defvar nyeong/git-sync-push-timer nil
-  "Timer for periodic git push.")
+ (defun org-ps-cpp--execute-cmd (executable-file)
+   (list executable-file "--durations" "yes"))
 
-(defvar nyeong/last-git-push-time nil
-  "Timestamp of the last git push.")
+ (defun org-ps-cpp--template-fn (solution-code test-code)
+   "Generate single C++ code by concatenating SOLUTION-CODE and TEST-CODE."
+   (concat
+    "#include <catch2/catch_test_macros.hpp>\n"
+    "#include <vector>\n"
+    "#include <string>\n"
+    "#include <iostream>\n"
+    "#include <algorithm>\n\n"
+    "using namespace std;\n\n"
+    solution-code "\n\n"
+    test-code))
 
-(defvar nyeong/git-changes-pending nil
-  "Flag indicating whether there are uncommitted changes.")
+ (defun org-ps-cpp--edit-prep-fn (babel-info)
+   (let* ((header-params (nth 2 babel-info))
+        (tangle-file (alist-get :tangle header-params))
+        (project-root (expand-file-name "~/hanassig/"))
+        (file-path (if (and tangle-file (not (string= tangle-file "no")))
+                  (expand-file-name tangle-file project-root)
+                 (expand-file-name "temp.cpp" project-root)))
+        (compile-commands (expand-file-name "compile_commands.json" project-root)))
+     (setq-local buffer-file-name file-path)
+     (setq-local default-directory project-root)
 
-(defun nyeong/in-org-directory-p ()
-  "Return t if current buffer's file is in org-directory."
-  (when-let ((file-name (buffer-file-name)))
-    (string-prefix-p (expand-file-name org-directory)
-                    (expand-file-name file-name))))
+     (when (and (fboundp 'lsp!) (not lsp-mode)) (lsp!))))
 
-(defun nyeong/git-sync-pull ()
-  "Pull changes from remote repository for org-directory asynchronously."
-  (when (and (nyeong/in-org-directory-p)
-             (not (active-minibuffer-window))
-             (not (current-message))  ; 메시지 영역이 사용중이지 않을 때만
-             (not isearch-mode))      ; 검색 중이 아닐 때만
-    (let ((default-directory org-directory)
-          (process-connection-type nil)) ; 프로세스 버퍼 생성 방지
-      (start-process "git-pull" nil "git" "pull"))))
-
-(defun nyeong/git-sync-push ()
-  "Commit and push changes if there are any pending changes asynchronously."
-  (when (and nyeong/git-changes-pending
-             (not (active-minibuffer-window))
-             (not (current-message))  ; 메시지 영역이 사용중이지 않을 때만
-             (not isearch-mode))      ; 검색 중이 아닐 때만
-    (let* ((daily-commit-script (expand-file-name "bin/daily_commit.sh" org-directory))
-           (repo-path org-directory)
-           (full-command (format "%s %s" daily-commit-script repo-path)))
-      (unless (file-exists-p daily-commit-script)
-        (message "Error: Daily commit script not found at %s" daily-commit-script)
-        (ding)
-        (setq nyeong/git-changes-pending nil)
-        (signal 'file-error (list "Daily commit script not found" daily-commit-script)))
-      (message "Running daily Git sync for %s..." repo-path)
-      (start-process-shell-command
-        "git-daily-sync-process"
-        nil
-        full-command)
-
-      (setq nyeong/git-changes-pending nil)
-      (setq nyeong/last-git-push-time (current-time))
-      (message "Daily Git sync process started."))))
-
-(defun nyeong/mark-git-changes ()
-  "Mark that there are pending changes to be committed."
-  (when (nyeong/in-org-directory-p)
-    (setq nyeong/git-changes-pending t)))
-
-;; Start periodic pull timer (every 5 minutes)
-(unless nyeong/git-sync-pull-timer
-  (setq nyeong/git-sync-pull-timer
-        (run-with-timer 0 300 #'nyeong/git-sync-pull)))
-
-;; Start periodic push timer (every 30 minutes)
-(unless nyeong/git-sync-push-timer
-  (setq nyeong/git-sync-push-timer
-        (run-with-timer 0 1800 #'nyeong/git-sync-push)))
-
-;; Add save hook to mark changes
-(add-hook 'after-save-hook #'nyeong/mark-git-changes)
+ (org-ps--register-backend "cpp"
+                   (list :compile-cmd #'org-ps-cpp--compile-cmd
+                       :execute-cmd #'org-ps-cpp--execute-cmd
+                       :template-fn #'org-ps-cpp--template-fn
+                       :edit-prep-fn #'org-ps-cpp--edit-prep-fn
+                       :file-ext "cpp"))
+ )
 #+end_src
 
-** Typst
-
-[[https://github.com/remimimimimi/org-typst-preview.el][GitHub - remimimimimi/org-typst-preview.el: Preview Typst code blocks in org-...]]
-
-#+begin_src elisp :tangle config.el
-(use-package! org-typst-preview
-  :after org
-  )
-#+end_src
 * 언어별 설정
+** C++
+#+begin_src elisp :tangle config.el
+(after! lsp-clangd
+  (setq lsp-clients-clangd-args
+        '("-j=3"
+          "--background-index"
+          "--clang-tidy"
+          "--completion-style=detailed"
+          "--header-insertion=never"
+          "--header-insertion-decorators=0"
+          "--query-driver=/usr/bin/clang++,/Library/Developer/CommandLineTools/usr/bin/clang++"))
+  (set-lsp-priority! 'clangd 2))
+
+(after! ccls
+  (setq ccls-initialization-options
+        '(:index (:comments 2)
+          :completion (:detailedLabel t)
+          :clang (:extraArgs ["-std=c++20"]
+                  :resourceDir "")))
+  (set-lsp-priority! 'ccls 1))
+#+end_src
 
 ** Nix
 #+begin_src elisp :tangle config.el

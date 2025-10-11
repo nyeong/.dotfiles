@@ -38,10 +38,6 @@
     "raycast"
     "orbstack"
     "moonlight"
-    "calibre"
-    "vial"
-    "wireshark"
-    "claude"
   ];
 
   # Mac App Store 앱

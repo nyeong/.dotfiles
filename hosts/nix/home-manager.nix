@@ -19,5 +19,7 @@
     coreutils
     ripgrep
     fd
+
+    bat
   ];
 }

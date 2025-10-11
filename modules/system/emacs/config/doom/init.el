@@ -92,7 +92,7 @@
      ;;debugger          ; FIXME stepping through code, to help you add bugs
      direnv
      ;;docker
-     ;;editorconfig      ; let someone else argue about tabs vs spaces
+     editorconfig      ; let someone else argue about tabs vs spaces
      ;;ein               ; tame Jupyter notebooks with emacs
      (eval +overlay)     ; run code, run (also, repls)
      lookup              ; navigate your code and its documentation
@@ -114,7 +114,7 @@
      :lang
      ;;agda              ; types of types of types of types...
      ;;beancount         ; mind the GAAP
-     ;;(cc +lsp)         ; C > C++ == 1
+     (cc +lsp +tree-sitter)         ; C > C++ == 1
      ;;clojure           ; java with a lisp
      ;;common-lisp       ; if you've seen one lisp, you've seen them all
      ;;coq               ; proofs-as-programs
@@ -144,7 +144,7 @@
      (javascript +lsp +tree-sitter)        ; all(hope(abandon(ye(who(enter(here))))))
      ;;julia             ; a better, faster MATLAB
      ;;kotlin            ; a better, slicker Java(Script)
-     ;;latex             ; writing papers in Emacs has never been so fun
+     (latex +lsp +cdlatex)             ; writing papers in Emacs has never been so fun
      ;;lean              ; for folks with too much to prove
      ;;ledger            ; be audit you can be
      ;;lua               ; one-based indices? one-based indices
@@ -181,17 +181,17 @@
 
      :email
      ;;(mu4e +org +gmail)
-       ;;notmuch
-       ;;(wanderlust +gmail)
+     ;;notmuch
+     ;;(wanderlust +gmail)
 
-       :app
-       ;;calendar
-       ;;emms
-       ;;everywhere        ; *leave* Emacs!? You must be joking
-       ;;irc               ; how neckbeards socialize
-       ;;(rss +org)        ; emacs as an RSS reader
-       ;;twitter           ; twitter client https://twitter.com/vnought
+     :app
+     ;;calendar
+     ;;emms
+     ;;everywhere        ; *leave* Emacs!? You must be joking
+     ;;irc               ; how neckbeards socialize
+     ;;(rss +org)        ; emacs as an RSS reader
+     ;;twitter           ; twitter client https://twitter.com/vnought
 
-       :config
-       literate
-       (default +bindings +smartparens))
+     :config
+     literate
+     (default +bindings +smartparens))

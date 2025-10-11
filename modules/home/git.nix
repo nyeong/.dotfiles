@@ -11,7 +11,11 @@
   ];
   programs.git = {
     enable = true;
-    ignores = ["*.swp"];
+    ignores = [
+      "*.swp"
+      ".DS_Store"
+      ".direnv"
+    ];
     userName = userConfig.name;
     userEmail = userConfig.email;
     lfs = {

@@ -3,6 +3,7 @@
   pkgs,
   lib,
   config,
+  nix-ai-tools,
   ...
 }: {
   imports = [
@@ -13,7 +14,7 @@
     ../../modules/home/zsh
     ../../modules/home/javascript
     ../../modules/home/syncthing
-    ../../modules/home/cursor
+    ../../modules/home/cpp.nix
   ];
 
   # ₩를 `으로 대체
@@ -27,6 +28,7 @@
   home.homeDirectory = "/Users/${userConfig.username}";
   home.stateVersion = "25.11";
   home.packages = with pkgs; [
+    nix-ai-tools.packages.${pkgs.system}.cursor-agent
     claude-code
     gemini-cli
     code-cursor
@@ -101,6 +103,11 @@
     elixir-ls
     ruby
     playwright-driver.browsers
+
+    # cpp
+    llvm
+    ccls
+    cmake-language-server
   ];
 
   # nyeong-air에서 syncthing 폴더 경로 설정

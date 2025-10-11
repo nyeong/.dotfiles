@@ -36,6 +36,7 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-ai-tools.url = "github:numtide/nix-ai-tools";
     secrets = {
       url = "git+ssh://git@github.com/nyeong/secrets.git";
       flake = false;
@@ -54,11 +55,12 @@
     git-hooks,
     agenix,
     secrets,
+    nix-ai-tools,
   } @ inputs: let
     userConfig = import ./shared/user-config.nix;
 
     commonArgs = {
-      inherit userConfig secrets;
+      inherit userConfig secrets nix-ai-tools;
     };
     systems = ["aarch64-darwin" "x86_64-linux"];
     perSystem = nixpkgs.lib.genAttrs systems (system: let
