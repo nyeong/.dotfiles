@@ -15,6 +15,7 @@
       "*.swp"
       ".DS_Store"
       ".direnv"
+      ".projecttile-cache.eld"
     ];
     userName = userConfig.name;
     userEmail = userConfig.email;

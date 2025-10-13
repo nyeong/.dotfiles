@@ -99,7 +99,7 @@
 
 ** 템플릿
 :PROPERTIES:
-:MODIFIED: <2025-10-11 Sat>
+:MODIFIED: <2025-10-12 Sun>
 :END:
 
 #+begin_src elisp :tangle config.el
@@ -384,6 +384,56 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
                        :template-fn #'org-ps-cpp--template-fn
                        :edit-prep-fn #'org-ps-cpp--edit-prep-fn
                        :file-ext "cpp"))
+
+   (defun org-ps-rust--compile-cmd (source-file output-file)
+    (list "nix" "shell" "nixpkgs#rustc" "--command"
+          "bash" "-c"
+          (format
+           "rustc %s -o %s --edition 2021 -C opt-level=2 -C debuginfo=0 --test"
+           (shell-quote-argument source-file)
+           (shell-quote-argument output-file))))
+
+  (defun org-ps-rust--execute-cmd (executable-file)
+    (list executable-file "--show-output"))
+
+  (defun org-ps-rust--template-fn (solution-code test-code)
+    "Generate single Rust test file by concatenating SOLUTION-CODE and TEST-CODE."
+    (concat
+     solution-code "\n\n"
+     "#[cfg(test)]\n"
+     "mod tests {\n"
+     "    use super::*;\n\n"
+     test-code "\n"
+     "}\n"))
+
+   (defun org-ps-rust--edit-prep-fn (babel-info)
+  (let* ((header-params (nth 2 babel-info))
+         (tangle-file (alist-get :tangle header-params))
+         ;; 임시 버퍼의 디렉토리
+         (temp-root (file-name-directory (buffer-file-name)))
+         (cargo-toml (expand-file-name "Cargo.toml" temp-root)))
+
+    ;; 더미 Cargo.toml 생성
+    (unless (file-exists-p cargo-toml)
+      (with-temp-file cargo-toml
+        (insert "[package]\n")
+        (insert "name = \"hanassig\"\n")
+        (insert "version = \"0.1.0\"\n")
+        (insert "edition = \"2021\"\n")))
+
+    (setq-local default-directory temp-root)
+    (setq-local lsp-rust-analyzer-diagnostics-enable nil)
+
+    (when (and (fboundp 'lsp!) (not lsp-mode)) (lsp!))))
+
+
+  (org-ps--register-backend "rust"
+                            (list :compile-cmd #'org-ps-rust--compile-cmd
+                                  :execute-cmd #'org-ps-rust--execute-cmd
+                                  :template-fn #'org-ps-rust--template-fn
+                                  :edit-prep-fn #'org-ps-rust--edit-prep-fn
+                                  :file-ext "rs"))
+
  )
 #+end_src
 
@@ -398,6 +448,7 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
           "--completion-style=detailed"
           "--header-insertion=never"
           "--header-insertion-decorators=0"
+          "--pch-storage=memory"
           "--query-driver=/usr/bin/clang++,/Library/Developer/CommandLineTools/usr/bin/clang++"))
   (set-lsp-priority! 'clangd 2))
 

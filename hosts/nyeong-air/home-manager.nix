@@ -108,6 +108,8 @@
     llvm
     ccls
     cmake-language-server
+
+    rustup
   ];
 
   # nyeong-air에서 syncthing 폴더 경로 설정
