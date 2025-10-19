@@ -83,6 +83,12 @@
         org-roam-node-template "#+TITLE: ${title}\n"))
 #+end_src
 
+** org-test
+
+#+begin_src elisp :tangle config.el
+(use-package! org-test)
+#+end_src
+
 ** org-ql
 
 #+begin_src elisp :tangle config.el
@@ -99,7 +105,7 @@
 
 ** 템플릿
 :PROPERTIES:
-:MODIFIED: <2025-10-12 Sun>
+:MODIFIED: <2025-10-15 Wed>
 :END:
 
 #+begin_src elisp :tangle config.el

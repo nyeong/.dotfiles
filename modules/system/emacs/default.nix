@@ -18,7 +18,7 @@
 
   emacs-overlay = import (fetchTarball {
     url = "https://github.com/nix-community/emacs-overlay/archive/bca9f3125603397a9a2931d38f835b28fbd2ae8f.tar.gz";
-    sha256 = "1m0ry2q9ndvk3kk9k9c74wkf5nq9zbihra5qawhpw49xr456j0gx";
+    sha256 = "0yckdwv4g6a98d055ssiy8cyicr4msy6b63xpwym2bh3j30c32cc";
   });
 
   chosenEmacsBase =

@@ -21,7 +21,7 @@
       search = "rg -p --glob '!node_modules/*'  $@";
       grep = "rg -p --glob '!node_modules/*'  $@";
       diff = "difft";
-      emacs = "emacsclient -t";
+      em = "emacsclient -t";
       emacsclient = "emacsclient -c -a 'emacs --init-directory $HOME/.config/emacs'";
 
       mv = "mv -i";
@@ -90,53 +90,65 @@
         };
       }
     ];
-    initContent = ''
-      # Define variables for directories
-      export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
-      export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
-      export PATH=$HOME/.local/share/bin:$PATH
+    initContent = let
+      trampFix = lib.mkOrder 500 ''
+        if [ "$TERM" = dumb ]; then
+          unsetopt zle prompt_cr prompt_subst
+          unset RPS1 RPROMPT
+          PS1='$ '
+          PROMPT='$ '
+          return
+        fi
+      '';
+      generalConfig = lib.mkOrder 1000 ''
+        # Define variables for directories
+        export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
+        export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
+        export PATH=$HOME/.local/share/bin:$PATH
 
-      # Remove history data we don't want to see
-      export HISTIGNORE="pwd:ls:cd"
+        # Remove history data we don't want to see
+        export HISTIGNORE="pwd:ls:cd"
 
-      # Emacs is my editor
-      export ALTERNATE_EDITOR=""
-      export EDITOR="emacsclient -t"
-      export VISUAL="emacsclient -c -a 'emacs --init-directory $HOME/.config/emacs'"
-      export GPG_TTY=$(tty)
-      export TIME_STYLE="long-iso"
+        # Emacs is my editor
+        export ALTERNATE_EDITOR=""
+        export EDITOR="emacsclient -t"
+        export VISUAL="emacsclient -c -a 'emacs --init-directory $HOME/.config/emacs'"
+        export GPG_TTY=$(tty)
+        export TIME_STYLE="long-iso"
 
-      setopt complete_in_word
-      setopt always_to_end
-      WORDCHARS='''
-      zmodload -i zsh/complist
-      autoload -Uz bashcompinit
-      bashcompinit
+        setopt complete_in_word
+        setopt always_to_end
+        WORDCHARS='''
+        zmodload -i zsh/complist
+        autoload -Uz bashcompinit
+        bashcompinit
 
-      zstyle ':completion:*' menu select
-      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-      zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
-      zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-      zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+        zstyle ':completion:*' menu select
+        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+        zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
+        zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+        zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-      bindkey -e
-      # up arrow
-      bindkey '^[[A' history-search-backward
-      # down arrow
-      bindkey '^[[B' history-search-forward
+        bindkey -e
+        # up arrow
+        bindkey '^[[A' history-search-backward
+        # down arrow
+        bindkey '^[[B' history-search-forward
 
-      e() {
-          emacsclient -t "$@"
-      }
+        e() {
+            emacsclient -t "$@"
+        }
 
-      # nix shortcuts
-      shell() {
-          nix-shell '<nixpkgs>' -A "$1"
-      }
-      if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
-        . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-        . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-      fi
-    '';
+        # nix shortcuts
+        shell() {
+            nix-shell '<nixpkgs>' -A "$1"
+        }
+        if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+          . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+          . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+        fi
+      '';
+    in
+      lib.mkMerge [trampFix generalConfig];
   };
 }

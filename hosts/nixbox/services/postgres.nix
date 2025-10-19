@@ -6,15 +6,26 @@
 }: let
   palette = import ../_palette.nix;
 in {
+  services.pgadmin = {
+    enable = true;
+  };
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_16;
+    extensions = ps:
+      with ps; [
+        timescaledb
+      ];
     dataDir = "/var/lib/postgresql";
 
-    ensureDatabases = ["sftpgo"];
+    ensureDatabases = ["sftpgo" "grafana"];
     ensureUsers = [
       {
         name = "sftpgo";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "grafana";
         ensureDBOwnership = true;
       }
     ];

@@ -15,6 +15,7 @@
     ../../modules/system/emacs
   ];
 
+  nixpkgs.config.allowUnfree = true;
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
@@ -55,6 +56,7 @@
     wget
     nodejs
     pinentry
+    chromium
   ];
 
   security.sudo.wheelNeedsPassword = false;

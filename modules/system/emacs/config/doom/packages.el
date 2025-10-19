@@ -16,6 +16,10 @@
 (package! org-typst-preview
  :recipe (:host github :repo "remimimimimi/org-typst-preview.el"))
 
+(package! org-test
+ :recipe (:host github :repo "nyeong/org-test"
+       :files ("org-test.el")))
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
 

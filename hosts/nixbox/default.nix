@@ -15,6 +15,7 @@ in {
     ./services/samba.nix
     ./services/sftpgo.nix
     ./services/cloudflared.nix
+    ./services/grafana.nix
     ./hardware-configuration.nix
     ./containers
     ../../modules/system/emacs
