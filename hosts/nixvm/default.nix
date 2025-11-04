@@ -3,20 +3,20 @@
   mkSpecialArgs,
   ...
 }: let
-  system = "aarch64-darwin";
+  system = "aarch64-linux";
   specialArgs = mkSpecialArgs system;
   palette = specialArgs.palette;
-  username = palette.user.username;
 in
-  inputs.nix-darwin.lib.darwinSystem {
+  inputs.nixpkgs.lib.nixosSystem {
     inherit system specialArgs;
     modules = [
       ./configuration.nix
-      inputs.home-manager.darwinModules.home-manager
+      inputs.agenix.nixosModules.default
+      inputs.home-manager.nixosModules.home-manager
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.users.${username} = import ./home-manager.nix;
+        home-manager.users.${palette.user.username} = import ./home-manager.nix;
         home-manager.extraSpecialArgs = specialArgs;
       }
     ];

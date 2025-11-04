@@ -1,208 +1,108 @@
 {
-  description = "My nix config";
   inputs = {
+    # nix
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin.url = "github:LnL7/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    # homebrew
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
+    homebrew-core.url = "github:homebrew/homebrew-core";
+    homebrew-core.flake = false;
+    homebrew-cask.url = "github:homebrew/homebrew-cask";
+    homebrew-cask.flake = false;
+
     # Formatting + Git hooks
-    treefmt-nix = {
-      url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+    git-hooks.url = "github:cachix/git-hooks.nix";
+    git-hooks.inputs.nixpkgs.follows = "nixpkgs";
+
+    # secrets
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
+    secrets.url = "git+ssh://git@github.com/nyeong/secrets.git";
+    secrets.flake = false;
+
+    # overlays & package dependencies
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
+    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
-    secrets = {
-      url = "git+ssh://git@github.com/nyeong/secrets.git";
-      flake = false;
-    };
   };
   outputs = {
     self,
-    nix-darwin,
-    nix-homebrew,
-    homebrew-core,
-    homebrew-cask,
-    home-manager,
     nixpkgs,
-    disko,
-    treefmt-nix,
-    git-hooks,
-    agenix,
-    secrets,
-    nix-ai-tools,
+    ...
   } @ inputs: let
-    userConfig = import ./shared/user-config.nix;
+    inherit (inputs.nixpkgs) lib;
+    systems = [
+      "aarch64-darwin"
+      "aarch64-linux"
+      "x86_64-linux"
+    ];
+    palette = import ./palette {inherit lib systems;};
 
-    commonArgs = {
-      inherit userConfig secrets nix-ai-tools;
+    # Load overlays from overlays/default.nix
+    overlays = (import ./overlays) {inherit palette;};
+
+    # home-manager, nixosSystem, darwinSystem context에서 쓰는 args
+    mkSpecialArgs = system: {
+      inherit
+        palette
+        inputs
+        system
+        overlays
+        ;
+      pkgs-stable = import inputs.nixpkgs-stable {
+        inherit system overlays;
+        config.allowUnfree = true;
+      };
+      isDarwin = palette.lib.isDarwin system;
+      isLinux = palette.lib.isLinux system;
+      nix-ai-tools-pkgs = inputs.nix-ai-tools.packages.${system};
     };
-    systems = ["aarch64-darwin" "x86_64-linux"];
-    perSystem = nixpkgs.lib.genAttrs systems (system: let
-      pkgs = import nixpkgs {inherit system;};
-      treefmtEval = treefmt-nix.lib.evalModule pkgs {
-        projectRootFile = "flake.nix";
-        programs = {
-          alejandra.enable = true; # Nix formatter
-          stylua.enable = true; # Lua (Hammerspoon)
-          shfmt.enable = true; # Shell
-          prettier.enable = true; # JSON/Markdown/YAML/etc.
-        };
-      };
-      preCommit = git-hooks.lib.${system}.run {
-        src = ./.;
-        hooks = {
-          treefmt = {
-            enable = true;
-            package = treefmtEval.config.build.wrapper;
-          };
-          # Warn-only Nix linters (do not fail commit)
-          statix-warn = {
-            enable = true;
-            name = "statix (warn)";
-            language = "system";
-            files = "\\.nix$";
-            pass_filenames = true;
-            entry = "${pkgs.bash}/bin/bash";
-            args = [
-              "-c"
-              ''${pkgs.statix}/bin/statix check --format=stderr "$@" || true''
-              "--"
-            ];
-          };
-          deadnix-warn = {
-            enable = true;
-            name = "deadnix (warn)";
-            language = "system";
-            files = "\\.nix$";
-            pass_filenames = true;
-            entry = "${pkgs.bash}/bin/bash";
-            args = [
-              "-c"
-              ''${pkgs.deadnix}/bin/deadnix --no-progress "$@" || true''
-              "--"
-            ];
-          };
-        };
-      };
-      # Strict variant for CI (fails on warnings)
-      ciPreCommit = git-hooks.lib.${system}.run {
-        src = ./.;
-        hooks = {
-          treefmt = {
-            enable = true;
-            package = treefmtEval.config.build.wrapper;
-          };
-          statix.enable = true;
-          deadnix.enable = true;
-        };
-      };
-    in {
-      inherit pkgs treefmtEval preCommit ciPreCommit;
-    });
+
+    perSystem = palette.lib.forAllSystems (
+      system:
+        palette.lib.mkPerSystemConfig {
+          pkgs = import nixpkgs {inherit system;};
+          inherit system;
+          treefmt-nix = inputs.treefmt-nix;
+          git-hooks = inputs.git-hooks;
+          repoRoot = self;
+        }
+    );
   in {
-    # nix fmt → run treefmt wrapper
-    formatter = nixpkgs.lib.genAttrs systems (system: (perSystem.${system}.treefmtEval.config.build.wrapper));
-    # pre-commit hook auto-installs when entering dev shell
-    devShells = nixpkgs.lib.genAttrs systems (system: {
+    formatter = palette.lib.forAllSystems (
+      system: (perSystem.${system}.treefmtEval.config.build.wrapper)
+    );
+    devShells = palette.lib.forAllSystems (system: {
       default = (perSystem.${system}.pkgs).mkShell {
         shellHook = (perSystem.${system}.preCommit).shellHook;
+        packages = with perSystem.${system}.pkgs; [
+          nil
+          nixfmt-rfc-style
+        ];
       };
     });
-    # CI/local checks
-    checks = nixpkgs.lib.genAttrs systems (system: {
-      pre-commit = perSystem.${system}.preCommit; # warn-only hooks
+    checks = palette.lib.forAllSystems (system: {
+      pre-commit = perSystem.${system}.preCommit;
       formatting = perSystem.${system}.treefmtEval.config.build.check self;
     });
-    # CI strict lint as a buildable package
-    packages = nixpkgs.lib.genAttrs systems (system: {
-      ci-lint = perSystem.${system}.ciPreCommit;
-    });
-    darwinConfigurations."nyeong-air" = nix-darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      specialArgs = commonArgs;
-      modules = [
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            enable = true;
-            # enableRosetta = true;
-            user = "nyeong";
-            taps = {
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-            };
 
-            # Optional: Enable fully-declarative tap management
-            #
-            # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
-            mutableTaps = false;
-          };
-        }
-        ./hosts/nyeong-air
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.${userConfig.username} = import ./hosts/nyeong-air/home-manager.nix;
-          home-manager.extraSpecialArgs = commonArgs;
-        }
-      ];
+    darwinConfigurations."nyeong-air" = import ./hosts/nyeong-air {
+      inherit inputs mkSpecialArgs;
     };
-    nixosConfigurations."nix" = nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
-      specialArgs = commonArgs;
-      modules = [
-        ./hosts/nix
-        agenix.nixosModules.default
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.${userConfig.username} = import ./hosts/nix/home-manager.nix;
-          home-manager.extraSpecialArgs = commonArgs;
-        }
-      ];
+
+    nixosConfigurations."nixvm" = import ./hosts/nixvm {
+      inherit inputs mkSpecialArgs;
     };
-    nixosConfigurations."nixbox" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = commonArgs;
-      modules = [
-        ./hosts/nixbox
-        agenix.nixosModules.default
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.${userConfig.username} = import ./hosts/nixbox/home-manager.nix;
-          home-manager.extraSpecialArgs = commonArgs;
-        }
-      ];
+
+    nixosConfigurations."nixbox" = import ./hosts/nixbox {
+      inherit inputs mkSpecialArgs;
     };
   };
 }

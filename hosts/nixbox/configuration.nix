@@ -1,0 +1,141 @@
+{
+  config,
+  pkgs,
+  userConfig,
+  secrets,
+  ...
+}: let
+  palette = import ./_palette.nix;
+  lib = pkgs.lib;
+in {
+  imports = [
+    ./services/tailscale.nix
+    ./services/adguard
+    ./services/postgres.nix
+    ./services/samba.nix
+    ./services/sftpgo.nix
+    ./services/cloudflared.nix
+    ./services/grafana.nix
+    ./hardware-configuration.nix
+    ./containers
+    ../../modules/system/emacs
+  ];
+
+  # agenix identity keys
+  age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+
+  nixpkgs.config.allowUnfree = true;
+  nix = {
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+      auto-optimise-store = true;
+      trusted-users = ["root" "nyeong"];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
+  };
+
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
+
+  networking = {
+    hostName = "nixbox";
+    networkmanager.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = lib.concatLists [
+        [
+          22
+        ]
+        (map lib.toInt (builtins.attrValues palette.ports))
+      ];
+      allowedUDPPorts = [53 22000 21027 6881];
+    };
+  };
+
+  time.timeZone = "Asia/Seoul";
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 32 * 1024;
+    }
+  ];
+
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+    };
+    startWhenNeeded = true;
+  };
+
+  programs.ssh.startAgent = true;
+  programs.zsh.enable = true;
+
+  users.groups = {
+    share = {
+      gid = 1001;
+    };
+  };
+
+  users.users.nyeong = {
+    isNormalUser = true;
+    extraGroups = ["wheel" "networkmanager" "docker" "share"];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHW38hDRPSN1QuPELEBOj5ex6mV9Iw69z6jJRdveibGE me@annyeong.me"
+    ];
+    shell = pkgs.zsh;
+  };
+
+  virtualisation.podman = {
+    enable = true;
+    defaultNetwork.settings.dns_enabled = true;
+  };
+
+  environment.systemPackages = with pkgs; [
+    vim
+    git
+    htop
+    bottom
+    helix
+
+    rclone
+
+    # Cursor SSH
+    wget
+    nodejs
+  ];
+
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+    fileSystems = ["/storage"];
+  };
+
+  # This option defines the first version of NixOS you have installed on this particular machine,
+  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
+  #
+  # Most users should NEVER change this value after the initial install, for any reason,
+  # even if you've upgraded your system to a new NixOS release.
+  #
+  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
+  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
+  # to actually do that.
+  #
+  # This value being lower than the current NixOS release does NOT mean your system is
+  # out of date, out of support, or vulnerable.
+  #
+  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
+  # and migrated your data accordingly.
+  #
+  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
+  system.stateVersion = "25.05"; # Did you read the comment?
+}
