@@ -3,6 +3,7 @@
   pkgs,
   modulesPath,
   palette,
+  lib,
   ...
 }: {
   imports = [
@@ -57,6 +58,8 @@
     useDHCP = false;
     useHostResolvConf = false;
   };
+
+  documentation.enable = lib.mkForce false;
 
   systemd.network = {
     enable = true;

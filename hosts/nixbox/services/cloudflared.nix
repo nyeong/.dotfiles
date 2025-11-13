@@ -1,21 +1,22 @@
 {
   config,
-  secrets,
   palette,
   ...
 }: let
   nixbox = palette.nixbox;
   tunnelId = "b5ba47b0-5a2e-4bc3-bdc7-7d88df40d0a7";
 in {
-  age.secrets."cf.tunnel.nyeong_me.json" = {
-    file = "${secrets}/cf.tunnel.nyeong_me.json.age";
+  sops.secrets."cf.tunnel.nyeong_me.json" = {
+    sopsFile = ../../../secrets/nixbox.yaml;
+    key = "cf_tunnel_nyeong_me_json";
     owner = "nyeong";
     group = "users";
     mode = "0400";
   };
 
-  age.secrets."cf.tunnel.cert" = {
-    file = "${secrets}/cf.tunnel.cert.age";
+  sops.secrets."cf.tunnel.cert" = {
+    sopsFile = ../../../secrets/nixbox.yaml;
+    key = "cf_tunnel_cert";
     owner = "nyeong";
     group = "users";
     mode = "0400";
@@ -25,7 +26,7 @@ in {
     enable = true;
     tunnels = {
       ${tunnelId} = {
-        credentialsFile = config.age.secrets."cf.tunnel.nyeong_me.json".path;
+        credentialsFile = config.sops.secrets."cf.tunnel.nyeong_me.json".path;
         ingress = {
           "${nixbox.network.domain.immich-service}" = "http://localhost:${nixbox.network.ports.immich}";
         };
@@ -36,7 +37,7 @@ in {
 
   systemd.services."cloudflared-tunnel-${tunnelId}" = {
     environment = {
-      TUNNEL_ORIGIN_CERT = config.age.secrets."cf.tunnel.cert".path;
+      TUNNEL_ORIGIN_CERT = config.sops.secrets."cf.tunnel.cert".path;
     };
   };
 }

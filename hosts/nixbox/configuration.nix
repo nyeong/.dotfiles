@@ -14,9 +14,6 @@ in {
     ../../modules
   ];
 
-  # agenix identity keys
-  age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
-
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;

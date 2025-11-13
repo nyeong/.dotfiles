@@ -22,10 +22,8 @@
     git-hooks.inputs.nixpkgs.follows = "nixpkgs";
 
     # secrets
-    agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "nixpkgs";
-    secrets.url = "git+ssh://git@github.com/nyeong/secrets.git";
-    secrets.flake = false;
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     nixbox-private.url = "git+ssh://git@github.com/nyeong/nixbox-private.git";
     nixbox-private.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -58,7 +56,6 @@
         system
         overlays
         ;
-      inherit (inputs) secrets;
       pkgs-stable = import inputs.nixpkgs-stable {
         inherit system overlays;
         config.allowUnfree = true;

@@ -7,6 +7,7 @@
 
   home.packages = with pkgs; [
     age
+    sops
     age-plugin-yubikey
     gnupg
     libfido2

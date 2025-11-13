@@ -2,10 +2,12 @@
   lib,
   isDarwin,
   isLinux,
+  inputs,
   ...
 }: {
   imports =
     [
+      inputs.sops-nix.homeManagerModules.sops
       ./base
       ./features
     ]

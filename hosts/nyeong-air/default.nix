@@ -13,6 +13,7 @@ in
     modules = [
       ./configuration.nix
       inputs.home-manager.darwinModules.home-manager
+      inputs.sops-nix.darwinModules.sops
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;

@@ -3,10 +3,16 @@
   pkgs,
   lib,
   overlays,
+  config,
   ...
 }: {
   nixpkgs.overlays = overlays;
   imports = palette.lib.scanPaths ./.;
+
+  sops.secrets.github_fetch_token = {
+    sopsFile = ../../secrets/personal.yaml;
+    key = "github_fetch_token";
+  };
 
   nixpkgs.config.allowUnfree = true;
   nix = {
@@ -29,6 +35,9 @@
       ];
       trusted-public-keys = ["cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
     };
+    extraOptions = ''
+      access-tokens = github.com=${config.sops.secrets.github_fetch_token.path}
+    '';
 
     gc = {
       automatic = true;

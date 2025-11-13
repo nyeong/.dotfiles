@@ -1,4 +1,8 @@
-{palette, ...}: {
+{
+  palette,
+  config,
+  ...
+}: {
   imports = [
     ../../home
   ];

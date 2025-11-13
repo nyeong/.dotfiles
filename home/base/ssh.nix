@@ -2,6 +2,7 @@
   palette,
   pkgs,
   lib,
+  config,
   ...
 }: {
   programs.ssh = {
@@ -25,6 +26,21 @@
           then "/Users/${palette.user.username}/.ssh/id_ed25519"
           else "/home/${palette.user.username}/.ssh/id_ed25519";
       };
+    };
+  };
+
+  sops.secrets = {
+    "ssh/id_ed25519" = {
+      sopsFile = ../../secrets/personal.yaml;
+      key = "ssh_private_key";
+      path = "${config.home.homeDirectory}/.ssh/id_ed25519";
+      mode = "0600";
+    };
+    "ssh/id_ed25519.pub" = {
+      sopsFile = ../../secrets/personal.yaml;
+      key = "ssh_public_key";
+      path = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+      mode = "0644";
     };
   };
 }
