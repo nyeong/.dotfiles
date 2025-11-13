@@ -1,7 +1,11 @@
 # Calibre Web - eBook library manager
-{containerConfig, ...}: let
+{
+  containerConfig,
+  palette,
+  ...
+}: let
   inherit (containerConfig) puid pgid tz;
-  palette = import ../_palette.nix;
+  nixbox = palette.nixbox;
 in {
   systemd.tmpfiles.rules = [
     "Z /var/lib/containers/calibre-web 2755 ${puid} ${pgid} -"
@@ -9,7 +13,7 @@ in {
 
   virtualisation.oci-containers.containers.calibre-web = {
     image = "linuxserver/calibre-web:latest";
-    ports = ["${palette.ports.calibre-web}:8083"];
+    ports = ["${nixbox.network.ports.calibre-web}:8083"];
     environment = {
       PUID = puid;
       PGID = pgid;

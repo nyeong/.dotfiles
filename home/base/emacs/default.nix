@@ -10,7 +10,7 @@
 }: let
   xdg-data-home = ".local/share";
   xdg-config-home = ".config";
-  doomConfigPath = "${config.home.homeDirectory}/.dotfiles/modules/system/emacs/config/doom";
+  doomConfigPath = "${config.home.homeDirectory}/.dotfiles/home/base/emacs/config/doom";
 in {
   programs.emacs = {
     enable = true;

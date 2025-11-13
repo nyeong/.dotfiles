@@ -26,6 +26,8 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     secrets.url = "git+ssh://git@github.com/nyeong/secrets.git";
     secrets.flake = false;
+    nixbox-private.url = "git+ssh://git@github.com/nyeong/nixbox-private.git";
+    nixbox-private.inputs.nixpkgs.follows = "nixpkgs";
 
     # overlays & package dependencies
     emacs-overlay.url = "github:nix-community/emacs-overlay";
@@ -56,6 +58,7 @@
         system
         overlays
         ;
+      inherit (inputs) secrets;
       pkgs-stable = import inputs.nixpkgs-stable {
         inherit system overlays;
         config.allowUnfree = true;

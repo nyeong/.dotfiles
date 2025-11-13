@@ -5,6 +5,7 @@
 }: {
   # variables
   user = import ./user-config.nix {inherit lib;};
+  nixbox = import ./nixbox {inherit lib;};
 
   # functions
   lib = {

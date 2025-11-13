@@ -81,6 +81,7 @@ TRAMP로 접속 시에도 vterm을 로그인셸로 쓰기 위함
 (setq shell-file-name "zsh")
 (setq vterm-shell "zsh -l")
 #+end_src
+
 * Org
 
 #+begin_src elisp :tangle config.el
@@ -124,7 +125,7 @@ TRAMP로 접속 시에도 vterm을 로그인셸로 쓰기 위함
 
 ** 템플릿
 :PROPERTIES:
-:MODIFIED: <2025-10-30 Thu>
+:MODIFIED: <2025-11-08 Sat>
 :END:
 
 #+begin_src elisp :tangle config.el
@@ -462,6 +463,12 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
  )
 #+end_src
 
+* TRAMP
+#+begin_src elisp :tangle config.el
+(after! tramp
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+#+end_src
+
 * 언어별 설정
 ** C++
 #+begin_src elisp :tangle config.el
@@ -490,4 +497,21 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
 #+begin_src elisp :tangle config.el
 (after! nix-mode
   (setq lsp-nix-nil-formatter ["nixfmt"]))
+#+end_src
+
+** Elixir
+#+begin_src elisp :tangle config.el
+(use-package lsp-mode
+  :ensure t
+  :config
+  (setq lsp-modeline-code-actions-segments '(count icon name))
+
+  :init
+  '(lsp-mode))
+
+
+(use-package elixir-mode
+  :ensure t
+  :custom
+  (lsp-elixir-server-command '("nix run github:elixir-lang/expert")))
 #+end_src

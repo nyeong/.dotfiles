@@ -9,7 +9,6 @@
 
   features.devTools.enable = true;
 
-  # nyeong-air에서 syncthing 폴더 경로 설정
   features.syncthing = {
     enable = true;
     folders = {

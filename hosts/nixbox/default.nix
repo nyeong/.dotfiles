@@ -10,6 +10,7 @@ in
   inputs.nixpkgs.lib.nixosSystem {
     inherit system specialArgs;
     modules = [
+      ./hardware-configuration.nix
       ./configuration.nix
       inputs.agenix.nixosModules.default
       inputs.home-manager.nixosModules.home-manager
@@ -19,5 +20,7 @@ in
         home-manager.users.${palette.user.username} = import ./home-manager.nix;
         home-manager.extraSpecialArgs = specialArgs;
       }
+      inputs.nixbox-private.nixosModules.containers
+      inputs.nixbox-private.nixosModules.services
     ];
   }

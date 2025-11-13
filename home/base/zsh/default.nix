@@ -6,6 +6,8 @@
   home.packages = with pkgs; [
     lsd
     ripgrep
+    fd
+    fzf
   ];
 
   programs.direnv = {
@@ -13,6 +15,16 @@
     nix-direnv.enable = true;
     enableZshIntegration = true;
   };
+
+  home.file.".profile".text = ''
+    if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+      . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    fi
+
+    export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
+    export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
+    export PATH=$HOME/.local/share/bin:$PATH
+  '';
 
   programs.zsh = {
     enable = true;
@@ -143,15 +155,6 @@
         e() {
             emacsclient -t "$@"
         }
-
-        # nix shortcuts
-        shell() {
-            nix-shell '<nixpkgs>' -A "$1"
-        }
-        if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
-          . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-          . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-        fi
       '';
     in
       lib.mkMerge [

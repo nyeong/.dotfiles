@@ -372,6 +372,9 @@
 
  )
 
+(after! tramp
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+
 (after! lsp-clangd
   (setq lsp-clients-clangd-args
         '("-j=3"
@@ -394,3 +397,17 @@
 
 (after! nix-mode
   (setq lsp-nix-nil-formatter ["nixfmt"]))
+
+(use-package lsp-mode
+  :ensure t
+  :config
+  (setq lsp-modeline-code-actions-segments '(count icon name))
+
+  :init
+  '(lsp-mode))
+
+
+(use-package elixir-mode
+  :ensure t
+  :custom
+  (lsp-elixir-server-command '("nix run github:elixir-lang/expert")))

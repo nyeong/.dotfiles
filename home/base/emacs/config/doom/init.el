@@ -168,7 +168,7 @@
      ;;rst               ; ReST in peace
      ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
      (rust +lsp +tree-sitter)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-     ;;scala             ; java, but good
+     (scala +lsp +tree-sitter)             ; java, but good
      (scheme +guile)            ; a fully conniving family of lisps
      (sh +lsp +tree-sitter)                ; she sells {ba,z,fi}sh shells on the C xor
      ;;sml
@@ -179,19 +179,19 @@
      (yaml +lsp +tree-sitter)              ; JSON, but readable
      (zig +lsp +tree-sitter)               ; C, but simpler
 
-       :email
-       ;;(mu4e +org +gmail)
-       ;;notmuch
-       ;;(wanderlust +gmail)
+     :email
+     ;;(mu4e +org +gmail)
+     ;;notmuch
+     ;;(wanderlust +gmail)
 
-       :app
-       ;;calendar
-       ;;emms
-       ;;everywhere        ; *leave* Emacs!? You must be joking
-       ;;irc               ; how neckbeards socialize
-       ;;(rss +org)        ; emacs as an RSS reader
-       ;;twitter           ; twitter client https://twitter.com/vnought
+     :app
+     ;;calendar
+     ;;emms
+     ;;everywhere        ; *leave* Emacs!? You must be joking
+     ;;irc               ; how neckbeards socialize
+     ;;(rss +org)        ; emacs as an RSS reader
+     ;;twitter           ; twitter client https://twitter.com/vnought
 
-       :config
-       literate
-       (default +bindings +smartparens))
+     :config
+     literate
+     (default +bindings +smartparens))

@@ -1,9 +1,10 @@
 {
   config,
   secrets,
+  palette,
   ...
 }: let
-  palette = import ../_palette.nix;
+  nixbox = palette.nixbox;
   tunnelId = "b5ba47b0-5a2e-4bc3-bdc7-7d88df40d0a7";
 in {
   age.secrets."cf.tunnel.nyeong_me.json" = {
@@ -26,7 +27,7 @@ in {
       ${tunnelId} = {
         credentialsFile = config.age.secrets."cf.tunnel.nyeong_me.json".path;
         ingress = {
-          "${palette.domain.immich-service}" = "http://localhost:${palette.ports.immich}";
+          "${nixbox.network.domain.immich-service}" = "http://localhost:${nixbox.network.ports.immich}";
         };
         default = "http_status:404";
       };

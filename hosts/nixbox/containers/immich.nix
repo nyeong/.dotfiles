@@ -4,10 +4,11 @@
   containerConfig,
   config,
   pkgs,
+  palette,
   ...
 }: let
   inherit (containerConfig) puid pgid tz;
-  palette = import ../_palette.nix;
+  nixbox = palette.nixbox;
 in {
   systemd.services.create-immich-network = {
     serviceConfig.Type = "oneshot";
@@ -37,7 +38,7 @@ in {
     extraOptions = [
       "--network=immich-net"
     ];
-    ports = ["${palette.ports.immich}:2283"];
+    ports = ["${nixbox.network.ports.immich}:2283"];
     environment = {
       # Database
       DB_HOSTNAME = "immich-postgres";

@@ -1,7 +1,11 @@
 # Kavita - E-reader
-{containerConfig, ...}: let
+{
+  containerConfig,
+  palette,
+  ...
+}: let
   inherit (containerConfig) puid pgid tz;
-  palette = import ../_palette.nix;
+  nixbox = palette.nixbox;
 in {
   systemd.tmpfiles.rules = [
     "Z /var/lib/containers/kavita 2755 ${puid} ${pgid} -"
@@ -9,7 +13,7 @@ in {
 
   virtualisation.oci-containers.containers.kavita = {
     image = "linuxserver/kavita:latest";
-    ports = ["${palette.ports.kavita}:5000"];
+    ports = ["${nixbox.network.ports.kavita}:5000"];
     environment = {
       PUID = puid;
       PGID = pgid;

@@ -32,6 +32,7 @@ in {
       elixir
       python3
       ruby
+      metals # scala lsp
     ];
   };
 }

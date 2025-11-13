@@ -3,9 +3,10 @@
   pkgs,
   userConfig,
   lib,
+  palette,
   ...
 }: let
-  puid = builtins.toString config.users.users.nyeong.uid;
+  puid = builtins.toString config.users.users.${palette.user.username}.uid;
   pgid = builtins.toString config.users.groups.share.gid;
   tz = "Asia/Seoul";
 
@@ -41,6 +42,7 @@
       containerConfig = {
         inherit puid pgid tz;
       };
+      palette = palette;
     };
   in
     map (name: import (containerDir + "/${name}") moduleArgs) (builtins.attrNames nixFiles);

@@ -1,42 +1,21 @@
 {
   config,
   pkgs,
-  userConfig,
+  lib,
+  palette,
   secrets,
   ...
 }: let
-  palette = import ./_palette.nix;
-  lib = pkgs.lib;
+  nixbox = palette.nixbox;
 in {
   imports = [
-    ./services/tailscale.nix
-    ./services/adguard
-    ./services/postgres.nix
-    ./services/samba.nix
-    ./services/sftpgo.nix
-    ./services/cloudflared.nix
-    ./services/grafana.nix
-    ./hardware-configuration.nix
+    ./services
     ./containers
-    ../../modules/system/emacs
+    ../../modules
   ];
 
   # agenix identity keys
   age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
-
-  nixpkgs.config.allowUnfree = true;
-  nix = {
-    settings = {
-      experimental-features = ["nix-command" "flakes"];
-      auto-optimise-store = true;
-      trusted-users = ["root" "nyeong"];
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-  };
 
   boot.loader = {
     systemd-boot.enable = true;
@@ -52,7 +31,7 @@ in {
         [
           22
         ]
-        (map lib.toInt (builtins.attrValues palette.ports))
+        (map lib.toInt (builtins.attrValues nixbox.network.ports))
       ];
       allowedUDPPorts = [53 22000 21027 6881];
     };
@@ -77,16 +56,13 @@ in {
     startWhenNeeded = true;
   };
 
-  programs.ssh.startAgent = true;
-  programs.zsh.enable = true;
-
   users.groups = {
     share = {
       gid = 1001;
     };
   };
 
-  users.users.nyeong = {
+  users.users.${palette.user.username} = {
     isNormalUser = true;
     extraGroups = ["wheel" "networkmanager" "docker" "share"];
     openssh.authorizedKeys.keys = [
@@ -95,24 +71,14 @@ in {
     shell = pkgs.zsh;
   };
 
+  programs.zsh.enable = true;
+
+  programs.gnupg.agent.enable = true;
+
   virtualisation.podman = {
     enable = true;
     defaultNetwork.settings.dns_enabled = true;
   };
-
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    htop
-    bottom
-    helix
-
-    rclone
-
-    # Cursor SSH
-    wget
-    nodejs
-  ];
 
   services.btrfs.autoScrub = {
     enable = true;

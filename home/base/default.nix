@@ -17,5 +17,10 @@
 
     fd
     bat
+
+    # 이정도는 있어야
+    ruby
+    python3
+    nodejs
   ];
 }

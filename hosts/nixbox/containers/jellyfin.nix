@@ -1,7 +1,11 @@
 # Jellyfin - Media server
-{containerConfig, ...}: let
+{
+  containerConfig,
+  palette,
+  ...
+}: let
   inherit (containerConfig) puid pgid tz;
-  palette = import ../_palette.nix;
+  nixbox = palette.nixbox;
 in {
   systemd.tmpfiles.rules = [
     "Z /var/lib/containers/jellyfin 2755 ${puid} ${pgid} -"
@@ -22,7 +26,7 @@ in {
       "/var/lib/containers/jellyfin/cache:/cache"
     ];
     ports = [
-      "${palette.ports.jellyfin}:8096"
+      "${nixbox.network.ports.jellyfin}:8096"
     ];
     autoStart = true;
   };

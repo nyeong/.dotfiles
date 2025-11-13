@@ -1,9 +1,10 @@
 {
   lib,
   config,
+  palette,
   ...
 }: let
-  palette = import ../_palette.nix;
+  nixbox = palette.nixbox;
 in {
   services.sftpgo = {
     enable = true;
@@ -20,7 +21,7 @@ in {
       httpd = {
         bindings = [
           {
-            port = lib.toInt palette.ports.sftpgo;
+            port = lib.toInt nixbox.network.ports.sftpgo;
             address = "0.0.0.0";
           }
         ];

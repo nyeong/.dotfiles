@@ -2,23 +2,23 @@
   lib,
   pkgs,
   config,
+  palette,
   ...
-}: let
-  palette = import ../_palette.nix;
-in {
-  services.pgadmin = {
-    enable = true;
-  };
+}: {
+  # services.pgadmin = {
+  #   enable = true;
+  # };
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_16;
     extensions = ps:
       with ps; [
         timescaledb
+        timescaledb_toolkit
       ];
     dataDir = "/var/lib/postgresql";
 
-    ensureDatabases = ["sftpgo" "grafana"];
+    ensureDatabases = ["sftpgo" "grafana" "telegraf"];
     ensureUsers = [
       {
         name = "sftpgo";
@@ -26,6 +26,10 @@ in {
       }
       {
         name = "grafana";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "telegraf";
         ensureDBOwnership = true;
       }
     ];
@@ -43,6 +47,6 @@ in {
   };
 
   systemd.tmpfiles.rules = [
-    "d /var/lib/postgresql 0755 postgres postgres -"
+    "d /var/lib/postgresql 0700 postgres postgres -"
   ];
 }
