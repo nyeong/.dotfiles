@@ -104,5 +104,9 @@
     nixosConfigurations."nixbox" = import ./hosts/nixbox {
       inherit inputs mkSpecialArgs;
     };
+
+    nixosConfigurations."oc-eyes" = import ./hosts/oc-eyes {
+      inherit inputs mkSpecialArgs;
+    };
   };
 }

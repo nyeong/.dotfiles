@@ -2,10 +2,16 @@ keys:
   - &nixvm age1dgcqkv6lecsfujxen6zjf3uyzhwh88vplcarlkh2frswwst0ng9sp3s544
   - &nyeong-air age1grp4klxk6ekc7327apzxrat0pxtnx4np5hgw20lnlqnssm429c7q098nmn
   - &nixbox age1ttj9sljzdq3avnhthzc6u2jlumcehpp6xd7q0k78u7s9nxawmeeq79y8rp
+  - &oc-eyes age1zj4ugzj4dy5fmx5rxrlvjtqtdrwvs90pv86kfudzw5njnkfenygsf3wp8j
 creation_rules:
-  - path_regex: ^secrets/.*\.yaml$
+  - path_regex: ^secrets/nixbox\.yaml$
+    key_groups:
+      - age:
+          - *nixbox
+  - path_regex: ^secrets/personal\.yaml$
     key_groups:
       - age:
           - *nyeong-air
           - *nixvm
           - *nixbox
+          - *oc-eyes
