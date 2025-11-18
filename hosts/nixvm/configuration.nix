@@ -16,6 +16,7 @@
     ../../modules
   ];
 
+  # Override user.nix for container-specific settings
   users.users.${palette.user.username} = {
     uid = 501;
     extraGroups = [
@@ -24,34 +25,17 @@
     ];
 
     # simulate isNormalUser, but with an arbitrary UID
+    isNormalUser = false;
     isSystemUser = true;
     group = "users";
     createHome = true;
     home = "/home/${palette.user.username}";
     homeMode = "700";
     useDefaultShell = true;
-    shell = pkgs.zsh;
   };
-
-  programs.zsh.enable = true;
-
-  programs.gnupg.agent.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    htop
-    bottom
-    helix
-    wget
-    nodejs
-    pinentry-curses
-    chromium
-  ];
 
   security.sudo.wheelNeedsPassword = false;
   users.mutableUsers = false;
-  time.timeZone = "Asia/Seoul";
 
   networking = {
     dhcpcd.enable = false;

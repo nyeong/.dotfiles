@@ -34,7 +34,6 @@ in {
     };
   };
 
-  time.timeZone = "Asia/Seoul";
   i18n.defaultLocale = "en_US.UTF-8";
 
   swapDevices = [
@@ -59,18 +58,7 @@ in {
     };
   };
 
-  users.users.${palette.user.username} = {
-    isNormalUser = true;
-    extraGroups = ["wheel" "networkmanager" "docker" "share"];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHW38hDRPSN1QuPELEBOj5ex6mV9Iw69z6jJRdveibGE me@annyeong.me"
-    ];
-    shell = pkgs.zsh;
-  };
-
-  programs.zsh.enable = true;
-
-  programs.gnupg.agent.enable = true;
+  users.users.${palette.user.username}.extraGroups = ["wheel" "networkmanager" "docker" "share"];
 
   virtualisation.podman = {
     enable = true;

@@ -9,13 +9,6 @@
     ../../modules
   ];
 
-  users.users.${palette.user.username} = {
-    name = "${palette.user.username}";
-    home = "/Users/${palette.user.username}";
-    isHidden = false;
-    shell = pkgs.zsh;
-  };
-
   # Mac App Store 앱
   # $ nix run nixpkgs#mas -- search <app name>
   # If you have previously added these apps to your Mac App Store profile (but not installed them on this system),
