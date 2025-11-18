@@ -14,5 +14,8 @@
   services.tailscale.enable = true;
 
   system.stateVersion = "25.11";
+
+  boot.loader.grub.configurationLimit = 2;
+  boot.tmp.cleanOnBoot = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 }
