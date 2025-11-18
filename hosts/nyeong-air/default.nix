@@ -11,6 +11,7 @@ in
   inputs.nix-darwin.lib.darwinSystem {
     inherit system specialArgs;
     modules = [
+      inputs.nix-homebrew.darwinModules.nix-homebrew
       ./configuration.nix
       inputs.home-manager.darwinModules.home-manager
       inputs.sops-nix.darwinModules.sops
