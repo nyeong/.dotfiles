@@ -20,3 +20,11 @@ Swap: 0 B / 11.70 GiB (0%)
 Disk (/): 18.18 GiB / 29.44 GiB (62%) - xfs
 Locale: en_US.UTF-8
 ```
+
+## Services
+
+- [Uptime Kuma][uptime-kuma] : for uptime monitoring
+- [Grafana][grafana] : for observability dashboard
+
+[uptime-kuma]: http://100.77.212.86:4000
+[grafana]: http://100.77.212.86:3000

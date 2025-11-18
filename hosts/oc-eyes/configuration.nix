@@ -5,6 +5,7 @@
 }: {
   imports = [
     ../../modules
+    ./services
   ];
 
   zramSwap.enable = true;
