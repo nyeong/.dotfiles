@@ -8,9 +8,12 @@ KISS, YAGNI. Nix에 너무 심취하지 말기.
 
 ### hosts
 
-- nix : OrbStack으로 띄우는 NixOS VM
-- nyeong-air : MacBook Air M2
-- nixbox : 홈랩
+| hostname   | 용도                                          |
+| ---------- | --------------------------------------------- |
+| nixvm      | OrbStack으로 nyeong-air 위에 띄우는 개발용 VM |
+| nyeong-air | 들고 다니는 MacBook Air M2                    |
+| nixbox     | N150 홈랩                                     |
+| oc-eyes    | OCI 인스턴스                                  |
 
 세부 내용은 필요한 경우 각 호스트 디렉토리에 README.md로 작성.
 
@@ -28,9 +31,11 @@ home으로 뺸다.
 
 ### modules and home
 
-공통으로 쓸 것들
+공통으로 쓸 것들.
 
-modules, home의 모든 코드는 자동으로 import됨.
+- `modules`, `home`의 대부분의 코드는 자동으로 import된다.
+- `darwin`, `linux`는 시스템에 따라 import된다.
+- `features`의 코드는 명시적으로 `features.something.enable = true` 해야 활성화.
 
 ```
 /home/ # home-manager context configurations
@@ -48,6 +53,23 @@ modules, home의 모든 코드는 자동으로 import됨.
 ├── base/
 ├── linux/
 └── darwin/
+```
+
+features는 아래의 패턴을 따른다:
+
+```nix
+{ ... }: let
+  cfg = config.features.featureName;
+in {
+  options.features.featureName = {
+    enable = lib.mkEnableOption "description";
+    # 그 외의 필요한 옵션들
+  };
+
+  config = lib.mkIf cfg.enable {
+    # 여기에 내용 정의
+  };
+}
 ```
 
 ### overlays

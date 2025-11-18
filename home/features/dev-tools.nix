@@ -12,6 +12,9 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    # Enable emacs when devTools is enabled
+    features.emacs.enable = true;
+
     home.packages = with pkgs; [
       # ai tools
       nix-ai-tools-pkgs.cursor-agent
