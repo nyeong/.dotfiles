@@ -411,3 +411,8 @@
   :ensure t
   :custom
   (lsp-elixir-server-command '("nix run github:elixir-lang/expert")))
+
+(org-babel-do-load-languages 'org-babel-load-languages
+                             (append org-babel-load-languages
+                                     '((mermaid . t)))
+                             )

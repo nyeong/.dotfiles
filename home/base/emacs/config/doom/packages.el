@@ -20,6 +20,12 @@
  :recipe (:host github :repo "nyeong/org-test"
        :files ("org-test.el")))
 
+(package! mermaid-mode
+ :recipe (:host github :repo "abrochard/mermaid-mode"))
+
+(package! ob-mermaid
+ :recipe (:host github :repo "arnm/ob-mermaid"))
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
 

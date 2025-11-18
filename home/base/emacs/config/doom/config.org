@@ -125,7 +125,7 @@ TRAMP로 접속 시에도 vterm을 로그인셸로 쓰기 위함
 
 ** 템플릿
 :PROPERTIES:
-:MODIFIED: <2025-11-08 Sat>
+:MODIFIED: <2025-11-17 Mon>
 :END:
 
 #+begin_src elisp :tangle config.el
@@ -514,4 +514,13 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
   :ensure t
   :custom
   (lsp-elixir-server-command '("nix run github:elixir-lang/expert")))
+#+end_src
+
+** Mermaid
+
+#+begin_src elisp :tangle config.el
+(org-babel-do-load-languages 'org-babel-load-languages
+                             (append org-babel-load-languages
+                                     '((mermaid . t)))
+                             )
 #+end_src

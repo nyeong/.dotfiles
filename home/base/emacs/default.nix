@@ -11,6 +11,7 @@
   xdg-data-home = ".local/share";
   xdg-config-home = ".config";
   doomConfigPath = "${config.home.homeDirectory}/.dotfiles/home/base/emacs/config/doom";
+  emacsConfigPath = "${config.home.homeDirectory}/.config/emacs";
 in {
   programs.emacs = {
     enable = true;
@@ -39,7 +40,22 @@ in {
 
     # babel
     d2
+    mermaid-cli
+    google-chrome
   ];
+
+  home.sessionVariables = {
+    PUPPETEER_EXECUTABLE_PATH = "${pkgs.google-chrome}/bin/google-chrome-stable";
+  };
+
+  home.activation = {
+    installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      if [ ! -d "${emacsConfigPath}" ]
+        git clone --depth 1 https://github.com/doomemacs/doomemacs ${emacsConfigPath}
+        ${emacsConfigPath}/bin/doom install
+      fi
+    '';
+  };
 
   fonts.fontconfig.enable = true;
   home.sessionPath = ["${config.home.homeDirectory}/${xdg-data-home}/bin"];
