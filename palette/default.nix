@@ -6,6 +6,7 @@
   # variables
   user = import ./user-config.nix {inherit lib;};
   nixbox = import ./nixbox {inherit lib;};
+  oc-eyes = import ./oc-eyes {inherit lib;};
 
   # functions
   lib = {
