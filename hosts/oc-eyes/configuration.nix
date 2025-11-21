@@ -9,10 +9,17 @@
   ];
 
   zramSwap.enable = true;
+
   networking.hostName = "oc-eyes";
   networking.domain = "subnet11141831.oc.oraclevcn.com";
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
+
   services.openssh.enable = true;
   services.tailscale.enable = true;
+  services.tailscale.permitCertUid = "caddy";
 
   system.stateVersion = "25.11";
 

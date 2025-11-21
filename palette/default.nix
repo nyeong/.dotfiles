@@ -2,16 +2,22 @@
   lib,
   systems,
   ...
-}: {
+}: let
+  magicdns = "dolly-inanga.ts.net";
+in {
   # variables
   user = import ./user-config.nix {inherit lib;};
   nixbox = import ./nixbox {inherit lib;};
   oc-eyes = import ./oc-eyes {inherit lib;};
+  tailscale = {
+    inherit magicdns;
+  };
 
   # functions
   lib = {
     isDarwin = system: lib.strings.hasSuffix "-darwin" system;
     isLinux = system: lib.strings.hasSuffix "-linux" system;
+    mkMagicDnsUrl = subdomain: "${subdomain}.${magicdns}";
     mkPerSystemConfig = import ./per-system-config.nix;
     mkDarwinSystem = import ./darwin-system.nix;
     forAllSystems = func: (lib.genAttrs systems func);
