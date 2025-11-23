@@ -7,6 +7,7 @@
 }: let
   ports = palette.oc-eyes.ports;
   domain = palette.lib.mkMagicDnsUrl "oc-eyes";
+  reverse-proxy-path = palette.oc-eyes.reverse-proxy.grafana;
 in {
   services.grafana = {
     enable = true;
@@ -15,7 +16,7 @@ in {
       http_port = ports.grafana;
       enable_gzip = true;
       domain = domain;
-      root_url = "https://${domain}/monitor/";
+      root_url = "https://${domain}/${reverse-proxy-path}/";
       serve_from_sub_path = true;
       protocol = "http";
     };

@@ -6,4 +6,9 @@
     uptime-kuma = 4000;
     homepage = 5000;
   };
+  reverse-proxy = {
+    grafana = "monitor";
+    uptime-kuma = "uptime";
+    homepage = "homepage";
+  };
 }
