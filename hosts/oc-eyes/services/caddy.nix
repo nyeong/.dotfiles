@@ -31,6 +31,13 @@ in {
           }
         }
 
+        handle /${svc.victoria-metrics.subpath}* {
+          reverse_proxy http://localhost:${toString svc.victoria-metrics.port} {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+          }
+        }
+
         # Homepage at root - catches all unmatched requests
         handle {
           reverse_proxy http://localhost:${toString svc.homepage.port} {

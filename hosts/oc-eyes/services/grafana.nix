@@ -26,7 +26,7 @@ in {
         {
           name = "VictoriaMetrics";
           type = "prometheus";
-          url = "http://localhost:${toString svc.victoria-metrics.port}";
+          url = "http://localhost:${toString svc.victoria-metrics.port}/${svc.victoria-metrics.subpath}";
         }
       ];
     };

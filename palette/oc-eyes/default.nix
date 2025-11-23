@@ -3,6 +3,7 @@
   services = {
     victoria-metrics = {
       port = 9090;
+      subpath = "vmdb";
     };
     grafana = {
       port = 3000;

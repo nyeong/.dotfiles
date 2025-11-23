@@ -19,6 +19,11 @@ in {
       color = "slate";
       headerStyle = "boxed";
       layout = {
+        "System Info" = {
+          style = "row";
+          columns = 2;
+          icon = "mdi-information-outline";
+        };
         "Monitoring & Observability" = {
           style = "row";
           columns = 3;
@@ -73,6 +78,36 @@ in {
     docker = {};
     kubernetes = {};
 
+    widgets = [
+      {
+        logo = {
+          icon = "https://nixos.org/logo/nixos-logo-only-hires.png";
+        };
+      }
+      {
+        greeting = {
+          text_size = "xl";
+          text = "Welcome to OC Eyes";
+        };
+      }
+      {
+        datetime = {
+          text_size = "l";
+          format = {
+            timeStyle = "short";
+            dateStyle = "short";
+            hour12 = false;
+          };
+        };
+      }
+      {
+        search = {
+          provider = "google";
+          target = "_blank";
+        };
+      }
+    ];
+
     services = [
       {
         "Monitoring & Observability" = [
@@ -94,8 +129,8 @@ in {
           }
           {
             "VictoriaMetrics" = {
-              description = "Time series database";
-              href = "http://${palette.oc-eyes.host}:${toString svc.victoria-metrics.port}";
+              description = "Time series database & query interface";
+              href = "https://${oc-eyes-url}/${svc.victoria-metrics.subpath}";
               icon = "victoriametrics.png";
               target = "_blank";
             };
