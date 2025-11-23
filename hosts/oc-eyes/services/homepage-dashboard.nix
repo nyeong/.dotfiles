@@ -91,6 +91,16 @@ in {
         };
       }
       {
+        resources = {
+          backend = "resources";
+          expanded = true;
+          cpu = true;
+          memory = true;
+          disk = "/";
+          uptime = true;
+        };
+      }
+      {
         datetime = {
           text_size = "l";
           format = {
