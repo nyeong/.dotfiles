@@ -1,7 +1,7 @@
 # MagincDNS Caddy server
 {palette, ...}: let
   magicdns-url = palette.lib.mkMagicDnsUrl "oc-eyes";
-  ports = palette.oc-eyes.ports;
+  svc = palette.oc-eyes.services;
 in {
   services.caddy = {
     email = palette.user.email;
@@ -11,30 +11,32 @@ in {
       useACMEHost = null;
       listenAddresses = [];
       extraConfig = ''
-        handle /monitor* {
-          reverse_proxy http://localhost:${toString ports.grafana} {
+        encode zstd gzip
+
+        handle /${svc.grafana.subpath}* {
+          reverse_proxy http://localhost:${toString svc.grafana.port} {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-Prefix /monitor
+            header_up X-Forwarded-Prefix /${svc.grafana.subpath}
             header_up Connection {>Connection}
             header_up Upgrade {>Upgrade}
           }
         }
 
-        handle_path /uptime {
-          reverse_proxy http://localhost:${toString ports.uptime-kuma} {
+        handle_path /${svc.uptime-kuma.subpath}* {
+          reverse_proxy http://localhost:${toString svc.uptime-kuma.port} {
             header_up Host {host}
-            header_up X-Real-IP {remote}
-            header_up X-Forwarded-Prefix /uptime
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-Prefix /${svc.uptime-kuma.subpath}
           }
         }
 
-        handle_path /dashboard {
-          reverse_proxy http://localhost:${toString ports.homepage}
-        }
-
+        # Homepage at root - catches all unmatched requests
         handle {
-          redir / /dashboard
+          reverse_proxy http://localhost:${toString svc.homepage.port} {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+          }
         }
       '';
     };

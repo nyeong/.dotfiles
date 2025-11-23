@@ -5,17 +5,17 @@
   palette,
   ...
 }: let
-  ports = palette.oc-eyes.ports;
+  svc = palette.oc-eyes.services;
   domain = palette.lib.mkMagicDnsUrl "oc-eyes";
 in {
   services.grafana = {
     enable = true;
     settings.server = {
       http_addr = "0.0.0.0";
-      http_port = ports.grafana;
+      http_port = svc.grafana.port;
       enable_gzip = true;
       domain = domain;
-      root_url = "https://${domain}/monitor/";
+      root_url = "https://${domain}/${svc.grafana.subpath}/";
       serve_from_sub_path = true;
       protocol = "http";
     };
@@ -26,7 +26,7 @@ in {
         {
           name = "VictoriaMetrics";
           type = "prometheus";
-          url = "http://localhost:${toString ports.victoria-metrics}";
+          url = "http://localhost:${toString svc.victoria-metrics.port}";
         }
       ];
     };

@@ -1,9 +1,20 @@
 {...}: {
   host = "100.77.212.86";
-  ports = {
-    victoria-metrics = 9090;
-    grafana = 3000;
-    uptime-kuma = 4000;
-    homepage = 5000;
+  services = {
+    victoria-metrics = {
+      port = 9090;
+    };
+    grafana = {
+      port = 3000;
+      subpath = "monitor";
+    };
+    uptime-kuma = {
+      port = 4000;
+      subpath = "uptime";
+    };
+    homepage = {
+      port = 5000;
+      # No subpath - served at root
+    };
   };
 }
