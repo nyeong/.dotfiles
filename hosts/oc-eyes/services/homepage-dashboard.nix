@@ -130,10 +130,10 @@ in {
             };
           }
           {
-            "Uptime Kuma" = {
-              description = "Uptime monitoring & status page";
-              href = "https://${oc-eyes-url}/${svc.uptime-kuma.subpath}";
-              icon = "uptime-kuma.png";
+            "Gatus" = {
+              description = "Health monitoring & status dashboard";
+              href = "https://${oc-eyes-url}/${svc.gatus.subpath}";
+              icon = "gatus.png";
               target = "_blank";
             };
           }

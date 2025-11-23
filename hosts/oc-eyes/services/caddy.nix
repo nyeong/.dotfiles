@@ -23,11 +23,10 @@ in {
           }
         }
 
-        handle_path /${svc.uptime-kuma.subpath}* {
-          reverse_proxy http://localhost:${toString svc.uptime-kuma.port} {
+        handle_path /${svc.gatus.subpath}* {
+          reverse_proxy http://localhost:${toString svc.gatus.port} {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-Prefix /${svc.uptime-kuma.subpath}
           }
         }
 

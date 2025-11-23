@@ -9,9 +9,9 @@
       port = 3000;
       subpath = "monitor";
     };
-    uptime-kuma = {
+    gatus = {
       port = 4000;
-      subpath = "uptime";
+      subpath = "status";
     };
     homepage = {
       port = 5000;
