@@ -8,6 +8,7 @@ creation_rules:
     key_groups:
       - age:
           - *nyeong-air
+          - *oc-eyes
   - path_regex: ^secrets/nixbox\.yaml$
     key_groups:
       - age:

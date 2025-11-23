@@ -7,6 +7,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-darwin.url = "github:LnL7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    namescale.url = "github:sinanmohd/namescale";
+    namescale.inputs.nixpkgs.follows = "nixpkgs";
 
     # homebrew
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";

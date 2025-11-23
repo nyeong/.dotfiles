@@ -8,6 +8,9 @@
     ./services
   ];
 
+  # Secrets management
+  sops.defaultSopsFile = ../../secrets/api-keys.yaml;
+
   zramSwap.enable = true;
 
   networking.hostName = "oc-eyes";

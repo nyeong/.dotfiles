@@ -14,6 +14,7 @@ in
       ./configuration.nix
       inputs.sops-nix.nixosModules.sops
       inputs.home-manager.nixosModules.home-manager
+      inputs.namescale.nixosModules.namescale
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
