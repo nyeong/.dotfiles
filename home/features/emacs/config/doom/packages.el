@@ -26,6 +26,8 @@
 (package! ob-mermaid
  :recipe (:host github :repo "arnm/ob-mermaid"))
 
+(package! minuet)
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
 

@@ -4,6 +4,10 @@ keys:
   - &nixbox age1ttj9sljzdq3avnhthzc6u2jlumcehpp6xd7q0k78u7s9nxawmeeq79y8rp
   - &oc-eyes age1zj4ugzj4dy5fmx5rxrlvjtqtdrwvs90pv86kfudzw5njnkfenygsf3wp8j
 creation_rules:
+  - path_regex: ^secrets/api-keys\.yaml$
+    key_groups:
+      - age:
+          - *nyeong-air
   - path_regex: ^secrets/nixbox\.yaml$
     key_groups:
       - age:

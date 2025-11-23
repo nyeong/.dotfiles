@@ -416,3 +416,10 @@
                              (append org-babel-load-languages
                                      '((mermaid . t)))
                              )
+
+(use-package! minuet
+  :init
+  (add-hook 'prog-mode-hook #'minuet-auto-suggestion-mode)
+  :config
+  (setq minuet-provider 'openai-fim-compatible)
+  (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 64))

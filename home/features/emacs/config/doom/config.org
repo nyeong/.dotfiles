@@ -125,7 +125,7 @@ TRAMP로 접속 시에도 vterm을 로그인셸로 쓰기 위함
 
 ** 템플릿
 :PROPERTIES:
-:MODIFIED: <2025-11-17 Mon>
+:MODIFIED: <2025-11-20 Thu>
 :END:
 
 #+begin_src elisp :tangle config.el
@@ -523,4 +523,17 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
                              (append org-babel-load-languages
                                      '((mermaid . t)))
                              )
+#+end_src
+
+* LLM
+
+[[https://github.com/milanglacier/minuet-ai.el][GitHub - milanglacier/minuet-ai.el: 💃 Dance with LLM in Your Code. Minuet off...]]
+
+#+begin_src elisp :tangle config.el
+(use-package! minuet
+  :init
+  (add-hook 'prog-mode-hook #'minuet-auto-suggestion-mode)
+  :config
+  (setq minuet-provider 'openai-fim-compatible)
+  (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 64))
 #+end_src
