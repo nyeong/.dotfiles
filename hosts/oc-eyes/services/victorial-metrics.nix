@@ -1,13 +1,13 @@
 # Victorial Metrics
 {palette, ...}: let
-  svc = palette.oc-eyes.services;
+  cfg = palette.oc-eyes;
 in {
   services.victoriametrics = {
     enable = true;
-    listenAddress = "0.0.0.0:${toString svc.victoria-metrics.port}";
+    listenAddress = "0.0.0.0:${toString cfg.services.victoria-metrics.port}";
     retentionPeriod = "50y";
     extraOptions = [
-      "-http.pathPrefix=/${svc.victoria-metrics.subpath}"
+      "-http.pathPrefix=/${cfg.services.victoria-metrics.subpath}"
     ];
   };
 }

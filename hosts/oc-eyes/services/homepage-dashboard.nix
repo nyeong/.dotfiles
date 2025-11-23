@@ -4,9 +4,8 @@
   config,
   ...
 }: let
-  svc = palette.oc-eyes.services;
-  oc-eyes-url = palette.lib.mkMagicDnsUrl "oc-eyes";
-  base-url = "https://${oc-eyes-url}";
+  cfg = palette.oc-eyes;
+  base-url = "https://${cfg.url}";
 in {
   services.homepage-dashboard = {
     enable = true;
@@ -44,7 +43,7 @@ in {
             "GitHub" = [
               {
                 abbr = "GH";
-                href = "https://github.com";
+                href = "https://github.com/nyeong";
                 icon = "github.png";
               }
             ];
@@ -124,7 +123,7 @@ in {
           {
             "Grafana" = {
               description = "Metrics visualization & dashboards";
-              href = "https://${oc-eyes-url}/${svc.grafana.subpath}";
+              href = "https://${cfg.url}/${cfg.services.grafana.subpath}";
               icon = "grafana.png";
               target = "_blank";
             };
@@ -132,7 +131,7 @@ in {
           {
             "Gatus" = {
               description = "Health monitoring & status dashboard";
-              href = "https://${oc-eyes-url}/${svc.gatus.subpath}";
+              href = "https://${cfg.url}/${cfg.services.gatus.subpath}";
               icon = "gatus.png";
               target = "_blank";
             };
@@ -140,7 +139,7 @@ in {
           {
             "VictoriaMetrics" = {
               description = "Time series database & query interface";
-              href = "https://${oc-eyes-url}/${svc.victoria-metrics.subpath}";
+              href = "https://${cfg.url}/${cfg.services.victoria-metrics.subpath}";
               icon = "victoriametrics.png";
               target = "_blank";
             };
@@ -149,9 +148,9 @@ in {
       }
     ];
 
-    listenPort = svc.homepage.port;
+    listenPort = cfg.services.homepage.port;
     allowedHosts = lib.concatStringsSep "," [
-      oc-eyes-url
+      cfg.url
     ];
   };
 }

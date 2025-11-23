@@ -1,13 +1,12 @@
 # Gatus - Health Check & Status Page
 {palette, ...}: let
-  svc = palette.oc-eyes.services;
-  oc-eyes-url = palette.lib.mkMagicDnsUrl "oc-eyes";
+  cfg = palette.oc-eyes;
 in {
   services.gatus = {
     enable = true;
     settings = {
       web = {
-        port = svc.gatus.port;
+        port = cfg.services.gatus.port;
         address = "0.0.0.0";
       };
 
@@ -26,7 +25,7 @@ in {
       endpoints = [
         {
           name = "Homepage";
-          url = "https://${oc-eyes-url}/";
+          url = "https://${cfg.url}/";
           interval = "30s";
           conditions = [
             "[STATUS] == 200"
@@ -36,7 +35,7 @@ in {
         }
         {
           name = "Grafana";
-          url = "https://${oc-eyes-url}/${svc.grafana.subpath}/";
+          url = "https://${cfg.url}/${cfg.services.grafana.subpath}/";
           interval = "30s";
           conditions = [
             "[STATUS] == 200"
@@ -46,7 +45,7 @@ in {
         }
         {
           name = "VictoriaMetrics";
-          url = "https://${oc-eyes-url}/${svc.victoria-metrics.subpath}/";
+          url = "https://${cfg.url}/${cfg.services.victoria-metrics.subpath}/";
           interval = "30s";
           conditions = [
             "[STATUS] == 200"

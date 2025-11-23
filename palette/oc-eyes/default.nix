@@ -1,5 +1,6 @@
-{...}: {
+{lib, ...}: {
   host = "100.77.212.86";
+  url = lib.mkMagicDnsUrl "oc-eyes";
   services = {
     victoria-metrics = {
       port = 9090;
