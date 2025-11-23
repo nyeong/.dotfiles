@@ -13,7 +13,7 @@
 
   services.vmagent = {
     enable = true;
-    remoteWrite.url = "http://${palette.oc-eyes.host}:${toString palette.oc-eyes.ports.victoria-metrics}/api/v1/write";
+    remoteWrite.url = "https://${palette.oc-eyes.url}/${palette.oc-eyes.services.victoria-metrics.subpath}/api/v1/write";
     prometheusConfig.scrape_configs = [
       {
         job_name = "node-exporter";

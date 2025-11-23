@@ -12,7 +12,7 @@
     };
     gatus = {
       port = 4000;
-      subpath = "status";
+      subdomain = "status";
     };
     homepage = {
       port = 5000;

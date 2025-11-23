@@ -131,7 +131,7 @@ in {
           {
             "Gatus" = {
               description = "Health monitoring & status dashboard";
-              href = "https://${cfg.url}/${cfg.services.gatus.subpath}";
+              href = "https://${palette.lib.mkMagicDnsUrl cfg.services.gatus.subdomain}";
               icon = "gatus.png";
               target = "_blank";
             };

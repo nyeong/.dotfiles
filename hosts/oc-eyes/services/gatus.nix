@@ -1,6 +1,15 @@
 # Gatus - Health Check & Status Page
-{palette, ...}: let
+{
+  config,
+  lib,
+  pkgs,
+  palette,
+  ...
+}: let
   cfg = palette.oc-eyes;
+  tailscaleBin = "${pkgs.tailscale}/bin/tailscale";
+  gatusPort = toString cfg.services.gatus.port;
+  gatusService = cfg.services.gatus.subdomain;
 in {
   services.gatus = {
     enable = true;
@@ -54,6 +63,35 @@ in {
           alerts = [];
         }
       ];
+    };
+  };
+
+  systemd.services.tailscale-serve-gatus = lib.mkIf config.services.gatus.enable {
+    description = "Expose Gatus via Tailscale Serve";
+    requires = [
+      "tailscaled.service"
+      "gatus.service"
+    ];
+    after = [
+      "tailscaled.service"
+      "gatus.service"
+    ];
+    wantedBy = ["multi-user.target"];
+    partOf = [
+      "tailscaled.service"
+      "gatus.service"
+    ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = ''
+        ${tailscaleBin} serve --service=svc:${gatusService} --https=443 127.0.0.1:${gatusPort}
+      '';
+      ExecStop = ''
+        ${tailscaleBin} serve drain svc:${gatusService}
+        ${tailscaleBin} serve --service=svc:${gatusService} --https=443 off
+        ${tailscaleBin} serve clear svc:${gatusService}
+      '';
     };
   };
 

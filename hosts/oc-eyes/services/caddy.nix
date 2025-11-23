@@ -22,13 +22,6 @@ in {
           }
         }
 
-        handle_path /${cfg.services.gatus.subpath}* {
-          reverse_proxy http://localhost:${toString cfg.services.gatus.port} {
-            header_up Host {host}
-            header_up X-Real-IP {remote_host}
-          }
-        }
-
         handle /${cfg.services.victoria-metrics.subpath}* {
           reverse_proxy http://localhost:${toString cfg.services.victoria-metrics.port} {
             header_up Host {host}
