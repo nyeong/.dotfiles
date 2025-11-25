@@ -3,12 +3,12 @@
   palette,
   ...
 }: let
-  nixbox = palette.nixbox;
+  cfg = palette.nixbox.services;
 in {
   services.adguardhome = {
     enable = false;
     host = "0.0.0.0";
-    port = lib.toInt nixbox.ports.adguard;
+    port = lib.toInt cfg.adguard.port;
     settings = {
       dns = {
         # Bind only to loopback, LAN, and Tailscale; avoid Podman bridge (10.88.0.1)

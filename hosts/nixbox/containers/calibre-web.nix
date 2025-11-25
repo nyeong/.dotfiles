@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (containerConfig) puid pgid tz;
-  nixbox = palette.nixbox;
+  cfg = palette.nixbox.services;
 in {
   systemd.tmpfiles.rules = [
     "Z /var/lib/containers/calibre-web 2755 ${puid} ${pgid} -"
@@ -13,7 +13,7 @@ in {
 
   virtualisation.oci-containers.containers.calibre-web = {
     image = "linuxserver/calibre-web:latest";
-    ports = ["${nixbox.network.ports.calibre-web}:8083"];
+    ports = ["${toString cfg.calibre-web.port}:8083"];
     environment = {
       PUID = puid;
       PGID = pgid;

@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (containerConfig) puid pgid tz;
-  nixbox = palette.nixbox;
+  cfg = palette.nixbox.services;
 in {
   systemd.tmpfiles.rules = [
     "Z /storage/@archives/archivebox 2755 ${puid} ${pgid} -"
@@ -13,9 +13,9 @@ in {
 
   virtualisation.oci-containers.containers.archivebox = {
     image = "ghcr.io/archivebox/archivebox:latest";
-    ports = ["${nixbox.network.ports.archivebox}:8000"];
+    ports = ["${toString cfg.archivebox.port}:8000"];
     environment = {
-      CSRF_TRUSTED_ORIGINS = "http://localhost:8001";
+      CSRF_TRUSTED_ORIGINS = "http://localhost:${toString cfg.archivebox.port}";
       PUID = puid;
       PGID = pgid;
       TZ = tz;

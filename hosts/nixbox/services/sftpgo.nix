@@ -4,10 +4,10 @@
   palette,
   ...
 }: let
-  nixbox = palette.nixbox;
+  cfg = palette.nixbox.services;
 in {
   services.sftpgo = {
-    enable = true;
+    enable = false;
     dataDir = "/var/lib/sftpgo";
     settings = {
       data_provider = {
@@ -21,7 +21,7 @@ in {
       httpd = {
         bindings = [
           {
-            port = lib.toInt nixbox.network.ports.sftpgo;
+            port = lib.toInt cfg.sftpgo.port;
             address = "0.0.0.0";
           }
         ];

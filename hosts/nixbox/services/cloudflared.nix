@@ -3,7 +3,7 @@
   palette,
   ...
 }: let
-  nixbox = palette.nixbox;
+  cfg = palette.nixbox.services;
   tunnelId = "b5ba47b0-5a2e-4bc3-bdc7-7d88df40d0a7";
 in {
   sops.secrets."cf.tunnel.nyeong_me.json" = {
@@ -28,7 +28,7 @@ in {
       ${tunnelId} = {
         credentialsFile = config.sops.secrets."cf.tunnel.nyeong_me.json".path;
         ingress = {
-          "${nixbox.network.domain.immich-service}" = "http://localhost:${nixbox.network.ports.immich}";
+          "${cfg.immich.publicUrl}" = "http://localhost:${toString cfg.immich.port}";
         };
         default = "http_status:404";
       };

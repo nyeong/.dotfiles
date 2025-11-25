@@ -4,32 +4,26 @@
   config,
   palette,
   ...
-}: {
+}: let
+  cfg = palette.nixbox.services;
+in {
   # services.pgadmin = {
   #   enable = true;
   # };
   services.postgresql = {
     enable = true;
-    package = pkgs.postgresql_16;
+    package = pkgs.postgresql_18;
     extensions = ps:
       with ps; [
-        timescaledb
-        timescaledb_toolkit
+        # timescaledb
+        # timescaledb_toolkit
       ];
     dataDir = "/var/lib/postgresql";
 
-    ensureDatabases = ["sftpgo" "grafana" "telegraf"];
+    ensureDatabases = [cfg.paperless.dbname];
     ensureUsers = [
       {
-        name = "sftpgo";
-        ensureDBOwnership = true;
-      }
-      {
-        name = "grafana";
-        ensureDBOwnership = true;
-      }
-      {
-        name = "telegraf";
+        name = cfg.paperless.dbuser;
         ensureDBOwnership = true;
       }
     ];

@@ -4,11 +4,12 @@
   ...
 }: let
   magicdns = "dolly-inanga.ts.net";
+  mkMagicDnsUrl = subdomain: "${subdomain}.${magicdns}";
 in {
   # variables
   user = import ./user-config.nix {inherit lib;};
-  nixbox = import ./nixbox {inherit lib;};
-  oc-eyes = import ./oc-eyes {inherit magicdns;};
+  nixbox = import ./nixbox {inherit mkMagicDnsUrl;};
+  oc-eyes = import ./oc-eyes {inherit mkMagicDnsUrl;};
   tailscale = {
     inherit magicdns;
   };
@@ -17,7 +18,7 @@ in {
   lib = {
     isDarwin = system: lib.strings.hasSuffix "-darwin" system;
     isLinux = system: lib.strings.hasSuffix "-linux" system;
-    mkMagicDnsUrl = subdomain: "${subdomain}.${magicdns}";
+    mkMagicDnsUrl = mkMagicDnsUrl;
     mkPerSystemConfig = import ./per-system-config.nix;
     mkDarwinSystem = import ./darwin-system.nix;
     forAllSystems = func: (lib.genAttrs systems func);

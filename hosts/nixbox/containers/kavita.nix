@@ -13,7 +13,7 @@ in {
 
   virtualisation.oci-containers.containers.kavita = {
     image = "linuxserver/kavita:latest";
-    ports = ["${nixbox.network.ports.kavita}:5000"];
+    ports = ["${toString nixbox.services.kavita.port}:5000"];
     environment = {
       PUID = puid;
       PGID = pgid;

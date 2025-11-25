@@ -26,7 +26,7 @@ in {
       "/var/lib/containers/jellyfin/cache:/cache"
     ];
     ports = [
-      "${nixbox.network.ports.jellyfin}:8096"
+      "${toString nixbox.services.jellyfin.port}:8096"
     ];
     autoStart = true;
   };

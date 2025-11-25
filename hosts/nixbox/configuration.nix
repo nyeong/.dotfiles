@@ -24,12 +24,7 @@ in {
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = lib.concatLists [
-        [
-          22
-        ]
-        (map lib.toInt (builtins.attrValues nixbox.network.ports))
-      ];
+      allowedTCPPorts = [22];
       allowedUDPPorts = [53 22000 21027 6881];
     };
   };
