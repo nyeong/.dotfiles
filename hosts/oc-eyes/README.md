@@ -23,8 +23,14 @@ Locale: en_US.UTF-8
 
 ## Services
 
-- [Uptime Kuma][uptime-kuma] : for uptime monitoring
-- [Grafana][grafana] : for observability dashboard
+- [Homepage][homepage] : dashboard
+- [Grafana][grafana] : observability dashboard
+- [Gatus][gatus] : health monitoring
+- [VictoriaMetrics][victoria-metrics] : time series database
+- [VictoriaLogs][victoria-logs] : log database
 
-[uptime-kuma]: http://100.77.212.86:4000
-[grafana]: http://100.77.212.86:3000
+[homepage]: https://oc-eyes.ts.net
+[grafana]: https://oc-eyes.ts.net/monitor
+[gatus]: https://status.ts.net
+[victoria-metrics]: https://oc-eyes.ts.net/vmdb
+[victoria-logs]: https://oc-eyes.ts.net/logs

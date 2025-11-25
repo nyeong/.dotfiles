@@ -27,6 +27,14 @@ in {
           type = "prometheus";
           url = "http://localhost:${toString cfg.services.victoria-metrics.port}/${cfg.services.victoria-metrics.subpath}";
         }
+        {
+          name = "VictoriaLogs";
+          type = "loki";
+          url = "http://localhost:${toString cfg.services.victoria-logs.port}/${cfg.services.victoria-logs.subpath}";
+          jsonData = {
+            maxLines = 1000;
+          };
+        }
       ];
     };
   };

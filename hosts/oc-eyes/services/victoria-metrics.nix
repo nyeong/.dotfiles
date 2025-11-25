@@ -1,4 +1,4 @@
-# Victorial Metrics
+# Victoria Metrics
 {palette, ...}: let
   cfg = palette.oc-eyes;
 in {

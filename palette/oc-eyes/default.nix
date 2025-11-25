@@ -18,5 +18,9 @@
       port = 5000;
       # No subpath - served at root
     };
+    victoria-logs = {
+      port = 9428;
+      subpath = "logs";
+    };
   };
 }

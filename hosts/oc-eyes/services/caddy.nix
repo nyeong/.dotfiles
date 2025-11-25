@@ -1,4 +1,4 @@
-# MagincDNS Caddy server
+# MagicDNS Caddy server
 {palette, ...}: let
   cfg = palette.oc-eyes;
 in {
@@ -24,6 +24,13 @@ in {
 
         handle /${cfg.services.victoria-metrics.subpath}* {
           reverse_proxy http://localhost:${toString cfg.services.victoria-metrics.port} {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+          }
+        }
+
+        handle /${cfg.services.victoria-logs.subpath}* {
+          reverse_proxy http://localhost:${toString cfg.services.victoria-logs.port} {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
           }

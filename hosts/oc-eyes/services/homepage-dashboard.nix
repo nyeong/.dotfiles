@@ -74,9 +74,6 @@ in {
       }
     ];
 
-    docker = {};
-    kubernetes = {};
-
     widgets = [
       {
         logo = {
@@ -140,6 +137,14 @@ in {
             "VictoriaMetrics" = {
               description = "Time series database & query interface";
               href = "https://${cfg.url}/${cfg.services.victoria-metrics.subpath}";
+              icon = "victoriametrics.png";
+              target = "_blank";
+            };
+          }
+          {
+            "VictoriaLogs" = {
+              description = "Log database & query interface";
+              href = "https://${cfg.url}/${cfg.services.victoria-logs.subpath}";
               icon = "victoriametrics.png";
               target = "_blank";
             };
