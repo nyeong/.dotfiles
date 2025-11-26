@@ -1,4 +1,10 @@
-# MagicDNS Caddy server
+# Caddy
+#
+# Tailscale MagicDNS
+# ------------------
+#
+# Tailscale MagicDNS의 한계로, subdomain은 이용 불가. subpath를 이용해야함.
+# subpath가 필요한 경우 Tailscale Service로 분리해야함.
 {palette, ...}: let
   cfg = palette.oc-eyes;
 in {

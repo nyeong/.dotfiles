@@ -28,6 +28,11 @@ in {
           columns = 3;
           icon = "mdi-monitor-dashboard";
         };
+        "Document Management" = {
+          style = "row";
+          columns = 2;
+          icon = "mdi-file-document-multiple";
+        };
         "Quick Links" = {
           style = "row";
           columns = 3;
@@ -146,6 +151,18 @@ in {
               description = "Log database & query interface";
               href = "https://${cfg.url}/${cfg.services.victoria-logs.subpath}";
               icon = "victoriametrics.png";
+              target = "_blank";
+            };
+          }
+        ];
+      }
+      {
+        "Document Management" = [
+          {
+            "Paperless" = {
+              description = "Document management & archiving system";
+              href = "https://${palette.nixbox.services.paperless.url}";
+              icon = "paperless.png";
               target = "_blank";
             };
           }

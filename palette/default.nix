@@ -5,17 +5,9 @@
 }: let
   magicdns = "dolly-inanga.ts.net";
   mkMagicDnsUrl = subdomain: "${subdomain}.${magicdns}";
-in {
-  # variables
-  user = import ./user-config.nix {inherit lib;};
-  nixbox = import ./nixbox {inherit mkMagicDnsUrl;};
-  oc-eyes = import ./oc-eyes {inherit mkMagicDnsUrl;};
-  tailscale = {
-    inherit magicdns;
-  };
 
-  # functions
-  lib = {
+  # Shared library functions
+  paletteLib = {
     isDarwin = system: lib.strings.hasSuffix "-darwin" system;
     isLinux = system: lib.strings.hasSuffix "-linux" system;
     mkMagicDnsUrl = mkMagicDnsUrl;
@@ -35,5 +27,28 @@ in {
           ) (builtins.readDir path)
         )
       );
+    # Conditionally import _${name}.nix if it exists, then merge with default
+    # Usage: mkOptionalImport "services" ./. { default = "value"; }
+    mkOptionalImport = name: dir: default:
+      (
+        if builtins.pathExists (dir + "/_${name}.nix")
+        then import (dir + "/_${name}.nix")
+        else {}
+      )
+      // default;
   };
+in {
+  # variables
+  user = import ./user-config.nix {inherit lib;};
+  nixbox = import ./nixbox {
+    inherit mkMagicDnsUrl;
+    lib = paletteLib;
+  };
+  oc-eyes = import ./oc-eyes {inherit mkMagicDnsUrl;};
+  tailscale = {
+    inherit magicdns;
+  };
+
+  # functions
+  lib = paletteLib;
 }
