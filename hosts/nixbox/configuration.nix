@@ -38,15 +38,6 @@ in {
     }
   ];
 
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      PermitRootLogin = "no";
-    };
-    startWhenNeeded = true;
-  };
-
   users.groups = {
     share = {
       gid = 1001;
