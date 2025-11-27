@@ -6,6 +6,44 @@
   magicdns = "dolly-inanga.ts.net";
   mkMagicDnsUrl = subdomain: "${subdomain}.${magicdns}";
 
+  # Tailscale Serve helper function
+  # Returns a systemd service configuration that can be assigned directly
+  mkTailscaleServeService = {
+    tailscaleBin,
+    serviceName,
+    port,
+    webService,
+    enable ? true,
+  }:
+    lib.mkIf enable {
+      description = "Expose ${serviceName} via Tailscale Serve";
+      requires = [
+        "tailscaled.service"
+        "${webService}"
+      ];
+      after = [
+        "tailscaled.service"
+        "${webService}"
+      ];
+      wantedBy = ["multi-user.target"];
+      partOf = [
+        "tailscaled.service"
+        "${webService}"
+      ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = [
+          "${tailscaleBin} serve --service=svc:${serviceName} --https=443 127.0.0.1:${toString port}"
+        ];
+        ExecStop = [
+          "${tailscaleBin} serve drain svc:${serviceName}"
+          "${tailscaleBin} serve --service=svc:${serviceName} --https=443 off"
+          "${tailscaleBin} serve clear svc:${serviceName}"
+        ];
+      };
+    };
+
   # Shared library functions
   paletteLib = {
     isDarwin = system: lib.strings.hasSuffix "-darwin" system;
@@ -36,6 +74,9 @@
         else {}
       )
       // default;
+    # Tailscale Serve helper function
+    # Usage: palette.lib.mkTailscaleServeService { ... }
+    inherit mkTailscaleServeService;
   };
 in {
   # variables

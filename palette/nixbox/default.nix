@@ -5,7 +5,7 @@
 }: {
   url = mkMagicDnsUrl "nixbox";
   services = lib.mkOptionalImport "services" ./. {
-    # containers
+    # services
     archivebox = {
       port = 8001;
     };
@@ -16,7 +16,10 @@
       port = 8003;
     };
     kavita = {
-      port = 8004;
+      port = 5000;
+      subpath = "kavita";
+      url = mkMagicDnsUrl "kavita";
+      serviceName = "kavita";
     };
     immich = {
       port = 8005;
@@ -30,7 +33,7 @@
       dbname = "paperless";
       dbuser = "paperless";
       url = mkMagicDnsUrl "paperless";
-      servieName = "paperless";
+      serviceName = "paperless";
     };
 
     # monitoring

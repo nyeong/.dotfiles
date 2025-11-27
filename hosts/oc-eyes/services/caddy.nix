@@ -6,37 +6,38 @@
 # Tailscale MagicDNS의 한계로, subdomain은 이용 불가. subpath를 이용해야함.
 # subpath가 필요한 경우 Tailscale Service로 분리해야함.
 {palette, ...}: let
-  cfg = palette.oc-eyes;
+  oc-eyes = palette.oc-eyes;
+  services = oc-eyes.services;
 in {
   services.caddy = {
     email = palette.user.email;
     enable = true;
-    virtualHosts."${cfg.url}" = {
+    virtualHosts."${oc-eyes.url}" = {
       serverAliases = [];
       useACMEHost = null;
       listenAddresses = [];
       extraConfig = ''
         encode zstd gzip
 
-        handle /${cfg.services.grafana.subpath}* {
-          reverse_proxy http://localhost:${toString cfg.services.grafana.port} {
+        handle /${services.grafana.subpath}* {
+          reverse_proxy http://localhost:${toString services.grafana.port} {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-Prefix /${cfg.services.grafana.subpath}
+            header_up X-Forwarded-Prefix /${services.grafana.subpath}
             header_up Connection {>Connection}
             header_up Upgrade {>Upgrade}
           }
         }
 
-        handle /${cfg.services.victoria-metrics.subpath}* {
-          reverse_proxy http://localhost:${toString cfg.services.victoria-metrics.port} {
+        handle /${services.victoria-metrics.subpath}* {
+          reverse_proxy http://localhost:${toString services.victoria-metrics.port} {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
           }
         }
 
-        handle /${cfg.services.victoria-logs.subpath}* {
-          reverse_proxy http://localhost:${toString cfg.services.victoria-logs.port} {
+        handle /${services.victoria-logs.subpath}* {
+          reverse_proxy http://localhost:${toString services.victoria-logs.port} {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
           }
@@ -44,7 +45,7 @@ in {
 
         # Homepage at root - catches all unmatched requests
         handle {
-          reverse_proxy http://localhost:${toString cfg.services.homepage.port} {
+          reverse_proxy http://localhost:${toString services.homepage.port} {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
           }

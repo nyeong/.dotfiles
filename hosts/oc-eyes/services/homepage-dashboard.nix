@@ -166,6 +166,14 @@ in {
               target = "_blank";
             };
           }
+          {
+            "Kavita" = {
+              description = "E-reader & comic book server";
+              href = "https://${palette.nixbox.services.kavita.url}";
+              icon = "kavita.png";
+              target = "_blank";
+            };
+          }
         ];
       }
     ];

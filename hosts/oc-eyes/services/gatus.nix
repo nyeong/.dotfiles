@@ -66,33 +66,12 @@ in {
     };
   };
 
-  systemd.services.tailscale-serve-gatus = lib.mkIf config.services.gatus.enable {
-    description = "Expose Gatus via Tailscale Serve";
-    requires = [
-      "tailscaled.service"
-      "gatus.service"
-    ];
-    after = [
-      "tailscaled.service"
-      "gatus.service"
-    ];
-    wantedBy = ["multi-user.target"];
-    partOf = [
-      "tailscaled.service"
-      "gatus.service"
-    ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = ''
-        ${tailscaleBin} serve --service=svc:${gatusService} --https=443 127.0.0.1:${gatusPort}
-      '';
-      ExecStop = ''
-        ${tailscaleBin} serve drain svc:${gatusService}
-        ${tailscaleBin} serve --service=svc:${gatusService} --https=443 off
-        ${tailscaleBin} serve clear svc:${gatusService}
-      '';
-    };
+  systemd.services.tailscale-serve-gatus = palette.lib.mkTailscaleServeService {
+    inherit tailscaleBin;
+    serviceName = gatusService;
+    port = cfg.services.gatus.port;
+    webService = "gatus.service";
+    enable = config.services.gatus.enable;
   };
 
   # Ensure data directory exists

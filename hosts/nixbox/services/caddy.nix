@@ -1,0 +1,27 @@
+# Caddy
+#
+# Tailscale MagicDNS
+# ------------------
+#
+# Tailscale MagicDNS의 한계로, subdomain은 이용 불가. subpath를 이용해야함.
+# subpath가 필요한 경우 Tailscale Service로 분리해야함.
+{palette, ...}: let
+  nixbox = palette.nixbox;
+  services = nixbox.services;
+in {
+  services.caddy = {
+    email = palette.user.email;
+    enable = true;
+    virtualHosts."${nixbox.url}" = {
+      serverAliases = [];
+      useACMEHost = null;
+      listenAddresses = [];
+      extraConfig = ''
+        # Default handler - catches all unmatched requests
+        handle {
+          respond "404 Not Found" 404
+        }
+      '';
+    };
+  };
+}

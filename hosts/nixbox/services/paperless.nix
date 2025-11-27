@@ -88,32 +88,11 @@ in {
     };
   };
 
-  systemd.services.tailscale-serve-gatus = lib.mkIf config.services.gatus.enable {
-    description = "Expose Paperless via Tailscale Serve";
-    requires = [
-      "tailscaled.service"
-      "paperless-web.service"
-    ];
-    after = [
-      "tailscaled.service"
-      "paperless-web.service"
-    ];
-    wantedBy = ["multi-user.target"];
-    partOf = [
-      "tailscaled.service"
-      "paperless-web.service"
-    ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = ''
-        ${tailscaleBin} serve --service=svc:${cfg.paperless.serviceName} --https=443 127.0.0.1:${cfg.paperless.port}
-      '';
-      ExecStop = ''
-        ${tailscaleBin} serve drain svc:${cfg.paperless.serviceName}
-        ${tailscaleBin} serve --service=svc:${cfg.paperless.serviceName} --https=443 off
-        ${tailscaleBin} serve clear svc:${cfg.paperless.serviceName}
-      '';
-    };
+  systemd.services.tailscale-serve-paperless = palette.lib.mkTailscaleServeService {
+    inherit tailscaleBin;
+    serviceName = cfg.paperless.serviceName;
+    port = cfg.paperless.port;
+    webService = "paperless-web.service";
+    enable = config.services.paperless.enable;
   };
 }

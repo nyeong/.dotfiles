@@ -10,6 +10,7 @@
 
   services.tailscale = {
     enable = true;
+    permitCertUid = "caddy";
   };
 
   networking.firewall = {
