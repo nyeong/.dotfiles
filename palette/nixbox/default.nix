@@ -17,6 +17,7 @@
     };
     kavita = {
       port = 5000;
+      user = "kavita";
       subpath = "kavita";
       url = mkMagicDnsUrl "kavita";
       serviceName = "kavita";
