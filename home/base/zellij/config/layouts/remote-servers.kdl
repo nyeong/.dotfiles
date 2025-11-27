@@ -1,0 +1,30 @@
+//
+// Remote servers layout: local, oc-eyes, nixbox
+//
+default_tab_template {
+    pane size=1 borderless=true {
+        plugin location="zellij:tab-bar"
+    }
+    children
+    default_pane_name_template { index }
+    pane split_direction="vertical" {
+        pane name="local" {
+            command "zsh"
+            args "-l"
+            cwd "~"
+        }
+        pane split_direction="horizontal" {
+            pane name="oc-eyes" {
+                command "bash"
+                args "-c" "ssh -t oc-eyes 'zellij attach -c oc-eyes || zellij -s oc-eyes'"
+                cwd "~"
+            }
+            pane name="nixbox" {
+                command "bash"
+                args "-c" "ssh -t nixbox 'zellij attach -c nixbox || zellij -s nixbox'"
+                cwd "~"
+            }
+        }
+    }
+}
+
