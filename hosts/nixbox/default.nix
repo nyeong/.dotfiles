@@ -20,7 +20,7 @@ in
         home-manager.users.${palette.user.username} = import ./home-manager.nix;
         home-manager.extraSpecialArgs = specialArgs;
       }
-      inputs.nixbox-private.nixosModules.containers
-      inputs.nixbox-private.nixosModules.services
+      inputs.dotfiles-private.nixbox.containers
+      inputs.dotfiles-private.nixbox.services
     ];
   }

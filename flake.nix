@@ -26,8 +26,8 @@
     # secrets
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-    nixbox-private.url = "git+ssh://git@github.com/nyeong/nixbox-private.git";
-    nixbox-private.inputs.nixpkgs.follows = "nixpkgs";
+    dotfiles-private.url = "git+ssh://git@github.com/nyeong/nixbox-private.git";
+    dotfiles-private.inputs.nixpkgs.follows = "nixpkgs";
 
     # overlays & package dependencies
     emacs-overlay.url = "github:nix-community/emacs-overlay";
