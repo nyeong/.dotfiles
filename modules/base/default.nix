@@ -18,8 +18,6 @@
     access-tokens = github.com:$(cat ${config.sops.secrets.github_fetch_token.path})
   '';
 
-  programs.ssh.startAgent = true;
-
   nixpkgs.config.allowUnfree = true;
   nix = {
     package = pkgs.nix;

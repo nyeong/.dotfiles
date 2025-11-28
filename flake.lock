@@ -46,11 +46,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764255465,
-        "narHash": "sha256-3cJ2ExmAUNcQiP1JVRqEdTaYpwpD6s4xnZiCfAZTchI=",
+        "lastModified": 1764316085,
+        "narHash": "sha256-NGvkIt4wiFCqbR+Mm3Ejkhbap+wInoUbCm/aij3zVIQ=",
         "ref": "refs/heads/main",
-        "rev": "8340611e1d5cf7d9c3985c46c2a403cda9463f7a",
-        "revCount": 9,
+        "rev": "fd425d21227d9b727e1de10b01d28a8e8824fcd0",
+        "revCount": 10,
         "type": "git",
         "url": "ssh://git@github.com/nyeong/nixbox-private.git"
       },
