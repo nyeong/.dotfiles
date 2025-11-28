@@ -36,6 +36,12 @@
       url = mkMagicDnsUrl "paperless";
       serviceName = "paperless";
     };
+    filebrowser = {
+      port = 8080;
+      subpath = "filebrowser";
+      root = "/var/lib/filebrowser/data";
+      baseDir = "/var/lib/filebrowser";
+    };
 
     # monitoring
     vmagent = {

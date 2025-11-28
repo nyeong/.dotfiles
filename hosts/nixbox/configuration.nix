@@ -38,6 +38,19 @@ in {
     }
   ];
 
+  fileSystems = {
+    "${nixbox.services.filebrowser.root}/library" = {
+      device = "/storage/@library";
+      fsType = "none";
+      options = ["bind"];
+    };
+    "${nixbox.services.filebrowser.root}/archives" = {
+      device = "/storage/@archives";
+      fsType = "none";
+      options = ["bind"];
+    };
+  };
+
   users.groups = {
     share = {
       gid = 1001;

@@ -18,6 +18,10 @@ in {
       listenAddresses = [];
       extraConfig = ''
         # Default handler - catches all unmatched requests
+        handle_path /${services.filebrowser.subpath}* {
+          reverse_proxy http://localhost:${toString services.filebrowser.port}
+        }
+
         handle {
           respond "404 Not Found" 404
         }
