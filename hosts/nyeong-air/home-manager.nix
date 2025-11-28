@@ -16,4 +16,5 @@
       "dotfiles" = "~/.dotfiles";
     };
   };
+  features.hledger.enable = true;
 }
