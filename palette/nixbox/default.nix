@@ -9,9 +9,6 @@
     archivebox = {
       port = 8001;
     };
-    "calibre-web" = {
-      port = 8002;
-    };
     jellyfin = {
       port = 8003;
     };
@@ -28,6 +25,8 @@
     };
     sftpgo = {
       port = 9200;
+      dbname = "sftpgo";
+      dbuser = "sftpgo";
     };
     paperless = {
       port = 8006;
@@ -41,6 +40,10 @@
       subpath = "filebrowser";
       root = "/var/lib/filebrowser/data";
       baseDir = "/var/lib/filebrowser";
+    };
+    calibre-web = {
+      port = 8083;
+      subpath = "calibre-web";
     };
 
     # monitoring

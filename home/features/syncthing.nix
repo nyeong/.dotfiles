@@ -52,7 +52,7 @@ in {
     ];
     services.syncthing = {
       enable = true;
-      guiAddress = "localhost:8384";
+      guiAddress = "0.0.0.0:8384";
       settings = {
         devices = devices;
         folders = {

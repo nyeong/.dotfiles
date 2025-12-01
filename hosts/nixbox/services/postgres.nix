@@ -20,10 +20,17 @@ in {
       ];
     dataDir = "/var/lib/postgresql";
 
-    ensureDatabases = [cfg.paperless.dbname];
+    ensureDatabases = [
+      cfg.paperless.dbname
+      cfg.sftpgo.dbname
+    ];
     ensureUsers = [
       {
         name = cfg.paperless.dbuser;
+        ensureDBOwnership = true;
+      }
+      {
+        name = cfg.sftpgo.dbuser;
         ensureDBOwnership = true;
       }
     ];

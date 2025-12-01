@@ -11,8 +11,8 @@
     enable = true;
     folders = {
       "screenshots@nyeong-air" = "/storage/@screenshots/nyeong-air";
-      "hanassig" = "~/hanassig";
-      "dotfiles" = "~/.dotfiles";
+      "hanassig" = "/srv/hanassig";
+      "dotfiles" = "/srv/dotfiles";
     };
   };
 }
