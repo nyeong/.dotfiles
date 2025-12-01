@@ -10,6 +10,7 @@
     {
       openssh.authorizedKeys.keys = lib.mkDefault [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHW38hDRPSN1QuPELEBOj5ex6mV9Iw69z6jJRdveibGE me@annyeong.me"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM6hHrzCLgLiWFOjdGhrg0s6W5SOL6wdva77H0hmEXqj me@ipad"
       ];
       shell = pkgs.zsh;
     }

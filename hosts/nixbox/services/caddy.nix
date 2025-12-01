@@ -5,25 +5,47 @@
 #
 # Tailscale MagicDNS의 한계로, subdomain은 이용 불가. subpath를 이용해야함.
 # subpath가 필요한 경우 Tailscale Service로 분리해야함.
-{palette, ...}: let
+{
+  palette,
+  pkgs,
+  config,
+  ...
+}: let
   nixbox = palette.nixbox;
   services = nixbox.services;
 in {
+  sops.secrets.webdav_password_hash = {
+    sopsFile = ../../../secrets/nixbox.yaml;
+    key = "webdav_password_hash";
+    mode = "0400";
+    owner = "caddy";
+  };
+
   services.caddy = {
     email = palette.user.email;
+    package = pkgs.caddy.withPlugins {
+      plugins = ["github.com/mholt/caddy-webdav"];
+      hash = "sha256-DHkHbwhTnaK00G38czb4XZ9g9Ttz9Y1Wb3gCCAWZYDI=";
+    };
     enable = true;
+    globalConfig = ''
+      order webdav before file_server
+    '';
     virtualHosts."${nixbox.url}" = {
       serverAliases = [];
       useACMEHost = null;
       listenAddresses = [];
       extraConfig = ''
-        # Default handler - catches all unmatched requests
-        handle /webdav {
-          redir /webdav/ permanent
-        }
-
-        handle_path /webdav/* {
-          reverse_proxy http://localhost:${toString services.webdav.port}
+        # WebDAV for BeOrg sync
+        handle /webdav* {
+          basic_auth {
+            ${palette.user.username} {file.${config.sops.secrets.webdav_password_hash.path}}
+          }
+          rewrite /webdav /webdav/
+          webdav /webdav/* {
+            root /srv/hanassig
+            prefix /webdav
+          }
         }
 
         handle_path /${services.filebrowser.subpath}* {
