@@ -33,6 +33,11 @@ in {
           columns = 2;
           icon = "mdi-file-document-multiple";
         };
+        "File Management" = {
+          style = "row";
+          columns = 2;
+          icon = "mdi-folder-multiple";
+        };
         "Quick Links" = {
           style = "row";
           columns = 3;
@@ -171,6 +176,26 @@ in {
               description = "E-reader & comic book server";
               href = "https://${palette.nixbox.services.kavita.url}";
               icon = "kavita.png";
+              target = "_blank";
+            };
+          }
+          {
+            "Calibre-web" = {
+              description = "E-book library management";
+              href = "https://${palette.nixbox.url}/${palette.nixbox.services.calibre-web.subpath}";
+              icon = "calibre.png";
+              target = "_blank";
+            };
+          }
+        ];
+      }
+      {
+        "File Management" = [
+          {
+            "Filebrowser" = {
+              description = "Web-based file manager";
+              href = "https://${palette.nixbox.url}/${palette.nixbox.services.filebrowser.subpath}";
+              icon = "filebrowser.png";
               target = "_blank";
             };
           }
