@@ -18,6 +18,10 @@ in {
       listenAddresses = [];
       extraConfig = ''
         # Default handler - catches all unmatched requests
+        handle /webdav {
+          redir /webdav/ permanent
+        }
+
         handle_path /webdav/* {
           reverse_proxy http://localhost:${toString services.webdav.port}
         }
