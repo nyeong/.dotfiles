@@ -146,7 +146,7 @@
      ;;kotlin            ; a better, slicker Java(Script)
      (latex +lsp +cdlatex)             ; writing papers in Emacs has never been so fun
      ;;lean              ; for folks with too much to prove
-     ;;ledger            ; be audit you can be
+     ;;( ledger )            ; be audit you can be
      ;;lua               ; one-based indices? one-based indices
      markdown          ; writing docs for people to ignore
      ;;nim               ; python + lisp at the speed of c
@@ -188,10 +188,10 @@
      ;;calendar
      ;;emms
      ;;everywhere        ; *leave* Emacs!? You must be joking
-     ;;irc               ; how neckbeards socialize
-     ;;(rss +org)        ; emacs as an RSS reader
-     ;;twitter           ; twitter client https://twitter.com/vnought
+       ;;irc               ; how neckbeards socialize
+       ;;(rss +org)        ; emacs as an RSS reader
+       ;;twitter           ; twitter client https://twitter.com/vnought
 
-     :config
-     literate
-     (default +bindings +smartparens))
+       :config
+       literate
+       (default +bindings +smartparens))

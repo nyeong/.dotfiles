@@ -417,6 +417,17 @@
                                      '((mermaid . t)))
                              )
 
+(use-package! hledger-mode
+  :mode ("\\.journal\\'" . hledger-mode)
+  :config
+  (setq hledger-jfile (expand-file-name "~/finance/2025.journal"))
+  (setq hledger-currency-string "KRW")
+  (add-hook 'hledger-mode-hook
+            (lambda ()
+              (setq-local completion-at-point-functions
+                          (cons 'hledger-completion-at-point
+                                completion-at-point-functions)))))
+
 (use-package! minuet
   :init
   (add-hook 'prog-mode-hook #'minuet-auto-suggestion-mode)

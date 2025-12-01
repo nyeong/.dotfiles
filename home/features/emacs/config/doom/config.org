@@ -125,7 +125,7 @@ TRAMP로 접속 시에도 vterm을 로그인셸로 쓰기 위함
 
 ** 템플릿
 :PROPERTIES:
-:MODIFIED: <2025-11-20 Thu>
+:MODIFIED: <2025-12-01 Mon>
 :END:
 
 #+begin_src elisp :tangle config.el
@@ -523,6 +523,21 @@ org-babel-tangle이 경로로 지정된 경우, 디렉토리가 없으면 자동
                              (append org-babel-load-languages
                                      '((mermaid . t)))
                              )
+#+end_src
+
+* Hledger
+
+#+begin_src elisp :tangle config.el
+(use-package! hledger-mode
+  :mode ("\\.journal\\'" . hledger-mode)
+  :config
+  (setq hledger-jfile (expand-file-name "~/finance/2025.journal"))
+  (setq hledger-currency-string "KRW")
+  (add-hook 'hledger-mode-hook
+            (lambda ()
+              (setq-local completion-at-point-functions
+                          (cons 'hledger-completion-at-point
+                                completion-at-point-functions)))))
 #+end_src
 
 * LLM
