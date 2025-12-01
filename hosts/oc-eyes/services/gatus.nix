@@ -7,6 +7,8 @@
   ...
 }: let
   cfg = palette.oc-eyes;
+  nixbox = palette.nixbox;
+  nixboxServices = nixbox.services;
   tailscaleBin = "${pkgs.tailscale}/bin/tailscale";
   gatusPort = toString cfg.services.gatus.port;
   gatusService = cfg.services.gatus.subdomain;
@@ -59,6 +61,36 @@ in {
           conditions = [
             "[STATUS] == 200"
             "[RESPONSE_TIME] < 1000"
+          ];
+          alerts = [];
+        }
+        {
+          name = "Nixbox WebDAV";
+          url = "https://${nixbox.url}/webdav/";
+          interval = "30s";
+          conditions = [
+            "[STATUS] == 401"
+            "[RESPONSE_TIME] < 1000"
+          ];
+          alerts = [];
+        }
+        {
+          name = "Nixbox Filebrowser";
+          url = "https://${nixbox.url}/${nixboxServices.filebrowser.subpath}/";
+          interval = "30s";
+          conditions = [
+            "[STATUS] == 200"
+            "[RESPONSE_TIME] < 2000"
+          ];
+          alerts = [];
+        }
+        {
+          name = "Nixbox Calibre Web";
+          url = "https://${nixbox.url}/${nixboxServices.calibre-web.subpath}/";
+          interval = "30s";
+          conditions = [
+            "[STATUS] == 200"
+            "[RESPONSE_TIME] < 2000"
           ];
           alerts = [];
         }
