@@ -95,6 +95,60 @@
       formatting = perSystem.${system}.treefmtEval.config.build.check self;
     });
 
+    apps = palette.lib.forAllSystems (system: {
+      format = {
+        type = "app";
+        program = "${perSystem.${system}.treefmtEval.config.build.wrapper}/bin/treefmt";
+      };
+      format-check = {
+        type = "app";
+        program = lib.getExe (perSystem.${system}.pkgs.writeShellApplication {
+          name = "format-check";
+          runtimeInputs = [perSystem.${system}.treefmtEval.config.build.wrapper];
+          text = ''
+            treefmt --check
+          '';
+        });
+      };
+      statix = {
+        type = "app";
+        program = lib.getExe (perSystem.${system}.pkgs.writeShellApplication {
+          name = "statix";
+          runtimeInputs = [perSystem.${system}.pkgs.statix];
+          text = ''
+            statix check --format=stderr "$@"
+          '';
+        });
+      };
+      deadnix = {
+        type = "app";
+        program = lib.getExe (perSystem.${system}.pkgs.writeShellApplication {
+          name = "deadnix";
+          runtimeInputs = [perSystem.${system}.pkgs.deadnix];
+          text = ''
+            deadnix --no-progress "$@"
+          '';
+        });
+      };
+      lint = {
+        type = "app";
+        program = lib.getExe (perSystem.${system}.pkgs.writeShellApplication {
+          name = "lint";
+          runtimeInputs = [
+            perSystem.${system}.pkgs.statix
+            perSystem.${system}.pkgs.deadnix
+          ];
+          text = ''
+            echo "Running statix..."
+            statix check --format=stderr . || true
+            echo ""
+            echo "Running deadnix..."
+            deadnix --no-progress . || true
+          '';
+        });
+      };
+    });
+
     darwinConfigurations."nyeong-air" = import ./hosts/nyeong-air {
       inherit inputs mkSpecialArgs;
     };

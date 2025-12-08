@@ -1,21 +1,31 @@
 # .dotfiles
 
-Nix에 모든 것을 맡기는 중...
+Dotfiles of mine. Using Nix.
 
-## 구조
+## Abstract
 
-KISS, YAGNI. Nix에 너무 심취하지 말기.
+This repository provides a declarative configuration management system for
+my personal computing environments using Nix. It manages a portable
+machine and home lab including cloud-hosted and on-premise servers. The
+repository is publicly maintained to enforce security practices by preventing
+secret inclusion, facilitate rapid system bootstrap, and contribute practical
+Nix usage patterns to the community.
+
+README.md is the only document written in English. For my convenience, other
+documents are written in Korean, which is my mother tongue.
+
+## Structure
 
 ### hosts
 
-| hostname   | 용도                                          |
-| ---------- | --------------------------------------------- |
-| nixvm      | OrbStack으로 nyeong-air 위에 띄우는 개발용 VM |
-| nyeong-air | 들고 다니는 MacBook Air M2                    |
-| nixbox     | N150 홈랩                                     |
-| oc-eyes    | OCI 인스턴스                                  |
+| hostname                         | Purpose                                    |
+| -------------------------------- | ------------------------------------------ |
+| [nixvm](./hosts/nixvm)           | Development VM on OrbStack (on nyeong-air) |
+| [nyeong-air](./hosts/nyeong-air) | Portable dev machine. MacBook Air M2       |
+| [nixbox](./hosts/nixbox)         | Home lab server (N150)                     |
+| [oc-eyes](./hosts/oc-eyes)       | OCI cloud instance                         |
 
-세부 내용은 필요한 경우 각 호스트 디렉토리에 README.md로 작성.
+Each host directory may contain a README.md with details if needed.
 
 ```
 /hosts/
@@ -23,39 +33,41 @@ KISS, YAGNI. Nix에 너무 심취하지 말기.
     ├── default.nix # entry point
     ├── home-manager.nix
     ├── configuration.nix
-    └── hardware-configuration.nix # 있으면
+    └── hardware-configuration.nix # optional
 ```
 
-그 외에 각 호스트의 설정은 해당 호스트 디렉토리 밑에 편하게 기술하고, 공통으로 쓸 것들만 modules,
-home으로 뺸다.
+Host-specific settings go in each host directory. Shared settings are extracted to `modules` and `home`.
 
 ### modules and home
 
-공통으로 쓸 것들.
+Shared configurations.
 
-- `modules`, `home`의 대부분의 코드는 자동으로 import된다.
-- `darwin`, `linux`는 시스템에 따라 import된다.
-- `features`의 코드는 명시적으로 `features.something.enable = true` 해야 활성화.
+- `modules`: system-level settings (NixOS/Darwin)
+- `home`: user-level settings (Home Manager)
+- Most code in `modules` and `home` is imported automatically.
+- `darwin` and `linux` are imported based on the system type.
+- `features` require explicit enable: `features.something.enable = true`.
 
 ```
 /home/ # home-manager context configurations
 ├── base/
 ├── linux/
 ├── darwin/
-│   ├── ${some-module}.nix  # nix 파일 하나로 끝나는 경우
-│   └── ${another-module}/  # 추가 파일이 필요한 경우
+│   ├── ${some-module}.nix  # single file module
+│   └── ${another-module}/  # module with extra files
 │       ├── config/
 │       └── default.nix
-└── features/               # 자동으로 import되지만 직접 enable 해야하는 것들
-    └── dev-tools.nix       # 개발도구 같이 모든 호스트에서 필요한 게 아닌 것들을 여기로
-                            # 이 features에 대한 enable은 host에게 맡긴다
+└── features/               # auto-imported but need explicit enable
+    ├── ...
+    └── dev-tools.nix       # optional tools like dev-tools go here
+                            # each host decides which features to enable
 /modules/ # nixosSystem or darwinSystem context
 ├── base/
 ├── linux/
 └── darwin/
 ```
 
-features는 아래의 패턴을 따른다:
+Features follow this pattern:
 
 ```nix
 { ... }: let
@@ -63,16 +75,18 @@ features는 아래의 패턴을 따른다:
 in {
   options.features.featureName = {
     enable = lib.mkEnableOption "description";
-    # 그 외의 필요한 옵션들
+    # other options as needed
   };
 
   config = lib.mkIf cfg.enable {
-    # 여기에 내용 정의
+    # feature configuration here
   };
 }
 ```
 
 ### overlays
+
+Package overrides and modifications.
 
 ```
 /overlays/
@@ -82,12 +96,24 @@ in {
 
 ### palette
 
-각 호스트의 설정도 여기에 넣어서 모든 호스트가 공유할 수 있도록
+Host-specific settings that can be shared across all hosts.
 
 ```
 /palette/
 ├── user-config.nix
 └── default.nix # entry point
+```
+
+### secrets
+
+Manage secrets using `sops-nix`. `.sops.yaml` defines encryption keys and rules.
+
+Personal settings that cannot be public are stored in a private repository (`dotfiles-private`) and injected via flake input.
+
+```
+/
+├── .sops.yaml
+└── secrets/
 ```
 
 ## Naming
@@ -97,17 +123,17 @@ in {
 
 ## Usage
 
-- 포매팅 : `nix format`
-- 설정 적용
-  - nyeong-air : `sudo darwin-rebuild switch --flake .#nyeong-air`
+- Formatting: `nix format`
+- Apply configuration:
+  - nyeong-air: `sudo darwin-rebuild switch --flake .#nyeong-air`
 
-  - nixbox : `sudo nixos-rebuild switch --flake path:.#hostname`
-    gitignore한 nix파일도 참조해야하므로 `path`로 지정해야함.
+  - nixbox: `sudo nixos-rebuild switch --flake path:.#hostname`
+    Use `path:` because gitignored nix files need to be referenced.
 
-  - nixvm : `sudo nixos-rebuild switch --flake .#nixvm --impure`
-    OrbStack에서 정의한 nix 파일이 프로젝트 외부에 있기 때문에 `--impure` 해야함.
+  - nixvm: `sudo nixos-rebuild switch --flake .#nixvm --impure`
+    Use `--impure` because OrbStack defines nix files outside the project.
 
-## 참고
+## References
 
 - [dustinlyons/nixos-config](https://github.com/dustinlyons/nixos-config)
 - [hlissner/dotfiles](https://github.com/hlissner/dotfiles)
