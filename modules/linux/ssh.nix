@@ -1,5 +1,9 @@
-{palette, ...}: {
-  services.openssh = {
+{
+  palette,
+  lib,
+  ...
+}: {
+  services.openssh = lib.mkDefault {
     ports = [22];
     openFirewall = true;
     enable = true;

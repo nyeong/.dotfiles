@@ -126,7 +126,7 @@
           name = "deadnix";
           runtimeInputs = [perSystem.${system}.pkgs.deadnix];
           text = ''
-            deadnix --no-progress "$@"
+            deadnix "$@"
           '';
         });
       };
