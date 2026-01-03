@@ -38,6 +38,7 @@
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
     ki-editor.url = "github:ki-editor/ki-editor";
+    opencode.url = "github:aweis89/opencode/64a842967c69550a8494e5ef0619039039ab73fd";
   };
   outputs = {
     self,
@@ -71,6 +72,7 @@
       isLinux = palette.lib.isLinux system;
       nix-ai-tools-pkgs = inputs.nix-ai-tools.packages.${system};
       ki-editor = inputs.ki-editor.packages.${system}.default;
+      opencode = inputs.opencode.packages.${system}.default;
     };
 
     perSystem = palette.lib.forAllSystems (
@@ -108,50 +110,58 @@
       };
       format-check = {
         type = "app";
-        program = lib.getExe (perSystem.${system}.pkgs.writeShellApplication {
-          name = "format-check";
-          runtimeInputs = [perSystem.${system}.treefmtEval.config.build.wrapper];
-          text = ''
-            treefmt --check
-          '';
-        });
+        program = lib.getExe (
+          perSystem.${system}.pkgs.writeShellApplication {
+            name = "format-check";
+            runtimeInputs = [perSystem.${system}.treefmtEval.config.build.wrapper];
+            text = ''
+              treefmt --check
+            '';
+          }
+        );
       };
       statix = {
         type = "app";
-        program = lib.getExe (perSystem.${system}.pkgs.writeShellApplication {
-          name = "statix";
-          runtimeInputs = [perSystem.${system}.pkgs.statix];
-          text = ''
-            statix check --format=stderr "$@"
-          '';
-        });
+        program = lib.getExe (
+          perSystem.${system}.pkgs.writeShellApplication {
+            name = "statix";
+            runtimeInputs = [perSystem.${system}.pkgs.statix];
+            text = ''
+              statix check --format=stderr "$@"
+            '';
+          }
+        );
       };
       deadnix = {
         type = "app";
-        program = lib.getExe (perSystem.${system}.pkgs.writeShellApplication {
-          name = "deadnix";
-          runtimeInputs = [perSystem.${system}.pkgs.deadnix];
-          text = ''
-            deadnix "$@"
-          '';
-        });
+        program = lib.getExe (
+          perSystem.${system}.pkgs.writeShellApplication {
+            name = "deadnix";
+            runtimeInputs = [perSystem.${system}.pkgs.deadnix];
+            text = ''
+              deadnix "$@"
+            '';
+          }
+        );
       };
       lint = {
         type = "app";
-        program = lib.getExe (perSystem.${system}.pkgs.writeShellApplication {
-          name = "lint";
-          runtimeInputs = [
-            perSystem.${system}.pkgs.statix
-            perSystem.${system}.pkgs.deadnix
-          ];
-          text = ''
-            echo "Running statix..."
-            statix check --format=stderr . || true
-            echo ""
-            echo "Running deadnix..."
-            deadnix --no-progress . || true
-          '';
-        });
+        program = lib.getExe (
+          perSystem.${system}.pkgs.writeShellApplication {
+            name = "lint";
+            runtimeInputs = [
+              perSystem.${system}.pkgs.statix
+              perSystem.${system}.pkgs.deadnix
+            ];
+            text = ''
+              echo "Running statix..."
+              statix check --format=stderr . || true
+              echo ""
+              echo "Running deadnix..."
+              deadnix --no-progress . || true
+            '';
+          }
+        );
       };
     });
 

@@ -5,7 +5,7 @@
   nix-ai-tools-pkgs,
   ki-editor,
   ...
-}: let
+} @ inputs: let
   cfg = config.features.devTools;
   cursorMcpPath = "${config.home.homeDirectory}/.cursor/mcp.json";
   geminiSettingsPath = "${config.home.homeDirectory}/.gemini/settings.json";
@@ -23,8 +23,8 @@ in {
       nix-ai-tools-pkgs.cursor-agent
       nix-ai-tools-pkgs.claude-code
       nix-ai-tools-pkgs.gemini-cli
-      opencode
 
+      inputs.opencode
       ki-editor
 
       # editor

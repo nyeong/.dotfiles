@@ -1,2 +1,1 @@
-{palette, ...}:
-map import (palette.lib.scanPaths ./.)
+{palette, ...}: map import (palette.lib.scanPaths ./.)
