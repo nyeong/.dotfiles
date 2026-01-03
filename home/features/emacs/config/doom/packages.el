@@ -30,6 +30,11 @@
 
 (package! hledger-mode)
 
+(package! ox-typst)
+
+(unpin! org-roam)
+(package! org-roam-ui)
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
 

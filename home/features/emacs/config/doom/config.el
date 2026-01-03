@@ -14,6 +14,15 @@
  indent-tabs-mode nil
  standard-indent 2)
 
+(defun nyeong/insert-zero-width-space ()
+  "Insert a zero-width space character."
+  (interactive)
+  (insert "\u200b"))
+
+(map! :leader
+      (:prefix ("i" . "insert")
+       :desc "Zero width space" "z" #'nyeong/insert-zero-width-space))
+
 (setq doom-theme 'doom-one-light)
 (setq display-line-numbers-type 'visual)
 
@@ -49,11 +58,74 @@
 (setq shell-file-name "zsh")
 (setq vterm-shell "zsh -l")
 
-(setq org-directory "~/hanassig/")
+(after! org
+  (setq org-directory "~/hanassig/"
+        org-log-done t
+        org-log-into-drawer t))
 (after! org-roam
   (setq org-roam-directory (file-truename "~/hanassig")
         epa-pinentry-mode 'loopback
         org-roam-node-template "#+TITLE: ${title}\n"))
+
+(after! org
+  (setq org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w!)" "HOLD(h!)" "IDEA(i)"
+                                      "|" "DONE(d!)" "KILL(k@)")
+                            (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+                            (sequence "|" "OKAY(o)" "YES(y)" "NO(n)"))))
+
+(defun nyeong/iso-week-thursday-yearmonth (time)
+  "ISO 주차의 목요일 년-월을 반환 (예: 2025-01)"
+  (let* ((weekday (string-to-number (format-time-string "%u" time)))
+         (days-to-thursday (- 4 weekday))
+         (thursday-time (time-add time (days-to-time days-to-thursday))))
+    (format-time-string "%Y-%m" thursday-time)))
+
+(defun nyeong/iso-week-number (time)
+  "주어진 time의 ISO 주차 번호 반환"
+  (string-to-number (format-time-string "%V" time)))
+
+(defun nyeong/ensure-title ()
+  "버퍼에 #+TITLE: 이 없으면 파일명으로 추가"
+  (save-excursion
+    (goto-char (point-min))
+    (unless (re-search-forward "^#\\+TITLE:" nil t)
+      (goto-char (point-min))
+      (let ((filename (or (and buffer-file-name
+                               (file-name-sans-extension
+                                (file-name-nondirectory buffer-file-name)))
+                          (nyeong/iso-week-thursday-yearmonth (current-time)))))
+        (insert "#+TITLE: " filename "\n\n")))))
+
+(defun nyeong/current-week-heading ()
+  "현재 주차 헤딩 문자열 반환"
+  (format "W%02d" (nyeong/iso-week-number (current-time))))
+
+(setq org-roam-dailies-directory "journals/")
+
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         "*** %<%H:%M> %?"
+         :target (file+olp
+                  "%(nyeong/iso-week-thursday-yearmonth (current-time)).org"
+                  ("%(nyeong/current-week-heading)"
+                   "[%<%Y-%m-%d %a>]"))
+         :empty-lines 0
+         :unnarrowed t
+         :prepare-finalize nyeong/ensure-title)))
+
+(use-package! ox-typst
+  :after org)
+
+(use-package! websocket
+  :after org-roam)
+
+(use-package! org-roam-ui
+  :after org-roam
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 
 (after! org
   (setq org-latex-compiler "xelatex")
@@ -88,38 +160,6 @@
     ;; ensures that the full file will be displayed when captured.
     :unnarrowed t)))
 
-;; 프로젝트 템플릿
-(defvar nyeong/project-template
-  `("p" "Project" plain
-    "%?"
-    :target (file+head "projects/${slug}.org"
-                       ,(concat
-                         ":PROPERTIES:\n"
-                         ":CREATED: <%<%Y-%m-%d %a>>\n"
-                         ":MODIFIED: <%<%Y-%m-%d %a>>\n"
-                         ":END:\n\n"
-                         "#+title: ${title}\n"
-                         "#+DESCRIPTION: \n"))
-    :unnarrowed t)
-  "프로젝트를 위한 org-roam 캡처 템플릿.
-- ${title}: 문서 제목")
-
-;; 영역 템플릿
-(defvar nyeong/area-template
-  `("a" "Area" plain
-    "%?"
-    :target (file+head "areas/${slug}.org"
-                       ,(concat
-                         ":PROPERTIES:\n"
-                         ":CREATED: <%<%Y-%m-%d %a>>\n"
-                         ":MODIFIED: <%<%Y-%m-%d %a>>\n"
-                         ":END:\n"
-                         "#+TITLE: ${title}\n"
-                         "#+DESCRIPTION: \n"))
-    :unnarrowed t)
-  "영역(Area)을 위한 org-roam 캡처 템플릿.
-- ${title}: 문서 제목")
-
 ;; 노트 템플릿
 (defvar nyeong/note-template
   `("n" "Note" plain
@@ -135,20 +175,6 @@
     :unnarrowed t)
   "개념 정리를 위한 org-roam 캡처 템플릿.
 - ${title}: 문서 제목")
-
-;; inbox 캡처 템플릿
-(defvar nyeong/inbox-template
-  `("i" "Inbox" plain
-    "* %U\n\n%?"
-    :target (file+head "inbox/capture.org"
-                       ,(concat
-                         ":PROPERTIES:\n"
-                         ":CREATED: <%<%Y-%m-%d %a>>\n"
-                         ":MODIFIED: <%<%Y-%m-%d %a>>\n"
-                         ":END:\n"
-                         "#+TITLE: 캡처 박스\n"))
-    :unnarrowed t)
-  "캡처")
 
 ;; 레퍼런스 템플릿
 (defvar nyeong/reference-template
@@ -169,11 +195,8 @@
 - ${url}: 웹 주소 (있는 경우)")
 
 (after! org-roam
-  (add-to-list 'org-roam-capture-templates nyeong/project-template)
-  (add-to-list 'org-roam-capture-templates nyeong/area-template)
   (add-to-list 'org-roam-capture-templates nyeong/note-template)
-  (add-to-list 'org-roam-capture-templates nyeong/reference-template)
-  (add-to-list 'org-roam-capture-templates nyeong/inbox-template))
+  (add-to-list 'org-roam-capture-templates nyeong/reference-template))
 
 (defun nyeong/update-last-modified ()
   "Update the LAST_MODIFIED property in the current buffer."
@@ -196,9 +219,8 @@
 (add-hook 'before-save-hook #'nyeong/upcase-org-title)
 
 (after! org
-  (setq org-agenda-files '("~/hanassig/journals/weekly"
-                          "~/hanassig/projects"
-                          "~/hanassig/areas")
+  (setq org-agenda-files '("~/hanassig/journals"
+                          "~/hanassig/notes")
         org-cite-export-processors '((t csl))
         org-cite-csl-styles-dir "~/hanassig/csl-styles"
         org-cite-csl-default-style "ieee"
@@ -375,6 +397,8 @@
 (after! tramp
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
+
+
 (after! lsp-clangd
   (setq lsp-clients-clangd-args
         '("-j=3"
@@ -414,8 +438,7 @@
 
 (org-babel-do-load-languages 'org-babel-load-languages
                              (append org-babel-load-languages
-                                     '((mermaid . t)))
-                             )
+                                     '((mermaid . t))))
 
 (use-package! hledger-mode
   :mode ("\\.journal\\'" . hledger-mode)

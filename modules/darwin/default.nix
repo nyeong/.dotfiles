@@ -18,6 +18,8 @@ in {
     taps = {
       "homebrew/homebrew-core" = inputs.homebrew-core;
       "homebrew/homebrew-cask" = inputs.homebrew-cask;
+      "playcover/homebrew-playcover" = inputs.homebrew-playcover;
+      "tw93/homebrew-tap" = inputs.homebrew-tw93;
     };
 
     mutableTaps = false;
@@ -37,6 +39,10 @@ in {
       "tailscale-app"
       "raycast"
       "orbstack"
+      "opencode-desktop"
+    ];
+    brews = [
+      "tw93/tap/mole"
     ];
   };
 

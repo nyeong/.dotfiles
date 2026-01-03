@@ -3,6 +3,7 @@
   config,
   pkgs,
   nix-ai-tools-pkgs,
+  ki-editor,
   ...
 }: let
   cfg = config.features.devTools;
@@ -22,6 +23,9 @@ in {
       nix-ai-tools-pkgs.cursor-agent
       nix-ai-tools-pkgs.claude-code
       nix-ai-tools-pkgs.gemini-cli
+      opencode
+
+      ki-editor
 
       # editor
       code-cursor

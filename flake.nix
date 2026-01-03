@@ -16,6 +16,10 @@
     homebrew-core.flake = false;
     homebrew-cask.url = "github:homebrew/homebrew-cask";
     homebrew-cask.flake = false;
+    homebrew-playcover.url = "github:PlayCover/homebrew-playcover";
+    homebrew-playcover.flake = false;
+    homebrew-tw93.url = "github:tw93/homebrew-tap";
+    homebrew-tw93.flake = false;
 
     # Formatting + Git hooks
     treefmt-nix.url = "github:numtide/treefmt-nix";
@@ -33,6 +37,7 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
+    ki-editor.url = "github:ki-editor/ki-editor";
   };
   outputs = {
     self,
@@ -65,6 +70,7 @@
       isDarwin = palette.lib.isDarwin system;
       isLinux = palette.lib.isLinux system;
       nix-ai-tools-pkgs = inputs.nix-ai-tools.packages.${system};
+      ki-editor = inputs.ki-editor.packages.${system}.default;
     };
 
     perSystem = palette.lib.forAllSystems (

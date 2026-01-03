@@ -12,7 +12,6 @@
   xdg-config-home = ".config";
   doomConfigPath = "${config.home.homeDirectory}/.dotfiles/home/features/emacs/config/doom";
   emacsConfigPath = "${config.home.homeDirectory}/.config/emacs";
-  chromeAvailable = !pkgs.stdenv.isAarch64;
   cfg = config.features.emacs;
 in {
   options.features.emacs = {
@@ -24,35 +23,34 @@ in {
       enable = true;
     };
 
-    home.packages = with pkgs;
-      [
-        myTexlive
-        emacs-all-the-icons-fonts
-        emacs-all-the-icons-fonts
-        (aspellWithDicts (d: [
-          d.en
-          d.sv
-        ]))
+    home.packages = with pkgs; [
+      myTexlive
+      emacs-all-the-icons-fonts
+      emacs-all-the-icons-fonts
+      (aspellWithDicts (d: [
+        d.en
+        d.sv
+      ]))
 
-        # Doom Emacs dependencies
-        git
-        ripgrep
-        fd
-        noto-fonts-cjk-sans
-        noto-fonts-cjk-serif
-        imagemagick
-        ffmpegthumbnailer
-        mediainfo
-        gnutar
-        unzip
+      # Doom Emacs dependencies
+      git
+      ripgrep
+      fd
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+      imagemagick
+      ffmpegthumbnailer
+      mediainfo
+      gnutar
+      unzip
 
-        # babel
-        d2
-        mermaid-cli
-      ]
-      ++ lib.optionals chromeAvailable [google-chrome];
+      # babel
+      d2
+      mermaid-cli
+      google-chrome
+    ];
 
-    home.sessionVariables = lib.mkIf chromeAvailable {
+    home.sessionVariables = {
       PUPPETEER_EXECUTABLE_PATH = "${pkgs.google-chrome}/bin/google-chrome-stable";
     };
 
