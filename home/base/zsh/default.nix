@@ -16,15 +16,18 @@
     enableZshIntegration = true;
   };
 
-  home.file.".profile".text = ''
-    if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
-      . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-    fi
+  home.file.".profile" = {
+    force = true;
+    text = ''
+      if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+      fi
 
-    export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
-    export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
-    export PATH=$HOME/.local/share/bin:$PATH
-  '';
+      export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
+      export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
+      export PATH=$HOME/.local/share/bin:$PATH
+    '';
+  };
 
   programs.zsh = {
     enable = true;
@@ -154,6 +157,21 @@
 
         e() {
             emacsclient -t "$@"
+        }
+
+        agenda() {
+            # 1. Emacs Daemon에게 지시: Agenda("a")를 열고 -> /tmp에 저장하고 -> 버퍼를 닫아라
+            emacsclient -e '(progn
+              (org-agenda nil "a")
+              (org-agenda-write "/tmp/org-agenda-dump.txt" nil nil "*Org Agenda*")
+              (kill-buffer "*Org Agenda*"))' > /dev/null 2>&1
+
+            # 2. 저장된 텍스트 파일을 읽어서 터미널에 뿌려라
+            if [ -f "/tmp/org-agenda-dump.txt" ]; then
+                cat "/tmp/org-agenda-dump.txt"
+            else
+                echo "Error: Failed to retrieve agenda."
+            fi
         }
       '';
     in

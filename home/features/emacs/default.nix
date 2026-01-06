@@ -66,7 +66,12 @@ in {
     fonts.fontconfig.enable = true;
     home.sessionPath = ["${config.home.homeDirectory}/${xdg-data-home}/bin"];
     home.file = lib.mkMerge [
-      {"${xdg-config-home}/doom".source = config.lib.file.mkOutOfStoreSymlink doomConfigPath;}
+      {
+        "${xdg-config-home}/doom" = {
+          force = true;
+          source = config.lib.file.mkOutOfStoreSymlink doomConfigPath;
+        };
+      }
       # {
       #   # XDG-only wrappers so Emacs uses ~/.config/emacs (Doom core) as init dir
       #   "${xdg-data-home}/bin/emacs" = {

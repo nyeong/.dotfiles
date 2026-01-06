@@ -40,6 +40,7 @@ in {
       "raycast"
       "orbstack"
       "opencode-desktop"
+      "hammerspoon"
     ];
     brews = [
       "tw93/tap/mole"

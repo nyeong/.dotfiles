@@ -38,7 +38,7 @@
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
     ki-editor.url = "github:ki-editor/ki-editor";
-    opencode.url = "github:aweis89/opencode/64a842967c69550a8494e5ef0619039039ab73fd";
+    opencode.url = "github:aweis89/opencode/enable-acp";
   };
   outputs = {
     self,
