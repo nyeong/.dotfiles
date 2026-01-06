@@ -89,6 +89,7 @@ in {
   tailscale = {
     inherit magicdns;
   };
+  agents = import ./agents {inherit lib;};
 
   # functions
   lib = paletteLib;
