@@ -76,6 +76,11 @@ in {
       text = cursorMcpConfig;
     };
 
+    # OpenCode global AGENTS.md
+    home.file.".config/opencode/AGENTS.md" = {
+      source = ./config/AGENTS.md;
+    };
+
     # zsh에서 MCP용 환경변수 export
     programs.zsh.initContent = ''
       # MCP 서버용 환경변수 (sops secrets에서 로드)

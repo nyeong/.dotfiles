@@ -8,6 +8,7 @@ in {
     type = "remote";
     url = "https://mcp.grep.app";
   };
+
   context7 = {
     command = npx;
     args = [
@@ -18,12 +19,8 @@ in {
   };
 
   exa = {
-    command = npx;
-    args = [
-      "-y"
-      "exa-mcp-server"
-    ];
-    env.EXA_API_KEY = "\${env:EXA_API_KEY}";
+    type = "remote";
+    url = "https://mcp.exa.ai/mcp";
   };
 
   filesystem = {
