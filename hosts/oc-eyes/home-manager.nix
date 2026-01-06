@@ -1,5 +1,6 @@
-{palette, ...}: {
+# Import user profile for this host
+{...}: {
   imports = [
-    ../../home
+    ../../home/profiles/oc-eyes.nix
   ];
 }

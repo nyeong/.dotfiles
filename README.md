@@ -18,12 +18,11 @@ documents are written in Korean, which is my mother tongue.
 
 ### hosts
 
-| hostname                         | Purpose                                    |
-| -------------------------------- | ------------------------------------------ |
-| [nixvm](./hosts/nixvm)           | Development VM on OrbStack (on nyeong-air) |
-| [nyeong-air](./hosts/nyeong-air) | Portable dev machine. MacBook Air M2       |
-| [nixbox](./hosts/nixbox)         | Home lab server (N150)                     |
-| [oc-eyes](./hosts/oc-eyes)       | OCI cloud instance                         |
+| hostname                         | Purpose                              |
+| -------------------------------- | ------------------------------------ |
+| [nyeong-air](./hosts/nyeong-air) | Portable dev machine. MacBook Air M2 |
+| [nixbox](./hosts/nixbox)         | Home lab server (N150)               |
+| [oc-eyes](./hosts/oc-eyes)       | OCI cloud instance                   |
 
 Each host directory may contain a README.md with details if needed.
 
@@ -38,34 +37,28 @@ Each host directory may contain a README.md with details if needed.
 
 Host-specific settings go in each host directory. Shared settings are extracted to `modules` and `home`.
 
-### modules and home
+### modules
 
-Shared configurations.
+System and home modules organized by layer.
 
-- `modules`: system-level settings (NixOS/Darwin)
-- `home`: user-level settings (Home Manager)
-- Most code in `modules` and `home` is imported automatically.
+```
+/modules/
+├── system/           # nixosSystem or darwinSystem context
+│   ├── base/         # all platforms
+│   ├── darwin/       # macOS only
+│   ├── linux/        # Linux only
+│   └── fonts/
+└── home/             # home-manager context
+    ├── base/         # all platforms
+    ├── darwin/       # macOS only
+    ├── linux/        # Linux only
+    └── features/     # optional features (mkEnableOption)
+```
+
+- `system`: NixOS/Darwin system-level settings
+- `home`: Home Manager user-level settings
 - `darwin` and `linux` are imported based on the system type.
 - `features` require explicit enable: `features.something.enable = true`.
-
-```
-/home/ # home-manager context configurations
-├── base/
-├── linux/
-├── darwin/
-│   ├── ${some-module}.nix  # single file module
-│   └── ${another-module}/  # module with extra files
-│       ├── config/
-│       └── default.nix
-└── features/               # auto-imported but need explicit enable
-    ├── ...
-    └── dev-tools.nix       # optional tools like dev-tools go here
-                            # each host decides which features to enable
-/modules/ # nixosSystem or darwinSystem context
-├── base/
-├── linux/
-└── darwin/
-```
 
 Features follow this pattern:
 
@@ -84,6 +77,35 @@ in {
 }
 ```
 
+### home
+
+Host-specific home profiles.
+
+```
+/home/
+├── profiles/         # per-host home configurations
+│   ├── nyeong-air.nix
+│   ├── nixbox.nix
+│   └── oc-eyes.nix
+└── default.nix       # backward compatibility entry point
+```
+
+### utils and data
+
+Shared utilities and data (Layer 4 - no dependencies on other layers).
+
+```
+/utils/               # pure functions
+├── builders/         # mkMagicDnsUrl, scanPaths, etc.
+└── agents/           # mkCursorMcpConfig, mkOpencodeMcpConfig
+
+/data/                # pure values
+├── user.nix          # username, email
+├── tailscale.nix     # magicdns
+├── hosts/            # host-specific config (nixbox, oc-eyes)
+└── agents/           # MCP server definitions
+```
+
 ### overlays
 
 Package overrides and modifications.
@@ -92,16 +114,6 @@ Package overrides and modifications.
 /overlays/
 ├── emacs.nix
 └── ...
-```
-
-### palette
-
-Host-specific settings that can be shared across all hosts.
-
-```
-/palette/
-├── user-config.nix
-└── default.nix # entry point
 ```
 
 ### secrets
@@ -123,15 +135,15 @@ Personal settings that cannot be public are stored in a private repository (`dot
 
 ## Usage
 
-- Formatting: `nix format`
+- Formatting: `nix run .#format`
+- Linting: `nix run .#lint`
 - Apply configuration:
-  - nyeong-air: `sudo darwin-rebuild switch --flake .#nyeong-air`
+  - nyeong-air: `darwin-rebuild switch --flake .#nyeong-air`
 
-  - nixbox: `sudo nixos-rebuild switch --flake path:.#hostname`
-    Use `path:` because gitignored nix files need to be referenced.
+  - nixbox: `sudo nixos-rebuild switch --flake path:.#nixbox --impure`
+    Use `path:` and `--impure` because gitignored nix files need to be referenced.
 
-  - nixvm: `sudo nixos-rebuild switch --flake .#nixvm --impure`
-    Use `--impure` because OrbStack defines nix files outside the project.
+  - oc-eyes: `sudo nixos-rebuild switch --flake path:.#oc-eyes --impure`
 
 ## References
 

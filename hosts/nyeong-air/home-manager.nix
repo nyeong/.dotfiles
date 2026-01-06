@@ -1,20 +1,6 @@
-{
-  palette,
-  config,
-  ...
-}: {
+# Import user profile for this host
+{...}: {
   imports = [
-    ../../home
+    ../../home/profiles/nyeong-air.nix
   ];
-
-  features.devTools.enable = true;
-  features.syncthing = {
-    enable = true;
-    folders = {
-      "screenshots@nyeong-air" = "~/Screenshots";
-      "hanassig" = "~/hanassig";
-      "dotfiles" = "~/.dotfiles";
-    };
-  };
-  features.hledger.enable = true;
 }

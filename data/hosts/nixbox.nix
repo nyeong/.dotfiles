@@ -1,0 +1,75 @@
+# nixbox host configuration - pure data
+{utils}: let
+  mkUrl = utils.mkMagicDnsUrl;
+in {
+  url = mkUrl "nixbox";
+  services = utils.mkOptionalImport "services" ./. {
+    # services
+    archivebox = {
+      port = 8001;
+    };
+    jellyfin = {
+      port = 8003;
+    };
+    kavita = {
+      port = 5000;
+      user = "kavita";
+      subpath = "kavita";
+      url = mkUrl "kavita";
+      serviceName = "kavita";
+    };
+    immich = {
+      port = 8005;
+      publicUrl = "photo.nyeong.me";
+    };
+    sftpgo = {
+      port = 9200;
+      dbname = "sftpgo";
+      dbuser = "sftpgo";
+    };
+    paperless = {
+      port = 8006;
+      dbname = "paperless";
+      dbuser = "paperless";
+      url = mkUrl "paperless";
+      serviceName = "paperless";
+    };
+    filebrowser = {
+      port = 8080;
+      subpath = "filebrowser";
+      root = "/var/lib/filebrowser/data";
+      baseDir = "/var/lib/filebrowser";
+    };
+    calibre-web = {
+      port = 8083;
+      subpath = "calibre-web";
+    };
+
+    # monitoring
+    vmagent = {
+      port = 9091;
+    };
+
+    # databases
+    postgres = {
+      port = 5432;
+    };
+    valkey = {
+      port = 6379;
+      user = "redis";
+      group = "redis";
+      dbnumber = {
+        paperless = 1;
+        paperless-read = 2;
+      };
+    };
+
+    # network
+    adguard = {
+      port = 3000;
+    };
+    webdav = {
+      port = 8880;
+    };
+  };
+}

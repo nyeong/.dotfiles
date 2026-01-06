@@ -1,16 +1,5 @@
-{
-  lib,
-  isDarwin,
-  isLinux,
-  inputs,
-  ...
-}: {
-  imports =
-    [
-      inputs.sops-nix.homeManagerModules.sops
-      ./base
-      ./features
-    ]
-    ++ lib.optionals isDarwin [./darwin]
-    ++ lib.optionals isLinux [./linux];
+# Home configuration entry point
+# Re-exports modules/home for backward compatibility
+{...}: {
+  imports = [../modules/home];
 }

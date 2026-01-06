@@ -51,33 +51,59 @@
       "aarch64-linux"
       "x86_64-linux"
     ];
-    palette = import ./palette {inherit lib systems;};
+
+    # Layer 4: Pure utilities and data
+    utils = import ./utils {inherit lib systems;};
+    data = import ./data {inherit lib utils;};
+
+    # Backward-compatible palette that combines utils and data
+    # This allows gradual migration of existing code
+    palette = {
+      # Data exports
+      inherit (data) user nixbox oc-eyes tailscale;
+
+      # Agent utilities (functions from utils, data from data)
+      agents = {
+        inherit (utils) mkServers mkCursorMcpConfig mkOpencodeMcpConfig;
+        inherit (data.agents) mcpServersPath;
+      };
+
+      # Utility functions as lib
+      lib = {
+        inherit (utils) isDarwin isLinux forAllSystems scanPaths mkOptionalImport mkTailscaleServeService mkPerSystemConfig;
+        # Bind mkMagicDnsUrl with magicdns from data
+        mkMagicDnsUrl = utils.mkMagicDnsUrl data.tailscale.magicdns;
+      };
+    };
 
     # Load overlays from overlays/default.nix
     overlays = (import ./overlays) {inherit palette;};
 
     # home-manager, nixosSystem, darwinSystem context에서 쓰는 args
+    # Note: 'utils' is renamed to 'myUtils' to avoid collision with NixOS internal utils
     mkSpecialArgs = system: {
       inherit
         palette
+        data
         inputs
         system
         overlays
         ;
+      myUtils = utils;
       pkgs-stable = import inputs.nixpkgs-stable {
         inherit system overlays;
         config.allowUnfree = true;
       };
-      isDarwin = palette.lib.isDarwin system;
-      isLinux = palette.lib.isLinux system;
+      isDarwin = utils.isDarwin system;
+      isLinux = utils.isLinux system;
       nix-ai-tools-pkgs = inputs.nix-ai-tools.packages.${system};
       ki-editor = inputs.ki-editor.packages.${system}.default;
       opencode = inputs.opencode.packages.${system}.default;
     };
 
-    perSystem = palette.lib.forAllSystems (
+    perSystem = utils.forAllSystems (
       system:
-        palette.lib.mkPerSystemConfig {
+        utils.mkPerSystemConfig {
           pkgs = import nixpkgs {inherit system;};
           inherit system;
           treefmt-nix = inputs.treefmt-nix;
@@ -86,10 +112,10 @@
         }
     );
   in {
-    formatter = palette.lib.forAllSystems (
+    formatter = utils.forAllSystems (
       system: (perSystem.${system}.treefmtEval.config.build.wrapper)
     );
-    devShells = palette.lib.forAllSystems (system: {
+    devShells = utils.forAllSystems (system: {
       default = (perSystem.${system}.pkgs).mkShell {
         shellHook = (perSystem.${system}.preCommit).shellHook;
         packages = with perSystem.${system}.pkgs; [
@@ -98,12 +124,12 @@
         ];
       };
     });
-    checks = palette.lib.forAllSystems (system: {
+    checks = utils.forAllSystems (system: {
       pre-commit = perSystem.${system}.preCommit;
       formatting = perSystem.${system}.treefmtEval.config.build.check self;
     });
 
-    apps = palette.lib.forAllSystems (system: {
+    apps = utils.forAllSystems (system: {
       format = {
         type = "app";
         program = "${perSystem.${system}.treefmtEval.config.build.wrapper}/bin/treefmt";
@@ -166,10 +192,6 @@
     });
 
     darwinConfigurations."nyeong-air" = import ./hosts/nyeong-air {
-      inherit inputs mkSpecialArgs;
-    };
-
-    nixosConfigurations."nixvm" = import ./hosts/nixvm {
       inherit inputs mkSpecialArgs;
     };
 

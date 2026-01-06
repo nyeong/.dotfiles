@@ -25,7 +25,7 @@ in {
     email = palette.user.email;
     package = pkgs.caddy.withPlugins {
       plugins = ["github.com/mholt/caddy-webdav"];
-      hash = "sha256-DHkHbwhTnaK00G38czb4XZ9g9Ttz9Y1Wb3gCCAWZYDI=";
+      hash = "sha256-RfoWigQXCh1DVHDLlux1BvJwk3ATWgfODNbkdX35354=";
     };
     enable = true;
     globalConfig = ''

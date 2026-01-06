@@ -11,7 +11,7 @@ in {
   imports = [
     ./services
     ./containers
-    ../../modules
+    ../../modules/system
   ];
 
   boot.loader = {

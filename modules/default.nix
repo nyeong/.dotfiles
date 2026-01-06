@@ -1,14 +1,7 @@
+# Modules entry point
+# - system: NixOS/Darwin system-level modules
+# - home: Home Manager user-level modules
 {
-  lib,
-  isDarwin,
-  isLinux,
-  ...
-}: {
-  imports =
-    [
-      ./base
-      ./fonts
-    ]
-    ++ lib.optionals isDarwin [./darwin]
-    ++ lib.optionals isLinux [./linux];
+  system = ./system;
+  home = ./home;
 }

@@ -1,18 +1,6 @@
-{
-  palette,
-  pkgs,
-  ...
-}: {
+# Import user profile for this host
+{...}: {
   imports = [
-    ../../home
+    ../../home/profiles/nixbox.nix
   ];
-
-  features.syncthing = {
-    enable = true;
-    folders = {
-      "screenshots@nyeong-air" = "/storage/@screenshots/nyeong-air";
-      "hanassig" = "/srv/hanassig";
-      "dotfiles" = "/srv/dotfiles";
-    };
-  };
 }

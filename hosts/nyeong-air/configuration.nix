@@ -6,7 +6,7 @@
   ...
 }: {
   imports = [
-    ../../modules
+    ../../modules/system
   ];
 
   # Mac App Store 앱
